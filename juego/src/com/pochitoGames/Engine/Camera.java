@@ -76,7 +76,7 @@ public class Camera {
         else
             vel.x = 0;
         
-        if(mousePos.y < 100)
+        if(mousePos.y < 100 )
             vel.y = -100;
         else if (mousePos.y > Renderer.getInstance().getHeight()-100)
             vel.y = 100;

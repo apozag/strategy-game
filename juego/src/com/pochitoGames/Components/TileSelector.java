@@ -23,4 +23,9 @@ public class TileSelector extends Component{
     public TileMap getMap(){
         return tileMap;
     }
+    
+    public void select(int column, int row){
+        this.column = column;
+        this.row = row;
+    }
 }

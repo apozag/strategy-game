@@ -33,56 +33,45 @@ public class TileSelectorSystem extends System{
     @Override
     public void update(double dt) {
         for(Entity e : getEntities()){
-            //Sprite s = ((Sprite)(e.get(Sprite.class)));
             Position p = ((Position)(e.get(Position.class)));
-            TileSelector tl = ((TileSelector)(e.get(TileSelector.class)));
-            TileMap tm = tl.getMap();
-            Vector2D mousePos = EventManager.getInstance().getMousePos();
-            //p.setLocalPos(snapToGrid(mousePos, tm));
-            //Vector2D cellPos = new Vector2D(mousePos.x/tm.getTileW(), mousePos.y / tm.getTileH());
-            //Vector2D offset = new Vector2D(mousePos.x % tm.getTileW(), mousePos.y % tm.getTileH() );
-            p.setLocalPos(toIso(mousePos, tm));
+            TileSelector ts = ((TileSelector)(e.get(TileSelector.class)));
+            TileMap tm = ts.getMap();
+                        
+            Vector2D mousePos = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
+            if(mousePos.x > 0 && mousePos.y > 0){
+                Vector2D offset = new Vector2D(mousePos.x%tm.getTileW(), mousePos.y%tm.getTileH());
+                Vector2D selectedCell = new Vector2D((int)(mousePos.x/tm.getTileW()),(int)(mousePos.y/(tm.getTileH()) - 2));
+                Vector2D cellPos = new Vector2D(selectedCell.x * tm.getTileW(), selectedCell.y * (tm.getTileH()));
+                
+                Color c = new Color(selectorAux.getRGB((int)offset.x,(int)offset.y), true);
+
+                Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
+                Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
+
+                if(c.getAlpha() > 0){
+                    if(c.getRed() == 255){
+                        cellPos.sub(xTransform);
+                    }
+                    else if(c.getBlue() == 255){
+                        cellPos.sub(yTransform);
+                    }
+                    else if(c.getGreen() == 255){
+                        cellPos.add(yTransform);
+                    }
+                    else{
+                        cellPos.add(xTransform);
+                    }
+                }
+
+                p.setLocalPos(cellPos);
+                
+                selectedCell = new Vector2D(cellPos.x*2 / tm.getTileW(), cellPos.y*2/tm.getTileH());
+
+                ts.select((int)selectedCell.x, (int)selectedCell.y);
+                java.lang.System.out.println("Selected (" + (int)selectedCell.x + " ," +  (int)selectedCell.y + ")");
+
+            }
+            
         }
     }
-    
-    Vector2D toIso(Vector2D p, TileMap tm){
-        Vector2D offset = new Vector2D(p.x%tm.getTileW(), p.y%tm.getTileH());
-        p = Camera.getInstance().toWorldCoords(p);
-        Vector2D cellPos = new Vector2D((int)(p.x/tm.getTileW()) * tm.getTileW(), (int)(p.y/(tm.getTileH()) - 2) * (tm.getTileH()));
-        
-        Color c = new Color(selectorAux.getRGB((int)offset.x,(int)offset.y));
-        
-        Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
-        Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
-        
-        if(c.getAlpha() > 0){
-            if(c.getRed() == 255)
-                cellPos.sub(xTransform);
-            else if(c.getBlue() == 255)
-                cellPos.sub(yTransform);
-            else if(c.getGreen() == 255)
-                cellPos.add(yTransform);
-            else
-                cellPos.add(xTransform);
-        }
-        
-        return cellPos;
-    }    
-    
-    public Vector2D snapToGrid(Vector2D p, TileMap tm){
-        /*
-        Vector2D mapPos = ((Position)(tm.getEntity().get(Position.class))).getWorldPos();
-        mapPos.x += ((Sprite)(tm.getEntity().get(Sprite.class))).getImage().getWidth()/2;
-        mapPos = Camera.getInstance().toCameraCoords(mapPos);
-*/
-        double tx = Math.ceil(p.x /  tm.getTileW()/2) + (p.y / tm.getTileH()/2);
-        double ty = Math.ceil(p.y / tm.getTileH()/2) - (p.x / tm.getTileW()/2);
-
-        
-        Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
-        Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
-
-        return Vector2D.add(Vector2D.mult(xTransform, (float)tx), Vector2D.mult(yTransform,(float)ty));
-    }
-    
 }
