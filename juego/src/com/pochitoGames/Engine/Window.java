@@ -20,9 +20,6 @@ public class Window extends JFrame{
         this.setSize(w, h);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(Renderer.getInstance());
-        Renderer.getInstance().addMouseListener(EventManager.getInstance());
-        Renderer.getInstance().addKeyListener(EventManager.getInstance());
         this.setVisible(true);
-        //this.getGlassPane().addMouseListener(EventManager.getInstance());
     }
 }

@@ -66,9 +66,7 @@ public class EventManager implements MouseListener, KeyListener{
        }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        java.lang.System.out.println("mouse clicked");
-    }
+    public void mouseClicked(MouseEvent e) {    }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -77,17 +75,14 @@ public class EventManager implements MouseListener, KeyListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        java.lang.System.out.println("mouse released");
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        java.lang.System.out.println("Mouse entered");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        java.lang.System.out.println("Mouse exited");
     }
 
     @Override
@@ -97,13 +92,11 @@ public class EventManager implements MouseListener, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        java.lang.System.out.println("Key presed: " + e.getKeyChar());
         keyEvents.add(e.getKeyChar());
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        java.lang.System.out.println("Key released: " + e.getKeyChar());
         keyEvents.remove(e.getKeyChar());
     }
 }

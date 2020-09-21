@@ -29,9 +29,7 @@ public class TileMapSystem extends System{
         for(Entity e : getEntities()){
             
             TileMap tileMap = e.get(TileMap.class);
-            
-            
-            
+
             if(!tileMap.isImageSet())
                 updateImage(tileMap);
         }

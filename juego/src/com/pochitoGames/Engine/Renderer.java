@@ -28,13 +28,13 @@ public class Renderer extends JPanel{
     
     //Igual con el texto
     private List<Text> textQueue;
-    
-    private BufferedImage tileMapImage;
-    
+        
     //El Constructor es privado para que nadie haga una instancia de Renderer
     private Renderer(){
          renderQueue = new LinkedList<>();
          textQueue = new LinkedList<>();
+         addMouseListener(EventManager.getInstance());
+         addKeyListener(EventManager.getInstance());
          this.setFocusable(true);
     }
     
@@ -67,14 +67,12 @@ public class Renderer extends JPanel{
         renderQueue.sort(new SortByDepth());
         while(!renderQueue.isEmpty()){
             Sprite s = renderQueue.remove(0);
-            if(s != null){
-                Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
+            Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
 
-                BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
+            BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
 
-                Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
-                g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
-            }
+            Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
+            g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
         }
         
         while(!textQueue.isEmpty()){

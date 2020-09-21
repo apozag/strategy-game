@@ -16,6 +16,8 @@ public class Camera {
     Vector2D pos;
     Vector2D vel;
     
+    EventManager manager;
+    
     //Solo hay una instancia de Camera en tosdo el programa. Así nos quitamos de tener una referencia a la cámara en todos lados.
     static Camera instance;
     
@@ -23,6 +25,7 @@ public class Camera {
     private Camera(Vector2D pos){
         this.pos = pos;
         this.vel = new Vector2D(0, 0);
+        manager = EventManager.getInstance();
     }
     
     //Devuelve la instancia única de Camera. 
@@ -51,23 +54,12 @@ public class Camera {
     }
     
     public void update(double dt){
-        
-        EventManager manager = EventManager.getInstance();
-        /*
-        if(manager.isKeyDown('a'))
-            vel.x = -100;
-        else if(manager.isKeyDown('d'))
-            vel.x = 100;
-        else
-            vel.x = 0;
-        
-        if(manager.isKeyDown('w'))
-            vel.y = -100;
-        else if(manager.isKeyDown('s'))
-            vel.y = 100;
-        else
-            vel.y = 0;
-        */
+        handleMouse();
+        pos.x += vel.x * dt;
+        pos.y += vel.y * dt;
+    }
+    
+    void handleMouse(){
         Vector2D mousePos = manager.getMousePos();
         if(mousePos.x < 100)
             vel.x = -100;
@@ -82,14 +74,9 @@ public class Camera {
             vel.y = 100;
         else
             vel.y = 0;
-        
-        
-        
-        pos.x += vel.x * dt;
-        pos.y += vel.y * dt;
     }
    
-    //La usarán las entidades para convertir su posición local (en el mundo) a una posición relativa a la cámara.
+    //La usarán las entidades para convertir su posición global (en el mundo) a una posición relativa a la cámara.
     //De esta manera, si la cámara se mueve, todo lo del juego se moverá hacia el lado contrario para dar ese efecto.
     public Vector2D toCameraCoords(Vector2D v){
         v.sub(pos);
