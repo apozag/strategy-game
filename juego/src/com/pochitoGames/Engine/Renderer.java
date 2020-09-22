@@ -35,6 +35,7 @@ public class Renderer extends JPanel{
          textQueue = new LinkedList<>();
          addMouseListener(EventManager.getInstance());
          addKeyListener(EventManager.getInstance());
+         addMouseWheelListener(EventManager.getInstance());
          this.setFocusable(true);
     }
     
@@ -65,6 +66,7 @@ public class Renderer extends JPanel{
         Graphics2D g2D = (Graphics2D) g;
         //Antes de pintar se ordenan los srites por profundidad
         renderQueue.sort(new SortByDepth());
+        g2D.setTransform(Camera.getInstance().getZoom());
         while(!renderQueue.isEmpty()){
             Sprite s = renderQueue.remove(0);
             Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
@@ -81,6 +83,7 @@ public class Renderer extends JPanel{
             g2D.setFont(text.getFont());
             g2D.drawString(text.getText(), pos.x, pos.y);
         }
+        
         
     }    
     

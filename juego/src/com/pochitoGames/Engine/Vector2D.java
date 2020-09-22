@@ -32,7 +32,7 @@ public class Vector2D {
     
     public void mult(float f){
         x *= f;
-        x *= f;
+        y *= f;
     }
     
     public static Vector2D add(Vector2D v1, Vector2D v2){
@@ -41,4 +41,8 @@ public class Vector2D {
     public static Vector2D mult(Vector2D v, float s){
         return new Vector2D(v.x * s, v.y * s);
     }
+    public static Vector2D sub(Vector2D v1, Vector2D v2){
+        return new Vector2D(v1.x - v2.x, v1.y - v2.y);
+    }
+    
 }

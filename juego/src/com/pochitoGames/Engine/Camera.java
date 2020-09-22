@@ -5,6 +5,8 @@
  */
 package com.pochitoGames.Engine;
 
+import java.awt.geom.AffineTransform;
+
 /**
  *
  * @author PochitoMan
@@ -16,6 +18,10 @@ public class Camera {
     Vector2D pos;
     Vector2D vel;
     
+    int SCR_H, SCR_W;
+    
+    AffineTransform at;   
+    
     EventManager manager;
     
     //Solo hay una instancia de Camera en tosdo el programa. Así nos quitamos de tener una referencia a la cámara en todos lados.
@@ -26,6 +32,7 @@ public class Camera {
         this.pos = pos;
         this.vel = new Vector2D(0, 0);
         manager = EventManager.getInstance();
+        at = new AffineTransform();
     }
     
     //Devuelve la instancia única de Camera. 
@@ -35,6 +42,11 @@ public class Camera {
             instance = new Camera(new Vector2D(0, 0));
         }
         return instance;
+    }
+    
+    public void setScreenSize(int w, int h){
+        SCR_W = w;
+        SCR_H = h;
     }
     
     public void setVel(Vector2D vel){
@@ -53,13 +65,18 @@ public class Camera {
         return pos;
     }
     
+    public AffineTransform getZoom(){
+        return at;
+    }
+    
     public void update(double dt){
-        handleMouse();
+        handleMouseMove();
+        handleMouseWheel();
         pos.x += vel.x * dt;
         pos.y += vel.y * dt;
     }
     
-    void handleMouse(){
+    void handleMouseMove(){
         Vector2D mousePos = manager.getMousePos();
         if(mousePos.x < 100)
             vel.x = -100;
@@ -75,15 +92,28 @@ public class Camera {
         else
             vel.y = 0;
     }
+    
+    void handleMouseWheel(){
+        double current = manager.getMouseWheelRotation() *0.1;
+        if(current != 0){
+            double factor = at.getScaleX();
+            factor += factor * current;
+            at = new AffineTransform();
+            at.scale(factor, factor);
+            pos.add(new Vector2D((float)(SCR_W * current), (float)(SCR_H * current)));
+        }
+    }
    
     //La usarán las entidades para convertir su posición global (en el mundo) a una posición relativa a la cámara.
     //De esta manera, si la cámara se mueve, todo lo del juego se moverá hacia el lado contrario para dar ese efecto.
     public Vector2D toCameraCoords(Vector2D v){
+        //v.mult((float)at.getScaleX());
         v.sub(pos);
         return v;
     }
     
     public Vector2D toWorldCoords(Vector2D v){
+        v.mult(1/(float)at.getScaleX());
         v.add(pos);
         return v;
     }
