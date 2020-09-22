@@ -43,6 +43,9 @@ public class TileSelectorSystem extends System{
                 Vector2D selectedCell = new Vector2D((int)(mousePos.x/tm.getTileW()),(int)(mousePos.y/(tm.getTileH()) - 2));
                 Vector2D cellPos = new Vector2D(selectedCell.x * tm.getTileW(), selectedCell.y * (tm.getTileH()));
                 
+                Vector2D startPos = p.getWorldPos();
+                startPos.x += tm.getTilesetW()*tm.getTileW()/2;
+                
                 Color c = new Color(selectorAux.getRGB((int)offset.x,(int)offset.y), true);
 
                 Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
@@ -65,7 +68,8 @@ public class TileSelectorSystem extends System{
 
                 p.setLocalPos(cellPos);
                 
-                selectedCell = new Vector2D(cellPos.x*2 / tm.getTileW(), cellPos.y*2/tm.getTileH());
+                selectedCell = new Vector2D(cellPos.x*2 / tm.getTileW() - tm.getTileH()+ 2, cellPos.y*2/tm.getTileH() + 1);
+                selectedCell = cartesianToIsometric(selectedCell);
 
                 ts.select((int)selectedCell.x, (int)selectedCell.y);
                 java.lang.System.out.println("Selected (" + (int)selectedCell.x + " ," +  (int)selectedCell.y + ")");
@@ -73,5 +77,11 @@ public class TileSelectorSystem extends System{
             }
             
         }
+    }
+   
+    private Vector2D cartesianToIsometric(Vector2D cartesian)  {
+        float isometricY = (cartesian.x - cartesian.y) * -0.5f;
+        float isometricX = (cartesian.x + cartesian.y) * 0.5f;        
+        return new Vector2D(isometricX, isometricY);
     }
 }

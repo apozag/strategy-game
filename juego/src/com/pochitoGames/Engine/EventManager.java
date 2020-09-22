@@ -11,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -21,10 +23,11 @@ import java.util.Set;
  *
  * @author PochitoMan
  */
-public class EventManager implements MouseListener, KeyListener{
+public class EventManager implements MouseListener, MouseWheelListener, KeyListener{
        private static List<MouseEventData> mouseEvents;
        private static Set<Character> keyEvents;
        private static EventManager instance;
+       private int mouseWheelRotation;
        
        private EventManager(){
            mouseEvents = new LinkedList<>();
@@ -61,14 +64,17 @@ public class EventManager implements MouseListener, KeyListener{
            return keyEvents.contains(c);
        }
        
+       public int getMouseWheelRotation(){
+           return mouseWheelRotation;
+       }
+       
        public void clearEvents(){
            mouseEvents.clear();
+           mouseWheelRotation = 0;
        }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        java.lang.System.out.println("mouse clicked");
-    }
+    public void mouseClicked(MouseEvent e) {    }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -77,17 +83,14 @@ public class EventManager implements MouseListener, KeyListener{
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        java.lang.System.out.println("mouse released");
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        java.lang.System.out.println("Mouse entered");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        java.lang.System.out.println("Mouse exited");
     }
 
     @Override
@@ -97,13 +100,16 @@ public class EventManager implements MouseListener, KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        java.lang.System.out.println("Key presed: " + e.getKeyChar());
         keyEvents.add(e.getKeyChar());
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        java.lang.System.out.println("Key released: " + e.getKeyChar());
         keyEvents.remove(e.getKeyChar());
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        mouseWheelRotation += e.getWheelRotation();
     }
 }

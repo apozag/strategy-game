@@ -54,6 +54,7 @@ public class Engine {
 
 */
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
+        Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
         ecs.addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem());
 
         Entity gear = ecs.createEntity(null,
@@ -72,7 +73,7 @@ public class Engine {
         Entity tilemap = ecs.createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Casa.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
+                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
 
         ecs.createEntity(tilemap,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"),

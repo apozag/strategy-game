@@ -28,13 +28,14 @@ public class Renderer extends JPanel{
     
     //Igual con el texto
     private List<Text> textQueue;
-    
-    private BufferedImage tileMapImage;
-    
+        
     //El Constructor es privado para que nadie haga una instancia de Renderer
     private Renderer(){
          renderQueue = new LinkedList<>();
          textQueue = new LinkedList<>();
+         addMouseListener(EventManager.getInstance());
+         addKeyListener(EventManager.getInstance());
+         addMouseWheelListener(EventManager.getInstance());
          this.setFocusable(true);
     }
     
@@ -65,16 +66,15 @@ public class Renderer extends JPanel{
         Graphics2D g2D = (Graphics2D) g;
         //Antes de pintar se ordenan los srites por profundidad
         renderQueue.sort(new SortByDepth());
+        g2D.setTransform(Camera.getInstance().getZoom());
         while(!renderQueue.isEmpty()){
             Sprite s = renderQueue.remove(0);
-            if(s != null){
-                Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
+            Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
 
-                BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
+            BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
 
-                Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
-                g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
-            }
+            Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
+            g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
         }
         
         while(!textQueue.isEmpty()){
@@ -83,6 +83,7 @@ public class Renderer extends JPanel{
             g2D.setFont(text.getFont());
             g2D.drawString(text.getText(), pos.x, pos.y);
         }
+        
         
     }    
     
