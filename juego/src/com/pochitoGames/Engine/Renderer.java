@@ -69,12 +69,14 @@ public class Renderer extends JPanel{
         g2D.setTransform(Camera.getInstance().getZoom());
         while(!renderQueue.isEmpty()){
             Sprite s = renderQueue.remove(0);
-            Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
+            if(s != null && s.getImage() != null){
+                Vector2D dstPos = ((Position)(s.getEntity().get(Position.class))).getWorldPos();
 
-            BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
+                BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
 
-            Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
-            g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
+                Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
+                g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
+            }
         }
         
         while(!textQueue.isEmpty()){

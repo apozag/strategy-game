@@ -65,15 +65,15 @@ public class Worker extends Component {
         return name;
     }
 
-/*
     public String taskViewer(String[] tasks) {
         if (tasks[0] != null) {
             for (int i = 0; i < this.tasks.length; i++) {
                 return tasks[i];
             }
-        } else return null;
-    } // hay q tocar algo aqui
-     */
+        }
+        return null;
+    }
+     
 
 
 }

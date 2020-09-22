@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Engine;
 
+import com.pochitoGames.Components.Constructor;
 import com.pochitoGames.Components.Sprite;
 import com.pochitoGames.Systems.SpriteSystem;
 import com.pochitoGames.Systems.WorkerSystem;
@@ -16,6 +17,7 @@ import com.pochitoGames.Misc.TilesetMode;
 import com.pochitoGames.Components.Worker;
 import com.pochitoGames.Misc.Animation;
 import com.pochitoGames.Misc.TileMapLoader;
+import com.pochitoGames.Systems.ConstructorSystem;
 import com.pochitoGames.Systems.TextSystem;
 import com.pochitoGames.Systems.TileMapSystem;
 import com.pochitoGames.Systems.TileSelectorSystem;
@@ -55,7 +57,7 @@ public class Engine {
 */
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
-        ecs.addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem());
+        ecs.addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem());
 
         Entity gear = ecs.createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
@@ -64,7 +66,8 @@ public class Engine {
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
                 new Position(new Vector2D(0, 0)),
-                new Worker());
+                new Worker(),
+                new Constructor(new Vector2D(500, 300)));
 
         ecs.createEntity(null,
                 new Position(new Vector2D(100, 200)),
@@ -81,6 +84,7 @@ public class Engine {
                 new TileSelector(tilemap.get(TileMap.class)),
                 new Text("")
         );
+        
     }
 
     public void mainLoop() throws InterruptedException {
