@@ -7,6 +7,7 @@ package com.pochitoGames.Components;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.WorkerObject;
 
 /**
  * @author PochitoMan

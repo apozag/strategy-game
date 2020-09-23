@@ -2,9 +2,15 @@ package com.pochitoGames.Components;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.SoldierObjects;
+import com.pochitoGames.Misc.TypeSoldier;
+import com.pochitoGames.Misc.WorkerObject;
+import com.pochitoGames.Misc.SoldierState;
 
 public class Soldier  extends Component {
 
+    private SoldierState state = SoldierState.WAITING;
+    float speed = 5;
     private TypeSoldier typeSoldier;
     private Vector2D target;
     private int life;
@@ -108,6 +114,22 @@ public class Soldier  extends Component {
             }
             return false;
         } else return false;
+    }
+
+    public SoldierState getState() {
+        return state;
+    }
+
+    public void setState(SoldierState state) {
+        this.state = state;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     public int attack() {

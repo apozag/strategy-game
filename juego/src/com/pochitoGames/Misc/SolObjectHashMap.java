@@ -1,4 +1,4 @@
-package com.pochitoGames.Components;
+package com.pochitoGames.Misc;
 
 import java.util.HashMap;
 
