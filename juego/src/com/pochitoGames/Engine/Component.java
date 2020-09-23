@@ -11,7 +11,7 @@ package com.pochitoGames.Engine;;
  */
 
 //Con los componentes se define el comportamiento de las entidades
-//Es una clase abstracta y todos loscomopnentes deben heredar de ella.
+//Es una clase abstracta y todos los comopnentes deben heredar de ella.
 public abstract class Component {
     
     //Tienen una referencia a la entidad a a que pertenecen

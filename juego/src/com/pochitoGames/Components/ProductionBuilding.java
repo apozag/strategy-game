@@ -5,8 +5,6 @@ import com.pochitoGames.Engine.Vector2D;
 
 public class ProductionBuilding  extends Component {
 
-
-
     private TypeBuilding typeBuilding;
     private Vector2D vector2D;
     private int life;
