@@ -18,19 +18,25 @@ public class Worker extends Component {
     private int hungry = 0;
     private boolean alive = true;
     private String name;
+    private int defense;
     private String[] tasks = new String[3];
+    private WorkerObject object;
 
-    public Worker() {
-        setLife(100);
+    public Worker(int life, int defense, String name) {
+        setLife(life);
+        setDefense(defense);
         setHungry(0);
-        setName("Worker");
+        setName(name);
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public void setLife(int life) {
         if (life < 0) {
             alive = false;
         } else this.life = life;
-
     }
 
     public void setHungry(int hungry) {
@@ -42,7 +48,6 @@ public class Worker extends Component {
         } else {
             this.hungry = ++hungry;
         }
-
     }
 
     public void recibeDanno(int danno) {
@@ -65,15 +70,33 @@ public class Worker extends Component {
         return name;
     }
 
-/*
+    public WorkerObject getObject() {
+        return object;
+    }
+
+    public boolean addObject(WorkerObject object) {
+        if (object != null) {
+            this.object = object;
+            return true;
+        } else return false;
+    }
+
+    public boolean deleteObject() {
+        if (object != null) {
+            this.object = null;
+            return true;
+        } else return false;
+    }
+
+
     public String taskViewer(String[] tasks) {
         if (tasks[0] != null) {
             for (int i = 0; i < this.tasks.length; i++) {
                 return tasks[i];
             }
+            return null;
         } else return null;
-    } // hay q tocar algo aqui
-     */
+    }
 
 
 }

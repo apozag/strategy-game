@@ -5,15 +5,10 @@
  */
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Components.Sprite;
+import com.pochitoGames.Components.*;
 import com.pochitoGames.Systems.SpriteSystem;
 import com.pochitoGames.Systems.WorkerSystem;
-import com.pochitoGames.Components.Position;
-import com.pochitoGames.Components.Text;
-import com.pochitoGames.Components.TileMap;
-import com.pochitoGames.Components.TileSelector;
 import com.pochitoGames.Misc.TilesetMode;
-import com.pochitoGames.Components.Worker;
 import com.pochitoGames.Misc.Animation;
 import com.pochitoGames.Misc.TileMapLoader;
 import com.pochitoGames.Systems.TextSystem;
@@ -47,12 +42,7 @@ public class Engine {
 
     //Creamos las entidades y les metemos los componentes a través de createEntity() de ECS
     public void init() {
-/*
-        int b = (int) (Math.random() * 2);
-        if (b == 1)  a = "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno flores.png";
-        else a = "s rc\\com\\pochitoGames\\Resources\\TileMaps\\tileset_2.png";
 
-*/
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
         ecs.addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem());
@@ -64,7 +54,7 @@ public class Engine {
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
                 new Position(new Vector2D(0, 0)),
-                new Worker());
+                new Soldier(100,"Soldado",10,10,TypeSoldier.SWORD_MAN));
 
         ecs.createEntity(null,
                 new Position(new Vector2D(100, 200)),
@@ -73,7 +63,7 @@ public class Engine {
         Entity tilemap = ecs.createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
+                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno Arbol_2.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
 
         ecs.createEntity(tilemap,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"),
