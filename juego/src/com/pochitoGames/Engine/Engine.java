@@ -5,16 +5,10 @@
  */
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Components.Constructor;
-import com.pochitoGames.Components.Sprite;
+import com.pochitoGames.Components.*;
 import com.pochitoGames.Systems.SpriteSystem;
 import com.pochitoGames.Systems.WorkerSystem;
-import com.pochitoGames.Components.Position;
-import com.pochitoGames.Components.Text;
-import com.pochitoGames.Components.TileMap;
-import com.pochitoGames.Components.TileSelector;
 import com.pochitoGames.Misc.TilesetMode;
-import com.pochitoGames.Components.Worker;
 import com.pochitoGames.Misc.Animation;
 import com.pochitoGames.Misc.TileMapLoader;
 import com.pochitoGames.Systems.ConstructorSystem;
@@ -66,8 +60,8 @@ public class Engine {
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
                 new Position(new Vector2D(0, 0)),
-                new Worker(10,10,"loco"),
-                new Constructor(new Vector2D(500, 300)));
+                new Soldier(new Human(100,"Sol",10,10)),
+                new Builder(new Vector2D(500, 300)));
 
         ecs.createEntity(null,
                 new Position(new Vector2D(100, 200)),
