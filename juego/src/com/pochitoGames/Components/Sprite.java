@@ -28,6 +28,8 @@ public class Sprite extends Component{
     //Igual con srcSize. Si no tiene animaciones, será igual al tamaño de la imagen.
     //Si SI tiene animaciones, será igual al tamaño del frame de la animación.
     private Vector2D srcSize;
+    
+    private Vector2D anchor;
     //profuncidad a la hora de pintar unos sprites sobre otros
     private int depth;
     
@@ -42,8 +44,9 @@ public class Sprite extends Component{
         depth = 0;
         srcPos = new Vector2D(0, 0);
         srcSize = new Vector2D(0, 0);
+        anchor = new Vector2D(0, 0);
     }
-    public Sprite(String path, Animation... animations) {
+    public Sprite(String path, Vector2D anchor, Animation... animations) {
         image = ImageManager.getImage(path);
         depth = 0;
         srcPos = new Vector2D(0, 0);
@@ -53,9 +56,10 @@ public class Sprite extends Component{
             currentAnimation = 2;   //Esto es una chapuza para comporobar que se ejecutaba bien la animación
             this.animations.add(anim);//Aquí la metemos en la lista.
         }
+        this.anchor = anchor;
     }
     //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen deirectamete
-    public Sprite(BufferedImage image, Animation... animations) {
+    public Sprite(BufferedImage image, Vector2D anchor, Animation... animations) {
         this.image = image;
         depth = 0;
         srcPos = new Vector2D(0, 0);
@@ -64,6 +68,7 @@ public class Sprite extends Component{
         for(Animation anim : animations){
             this.animations.add(anim);
         }
+        this.anchor = anchor;
     }
     
     public void setSrcSize(Vector2D size){
@@ -96,6 +101,10 @@ public class Sprite extends Component{
     }
     public Vector2D getSrcSize(){
         return srcSize;
+    }
+    
+    public Vector2D getAnchor(){
+        return anchor;
     }
     
     public void setCurrentAnimationIndex(int index){

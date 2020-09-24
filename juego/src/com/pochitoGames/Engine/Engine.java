@@ -11,6 +11,7 @@ import com.pochitoGames.Systems.WorkerSystem;
 import com.pochitoGames.Misc.TilesetMode;
 import com.pochitoGames.Misc.Animation;
 import com.pochitoGames.Misc.TileMapLoader;
+import com.pochitoGames.Systems.BuildingGeneratorSystem;
 import com.pochitoGames.Systems.ConstructorSystem;
 import com.pochitoGames.Systems.TextSystem;
 import com.pochitoGames.Systems.TileMapSystem;
@@ -22,10 +23,6 @@ import com.pochitoGames.Systems.TileSelectorSystem;
 
 //Engine se encarga del bucle principal y poco más.
 public class Engine {
-
-    //Todos las entidades están en ecs. 
-    //Es donde está la chicha del juego.
-    ECS ecs = new ECS();
 
     Window window;
 
@@ -51,32 +48,32 @@ public class Engine {
 */
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
-        ecs.addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem());
+        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem());
 
-        Entity gear = ecs.createEntity(null,
+        Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
+                        new Vector2D(0, 0),
                         new Animation(8, 100, 250, 500, 0, 0),
                         new Animation(8, 100, 250, 500, 0, 500),
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
                 new Position(new Vector2D(0, 0)),
                 new Soldier(new Human(100,"Sol",10,10)),
-                new Builder(new Vector2D(500, 300)));
+                new Builder());
 
-        ecs.createEntity(null,
+        ECS.getInstance().createEntity(null,
                 new Position(new Vector2D(100, 200)),
                 new Text("Vamoooooos loco"));
 
-        Entity tilemap = ecs.createEntity(null,
+        Entity tilemap = ECS.getInstance().createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
                 TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
 
-        ecs.createEntity(tilemap,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"),
+        ECS.getInstance().createEntity(tilemap,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0)),
                 new Position(new Vector2D(0, 0)),
-                new TileSelector(tilemap.get(TileMap.class)),
-                new Text("")
+                new TileSelector(tilemap.get(TileMap.class))
         );
         
     }
@@ -86,7 +83,7 @@ public class Engine {
             //Tenemos una cámara (clase estática) que hay que updatear.
             Camera.getInstance().update(dt);
             //al updatear ecs, se updatean los sistemas y, por tanto, las entidades.
-            ecs.update(dt);
+            ECS.getInstance().update(dt);
             //Esto hace que se pinten todas las imágenes que han llamado a render() durante esta iteración (se pintan todas a la vez).
             //Tambien el texto
             Renderer.getInstance().repaint();

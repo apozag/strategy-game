@@ -10,7 +10,6 @@
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/Engine.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Resources/TileMaps/iso_2.csv</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Resources/TileMaps/Terreno%20Arbol_2.png</file>
-            <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Components/Constructor.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/EventManager.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/Renderer.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Components/Worker.java</file>
@@ -22,7 +21,9 @@
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/KeyEventData.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Components/Position.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Systems/BuildingSystem.java</file>
+            <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Components/Builder.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Components/Soldier.java</file>
+            <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Components/Human.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/System.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/Window.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/KeyEventType.java</file>
@@ -39,6 +40,7 @@
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Misc/SolObjectHashMap.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Systems/ConstructorSystem.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Systems/SoldierSystem.java</file>
+            <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Systems/BuildingGeneratorSystem.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Resources/TileMaps/Terreno%20piedra.png</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Systems/TileSelectorSystem.java</file>
             <file>file:/E:/Escritorio/clash-of-knights/juego/src/com/pochitoGames/Engine/Vector2D.java</file>

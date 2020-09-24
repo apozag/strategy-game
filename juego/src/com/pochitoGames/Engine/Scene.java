@@ -16,26 +16,5 @@ import com.pochitoGames.Systems.SpriteSystem;
 //Esto no se usas de momento
 public class Scene {
     
-    private ECS ecs;
-    
-    public Scene(){
-        ecs = new ECS();
-        
-    }
-    
-    public void init(){
-
-    }
-    
-    public void update(double dt){
-        ecs.update(dt);
-    }
-    
-    public void addSystems(System... systems){
-        ecs.addSystems(systems);
-    }
-    
-    public void addEntity(Component... components){
-    }
-    
+   
 }

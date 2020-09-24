@@ -72,6 +72,8 @@ public class Renderer extends JPanel{
                 BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
 
                 Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
+                posCamCoord.x += s.getSrcSize().x*s.getAnchor().x;
+                posCamCoord.y -= s.getSrcSize().y*s.getAnchor().y;
                 g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
             }
         }

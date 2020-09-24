@@ -37,7 +37,9 @@ public class ECS {
     
     int nextEntityID = 0;
     
-    public ECS(){
+    private static ECS instance;
+    
+    private ECS(){
         entitiesToDelete= new ArrayList<>();
         entitiesToCreate= new ArrayList<>();
         componentsToDelete= new ArrayList<>();
@@ -45,6 +47,13 @@ public class ECS {
         eSystemValidate = new HashSet<>();    
     
         systems = new ArrayList<>();
+    }
+    
+    public static ECS getInstance(){
+        if(instance == null){
+            instance = new ECS();
+        }
+        return instance;
     }
     
     public void addSystems(System... systems){

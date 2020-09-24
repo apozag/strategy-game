@@ -55,13 +55,11 @@ public class TileMapSystem extends System{
             case ISOMETRIC:
                 image = new BufferedImage(tm.getMap().length * tm.getTileW(), tm.getMap()[0].length * tm.getTileH(), TYPE_INT_ARGB);
                 g2d = image.createGraphics();
-                Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
-                Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
                 for(int i = 0; i < tm.getMap().length; i++){
                     for(int j = 0; j < tm.getMap()[i].length; j++){
                         int row = tm.getMap()[i][j] / tm.getTilesetW();
                         int column = tm.getMap()[i][j] - row * tm.getTilesetW();
-                        Vector2D tilePos = Vector2D.add(Vector2D.mult(xTransform, i), Vector2D.mult(yTransform, j));
+                        Vector2D tilePos = indexToCartesian(i, j, tm);
                         tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
                         g2d.drawImage(tile, (int)tilePos.x + image.getWidth()/2, (int)tilePos.y , null);
                     }
@@ -71,6 +69,12 @@ public class TileMapSystem extends System{
         tm.getSprite().setImage(image);
         tm.getSprite().setDepth(-10);
         tm.markAsSet();
+    }
+    
+    public static Vector2D indexToCartesian(int col, int row, TileMap tm){
+        Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
+        Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
+        return Vector2D.add(Vector2D.mult(xTransform, col), Vector2D.mult(yTransform, row));
     }
     
     

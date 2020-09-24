@@ -6,6 +6,7 @@
 package com.pochitoGames.Components;
 
 import com.pochitoGames.Engine.Component;
+import com.pochitoGames.Engine.Vector2D;
 
 /**
  *
@@ -22,6 +23,10 @@ public class TileSelector extends Component{
     
     public TileMap getMap(){
         return tileMap;
+    }
+    
+    public Vector2D getSelected(){
+        return new Vector2D(column, row);
     }
     
     public void select(int column, int row){

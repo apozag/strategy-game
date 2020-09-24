@@ -1,9 +1,10 @@
 package com.pochitoGames.Components;
 
+import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.SoldierObjects;
 
-public class Soldier {
+public class Soldier extends Component{
 
     private Vector2D target;
     private SoldierObjects[] soldierObjects = new SoldierObjects[2];
