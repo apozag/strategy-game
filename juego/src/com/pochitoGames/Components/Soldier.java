@@ -3,15 +3,19 @@ package com.pochitoGames.Components;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.SoldierObjects;
+import com.pochitoGames.Misc.TypeSoldier;
 
-public class Soldier extends Component{
+public class Soldier extends Component {
 
     private Vector2D target;
     private SoldierObjects[] soldierObjects = new SoldierObjects[2];
     private Human human;
+    private TypeSoldier typeSoldier;
 
-    public Soldier (Human human){
+
+    public Soldier(Human human, TypeSoldier typeSoldier) {
         setHuman(human);
+        setTypeSoldier(typeSoldier);
     }
 
     public Vector2D getTarget() {
@@ -32,6 +36,14 @@ public class Soldier extends Component{
 
     public SoldierObjects[] getSoldierObjects() {
         return soldierObjects;
+    }
+
+    public TypeSoldier getTypeSoldier() {
+        return typeSoldier;
+    }
+
+    public void setTypeSoldier(TypeSoldier typeSoldier) {
+        this.typeSoldier = typeSoldier;
     }
 
     public boolean addSoldierObjects(SoldierObjects objects) {

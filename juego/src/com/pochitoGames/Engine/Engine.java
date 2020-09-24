@@ -6,6 +6,7 @@
 package com.pochitoGames.Engine;
 
 import com.pochitoGames.Components.*;
+import com.pochitoGames.Misc.TypeSoldier;
 import com.pochitoGames.Systems.SpriteSystem;
 import com.pochitoGames.Systems.WorkerSystem;
 import com.pochitoGames.Misc.TilesetMode;
@@ -58,8 +59,8 @@ public class Engine {
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
                 new Position(new Vector2D(0, 0)),
-                new Soldier(new Human(100,"Sol",10,10)),
-                new Builder());
+                new Soldier(new Human(100,"Sol",10,10), TypeSoldier.SWORD_MAN),
+                new Builder(new Vector2D(500, 300)));
 
         ECS.getInstance().createEntity(null,
                 new Position(new Vector2D(100, 200)),
