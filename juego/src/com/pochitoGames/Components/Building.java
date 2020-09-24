@@ -5,7 +5,7 @@ import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.TypeBuilding;
 import com.pochitoGames.Misc.WorkerObject;
 
-public class ProductionBuilding  extends Component {
+public class Building extends Component {
 
     private TypeBuilding typeBuilding;
     private Vector2D vector2D;
@@ -33,7 +33,7 @@ public class ProductionBuilding  extends Component {
         return objectsProduced;
     }
 
-    public ProductionBuilding(int life, int defense, int attack, TypeBuilding typeBuilding){
+    public Building(int life, int defense, int attack, TypeBuilding typeBuilding){
         setLife(life);
         setDefense(defense);
         setAttack(attack);
