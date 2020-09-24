@@ -61,7 +61,7 @@ public class TileMapSystem extends System{
                         int column = tm.getMap()[i][j] - row * tm.getTilesetW();
                         Vector2D tilePos = indexToCartesian(i, j, tm);
                         tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
-                        g2d.drawImage(tile, (int)tilePos.x + image.getWidth()/2, (int)tilePos.y , null);
+                        g2d.drawImage(tile, (int)tilePos.x, (int)tilePos.y , null);
                     }
                 }
                 break;        
@@ -74,7 +74,9 @@ public class TileMapSystem extends System{
     public static Vector2D indexToCartesian(int col, int row, TileMap tm){
         Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
         Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
-        return Vector2D.add(Vector2D.mult(xTransform, col), Vector2D.mult(yTransform, row));
+        Vector2D pos = Vector2D.add(Vector2D.mult(xTransform, col), Vector2D.mult(yTransform, row));
+        pos.x += tm.getMap().length * tm.getTileW()/2;
+        return pos;
     }
     
     
