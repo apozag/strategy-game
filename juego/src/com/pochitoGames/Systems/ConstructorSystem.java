@@ -2,7 +2,7 @@ package com.pochitoGames.Systems;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Components.Position;
-import com.pochitoGames.Components.Constructor;
+import com.pochitoGames.Components.Builder;
 import com.pochitoGames.Components.Sprite;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.EventManager;
@@ -22,14 +22,14 @@ import com.pochitoGames.Misc.ConstructorState;
  */
 public class ConstructorSystem extends System{
     public ConstructorSystem(){
-        include(Position.class, Sprite.class, Constructor.class);
+        include(Position.class, Sprite.class, Builder.class);
         exclude();
     }
     
     @Override
     public void update(double dt){
         for(Entity e : getEntities()){
-            Constructor constructor = e.get(Constructor.class);
+            Builder constructor = e.get(Builder.class);
             ConstructorState state = constructor.getState();
             Sprite sprite = e.get(Sprite.class);
             Position p = e.get(Position.class);

@@ -1,7 +1,7 @@
 package com.pochitoGames.Systems;
 
 import com.pochitoGames.Components.Position;
-import com.pochitoGames.Components.Soldier;
+import com.pochitoGames.Components.Human;
 import com.pochitoGames.Components.Sprite;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
@@ -16,7 +16,7 @@ public class SoldierSystem extends System{
     boolean start = false;
 
     public SoldierSystem(){
-        include(Soldier.class, Position.class);
+        include(Human.class, Position.class);
         exclude();
     }
 

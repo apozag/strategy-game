@@ -13,12 +13,13 @@ import com.pochitoGames.Misc.ConstructorState;
  *
  * @author PochitoMan
  */
-public class Constructor extends Component{
+public class Builder extends Component{
+
     Vector2D target;
     float speed = 5;
     ConstructorState state = ConstructorState.WAITING;
     
-    public Constructor(Vector2D target){
+    public Builder(Vector2D target){
         this.target = target;
     }
     
