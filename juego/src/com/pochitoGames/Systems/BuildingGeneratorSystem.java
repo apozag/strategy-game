@@ -37,7 +37,7 @@ public class BuildingGeneratorSystem extends System{
                 
                 ECS.getInstance().createEntity(null, 
                         new Position(pos),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building.png", new Vector2D(0,0))
+                        new Sprite("src\\com\\pochitoGames\\Resources\\TileMaps\\Casa.png", new Vector2D(0,0))
                 );
             }
         }

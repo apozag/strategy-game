@@ -23,7 +23,7 @@ import com.pochitoGames.Misc.ConstructorState;
 public class ConstructorSystem extends System{
     public ConstructorSystem(){
         include(Position.class, Sprite.class, Builder.class);
-        exclude();
+        exclude(Sprite.class);
     }
     
     @Override
