@@ -58,8 +58,9 @@ public class Engine {
                         new Animation(8, 100, 250, 500, 0, 500),
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
-                new Position(new Vector2D(0, 0)),
-                new Soldier(new Human(100,"Sol",10,10), TypeSoldier.SWORD_MAN),
+                new Position(new Vector2D(0, 500)),
+                new Soldier(TypeSoldier.SWORD_MAN),
+                new Human(100,"Sol",10,10),
                 new Builder());
 
         ECS.getInstance().createEntity(null,

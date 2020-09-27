@@ -17,18 +17,8 @@ public class Worker extends Component {
     Vector2D target;
     private String[] tasks = new String[3];
     private WorkerObject object;
-    private Human human;
 
-    public Human getHuman() {
-        return human;
-    }
-
-    public void setHuman(Human human) {
-        this.human = human;
-    }
-
-    public Worker(Human human) {
-        setHuman(human);
+    public Worker() {
     }
 
     public WorkerObject getObject() {
