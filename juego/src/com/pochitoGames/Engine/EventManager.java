@@ -29,6 +29,7 @@ public class EventManager implements MouseListener, MouseWheelListener, KeyListe
        private static EventManager instance;
        private int mouseWheelRotation;
        
+       
        private EventManager(){
            mouseEvents = new LinkedList<>();
            keyEvents = new HashSet<>();
@@ -56,7 +57,10 @@ public class EventManager implements MouseListener, MouseWheelListener, KeyListe
            return false;
        }
        public Vector2D getMousePos(){
-            Point pos = MouseInfo.getPointerInfo().getLocation();
+            //Point pos = MouseInfo.getPointerInfo().getLocation();
+            Point pos = Renderer.getInstance().getMousePosition();
+            if(pos == null)
+                return new Vector2D(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
             return new Vector2D(pos.x, pos.y);
        }
        

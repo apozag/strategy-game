@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @author PochitoMan
  */
 
-//Solo carga un TIleMap y lo devuelve. 
+//Solo carga un TileMap y lo devuelve. 
 //Se llama al método de forma estática.
 public class TileMapLoader {
     public static TileMap LoadTileMap(String file, String imagePath, int height, int width, int tileW, int tileH, TilesetMode mode){
@@ -54,8 +54,10 @@ public class TileMapLoader {
        }
 
        BufferedImage image = ImageManager.getImage(imagePath);
+       
+       MapInfo.getInstance().setMap(map);
 
-       return new TileMap(image, map, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
+       return new TileMap(image, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
 
    }
 }

@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 public class TileMap extends Component{
     
     BufferedImage tileset;
-    int[][] map;
     
     private int tileW;
     private int tileH;
@@ -48,18 +47,13 @@ public class TileMap extends Component{
     // tileH:       El alto de un tile.
     // tilesetW:    El ancho de la imagen del tileset (no el tilemap)
     // tilesetH:    El alto de la imagen del tileset (no el tilemap)
-    public TileMap(BufferedImage tileset, int[][] map, int tileW, int tileH, int tilesetW, int tilesetH, TilesetMode mode){
+    public TileMap(BufferedImage tileset,int tileW, int tileH, int tilesetW, int tilesetH, TilesetMode mode){
         this.tileset = tileset;
-        this.map = map;
         this.tileW = tileW;
         this.tileH = tileH;
         this.tilesetW = tilesetW;
         this.tilesetH = tilesetH;
         this.mode = mode;
-    }
-    
-    public int[][] getMap(){
-        return map;
     }
     
     public BufferedImage getTileset (){

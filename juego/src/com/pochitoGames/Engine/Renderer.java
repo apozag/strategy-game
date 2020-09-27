@@ -5,6 +5,7 @@ import com.pochitoGames.Components.Position;
 import com.pochitoGames.Components.Text;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -63,7 +64,8 @@ public class Renderer extends JPanel{
         Graphics2D g2D = (Graphics2D) g;
         //Antes de pintar se ordenan los srites por profundidad
         renderQueue.sort(new SortByDepth());
-        g2D.setTransform(Camera.getInstance().getZoom());
+        AffineTransform transform = Camera.getInstance().getZoom();
+        g2D.scale(transform.getScaleX(), transform.getScaleY());
         while(!renderQueue.isEmpty()){
             Sprite s = renderQueue.remove(0);
             if(s != null && s.getImage() != null){
@@ -72,7 +74,7 @@ public class Renderer extends JPanel{
                 BufferedImage img = s.getImage().getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
 
                 Vector2D posCamCoord = Camera.getInstance().toCameraCoords(dstPos);
-                posCamCoord.x += s.getSrcSize().x*s.getAnchor().x;
+                posCamCoord.x -= s.getSrcSize().x*s.getAnchor().x;
                 posCamCoord.y -= s.getSrcSize().y*s.getAnchor().y;
                 g2D.drawImage(img, (int)posCamCoord.x, (int)posCamCoord.y , null);
             }
@@ -84,7 +86,6 @@ public class Renderer extends JPanel{
             g2D.setFont(text.getFont());
             g2D.drawString(text.getText(), pos.x, pos.y);
         }
-        
         
     }    
     

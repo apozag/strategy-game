@@ -37,8 +37,8 @@ public class ConstructorSystem extends System{
                 case WAITING:
                     if(EventManager.getInstance().isMousePressed()){
                         Vector2D target = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
-                        target.x -= sprite.getSrcSize().x/2;
-                        target.y -= sprite.getSrcSize().y;
+                        //target.x -= sprite.getSrcSize().x/2;
+                        //target.y -= sprite.getSrcSize().y;
                         constructor.setTarget(target);
                         sprite.setCurrentAnimationIndex(2);
                         constructor.setState(ConstructorState.WALKING);

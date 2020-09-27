@@ -10,6 +10,7 @@ import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Components.TileMap;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.MapInfo;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -39,26 +40,27 @@ public class TileMapSystem extends System{
         BufferedImage image = null;
         Graphics2D g2d;
         BufferedImage tile;
+        int[][] map = MapInfo.getInstance().getMap();
         switch(tm.getMode()){
             case ORTHOGONAL:
-                image = new BufferedImage(tm.getMap().length * tm.getTileW(), tm.getMap()[0].length * tm.getTileH() ,TYPE_INT_ARGB);
+                image = new BufferedImage(map.length * tm.getTileW(), map[0].length * tm.getTileH() ,TYPE_INT_ARGB);
                 g2d = image.createGraphics();
-                for(int i = 0; i < tm.getMap().length; i++){
-                    for(int j = 0; j < tm.getMap()[i].length; j++){
-                        int row = tm.getMap()[i][j] / tm.getTilesetW();
-                        int column = tm.getMap()[i][j] - row * tm.getTilesetW();
+                for(int i = 0; i < map.length; i++){
+                    for(int j = 0; j < map[i].length; j++){
+                        int row = map[i][j] / tm.getTilesetW();
+                        int column = map[i][j] - row * tm.getTilesetW();
                         tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
                         g2d.drawImage(tile, i*tm.getTileW() + image.getWidth()/2, j*tm.getTileH(), null);
                     }
                 }
                 break;
             case ISOMETRIC:
-                image = new BufferedImage(tm.getMap().length * tm.getTileW(), tm.getMap()[0].length * tm.getTileH(), TYPE_INT_ARGB);
+                image = new BufferedImage((map.length) * tm.getTileW(), map[0].length * tm.getTileH(), TYPE_INT_ARGB);
                 g2d = image.createGraphics();
-                for(int i = 0; i < tm.getMap().length; i++){
-                    for(int j = 0; j < tm.getMap()[i].length; j++){
-                        int row = tm.getMap()[i][j] / tm.getTilesetW();
-                        int column = tm.getMap()[i][j] - row * tm.getTilesetW();
+                for(int i = 0; i < map.length; i++){
+                    for(int j = 0; j < map[i].length; j++){
+                        int row = map[i][j] / tm.getTilesetW();
+                        int column = map[i][j] - row * tm.getTilesetW();
                         Vector2D tilePos = indexToCartesian(i, j, tm);
                         tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
                         g2d.drawImage(tile, (int)tilePos.x, (int)tilePos.y , null);
@@ -75,7 +77,7 @@ public class TileMapSystem extends System{
         Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
         Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
         Vector2D pos = Vector2D.add(Vector2D.mult(xTransform, col), Vector2D.mult(yTransform, row));
-        pos.x += tm.getMap().length * tm.getTileW()/2;
+        pos.x += (MapInfo.getInstance().getMap().length-1) * (tm.getTileW()/2);
         return pos;
     }
     

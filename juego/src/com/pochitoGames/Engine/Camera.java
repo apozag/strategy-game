@@ -98,10 +98,10 @@ public class Camera {
         if(current != 0){
             double factor = at.getScaleX();
             factor += factor * current;
-            at = new AffineTransform();
+            at.setToIdentity();
             at.scale(factor, factor);
-            Vector2D mousePos = manager.getMousePos();
-            pos.add(Vector2D.mult(mousePos, (float)current));
+            //Vector2D mousePos = manager.getMousePos();
+            //pos.add(Vector2D.mult(mousePos, (float)current));
         }
     }
    

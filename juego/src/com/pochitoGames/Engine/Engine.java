@@ -53,7 +53,7 @@ public class Engine {
 
         Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
-                        new Vector2D(0, 0),
+                        new Vector2D(0.5f, 1),
                         new Animation(8, 100, 250, 500, 0, 0),
                         new Animation(8, 100, 250, 500, 0, 500),
                         new Animation(14, 50, 250, 500, 0, 1000),

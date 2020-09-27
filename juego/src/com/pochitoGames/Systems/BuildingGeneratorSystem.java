@@ -14,6 +14,7 @@ import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.MapInfo;
 /**
  *
  * @author PochitoMan
@@ -34,11 +35,13 @@ public class BuildingGeneratorSystem extends System{
                 TileMap map = ts.getMap();
                 Vector2D selected = ts.getSelected();
                 Vector2D pos = TileMapSystem.indexToCartesian((int)selected.x, (int)selected.y, map);
-                
+                /*
                 ECS.getInstance().createEntity(null, 
                         new Position(pos),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building.png", new Vector2D(0,0))
+                        new Sprite("src\\com\\pochitoGames\\Resources\\TileMaps\\Casa.png", new Vector2D(0,3.0f/4.0f))
                 );
+                */
+                //Sprites\\building.png
             }
         }
     }
