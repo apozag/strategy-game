@@ -72,9 +72,7 @@ public class TileSelectorSystem extends System{
                 */
                 p.setLocalPos(selectorPos);
                 
-                ts.select((int)selected.x, (int)selected.y);
-                java.lang.System.out.println("Selected (" + (int)selected.x + " ," +  (int)selected.y + ")");
-                
+                ts.select((int)selected.x, (int)selected.y);                
             }   
                 
         }       

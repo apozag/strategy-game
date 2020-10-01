@@ -16,10 +16,17 @@ public class Position extends Component{
     private Vector2D localPos;
     private Vector2D worldPos;
     
+    boolean lock = false;
+    
     boolean dirty = false;
     
     public Position(Vector2D pos){
         this.localPos = pos;
+    }
+    
+    public Position(Vector2D pos, boolean lock){
+        this.localPos = pos;
+        this.lock = lock;
     }
     
     public Vector2D getLocalPos(){
@@ -48,5 +55,9 @@ public class Position extends Component{
         for(Entity child : getEntity().getChildren()){
             ((Position)(child.get(Position.class))).setDirtyFlag();
         }
+    }
+    
+    public boolean isLocked(){
+        return lock;
     }
 }

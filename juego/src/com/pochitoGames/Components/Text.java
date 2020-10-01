@@ -6,6 +6,7 @@
 package com.pochitoGames.Components;
 
 import com.pochitoGames.Engine.Component;
+import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
 
@@ -16,10 +17,12 @@ import javax.swing.JLabel;
 public class Text extends Component {
     String text;
     Font font;
+    Color color;
     
-    public Text(String text){
+    public Text(String text, Color color){
         this.text = text;
         this.font = new Font("Times New Roman", Font.PLAIN, 28);
+        this.color = color;
     }
     
     public String getText(){
@@ -32,5 +35,9 @@ public class Text extends Component {
     
     public Font getFont(){
         return font;
+    }
+    
+    public Color getColor(){
+        return color;
     }
 }

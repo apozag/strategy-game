@@ -17,11 +17,9 @@ import java.util.Map;
 public class MapInfo{
     static MapInfo instance;
     int[][] map;
-    Map <Integer, TileInfo> tileInfo;
-    List<Vector2D> changed;
+    Map <Integer, Integer> walkCost;
     
     private MapInfo(){
-        changed = new LinkedList<>();
     }
     
     public static MapInfo getInstance(){
@@ -34,17 +32,20 @@ public class MapInfo{
         this.map = map;
     }
     
+    public void setWalkCost(Map<Integer, Integer> walkCost){
+        this.walkCost = walkCost;
+    }
+    
     public int[][] getMap(){
         return map;
     }
     
-    public TileInfo getTileInfo(int x, int y){
-        return tileInfo.get(map[x][y]);
+    public int getTileWalkCost(int x, int y){
+        return walkCost.get(map[x][y]);
     }
     
     public void setTileId(int x, int y, int id){
         map[x][y] = id;
-        changed.add(new Vector2D(x, y));
     }
     
 }

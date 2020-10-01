@@ -40,7 +40,7 @@ public class TileMapSystem extends System{
         BufferedImage image = null;
         Graphics2D g2d;
         BufferedImage tile;
-        int[][] map = MapInfo.getInstance().getMap();
+        int[][] map = tm.getMap();
         switch(tm.getMode()){
             case ORTHOGONAL:
                 image = new BufferedImage(map.length * tm.getTileW(), map[0].length * tm.getTileH() ,TYPE_INT_ARGB);
@@ -77,7 +77,7 @@ public class TileMapSystem extends System{
         Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
         Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
         Vector2D pos = Vector2D.add(Vector2D.mult(xTransform, col), Vector2D.mult(yTransform, row));
-        pos.x += (MapInfo.getInstance().getMap().length-1) * (tm.getTileW()/2);
+        pos.x += (tm.getMap().length-1) * (tm.getTileW()/2);
         return pos;
     }
     

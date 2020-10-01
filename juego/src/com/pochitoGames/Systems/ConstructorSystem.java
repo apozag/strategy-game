@@ -23,7 +23,7 @@ import com.pochitoGames.Misc.ConstructorState;
 public class ConstructorSystem extends System{
     public ConstructorSystem(){
         include(Position.class, Sprite.class, Builder.class);
-        exclude(Sprite.class);
+        exclude();
     }
     
     @Override
@@ -37,10 +37,11 @@ public class ConstructorSystem extends System{
                 case WAITING:
                     if(EventManager.getInstance().isMousePressed()){
                         Vector2D target = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
-                        //target.x -= sprite.getSrcSize().x/2;
-                        //target.y -= sprite.getSrcSize().y;
+                        if(target.x < p.getWorldPos().x)
+                            sprite.setCurrentAnimationIndex(3);
+                        else
+                            sprite.setCurrentAnimationIndex(2);
                         constructor.setTarget(target);
-                        sprite.setCurrentAnimationIndex(2);
                         constructor.setState(ConstructorState.WALKING);
                     }
                     break;

@@ -21,5 +21,10 @@ public class Window extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(Renderer.getInstance());
         this.setVisible(true);
+        Renderer.getInstance().addMouseListener(EventManager.getInstance());
+        Renderer.getInstance().addKeyListener(EventManager.getInstance());
+        Renderer.getInstance().addMouseWheelListener(EventManager.getInstance());
+        Renderer.getInstance().setFocusable(true);
+        Renderer.getInstance().setDoubleBuffered(false);
     }
 }

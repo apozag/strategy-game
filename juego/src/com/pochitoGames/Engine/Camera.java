@@ -114,7 +114,7 @@ public class Camera {
     }
     
     public Vector2D toWorldCoords(Vector2D v){
-        v.mult(1/(float)at.getScaleX());
+        //v.mult(1/(float)at.getScaleX());
         v.add(pos);
         return v;
     }

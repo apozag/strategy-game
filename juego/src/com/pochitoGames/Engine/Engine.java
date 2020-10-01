@@ -12,11 +12,13 @@ import com.pochitoGames.Systems.WorkerSystem;
 import com.pochitoGames.Misc.TilesetMode;
 import com.pochitoGames.Misc.Animation;
 import com.pochitoGames.Misc.TileMapLoader;
+import com.pochitoGames.Misc.Time;
 import com.pochitoGames.Systems.BuildingGeneratorSystem;
 import com.pochitoGames.Systems.ConstructorSystem;
 import com.pochitoGames.Systems.TextSystem;
 import com.pochitoGames.Systems.TileMapSystem;
 import com.pochitoGames.Systems.TileSelectorSystem;
+import java.awt.Color;
 
 /**
  * @author PochitoMan
@@ -33,8 +35,9 @@ public class Engine {
 
     final int SCR_HEIGHT = 768, SCR_WIDTH = 1024;
 
+    int FPS = 60;
     //dt es el paso del tiempo. Cuanto más grande, más "tiempo" pasará entre frames y más rápido irá el juego.
-    double dt = 0.1;
+    double dt = 5.0/FPS;
 
     public Engine() {
     }
@@ -65,35 +68,44 @@ public class Engine {
 
         ECS.getInstance().createEntity(null,
                 new Position(new Vector2D(100, 200)),
-                new Text("Vamoooooos loco"));
+                new Text("Vamoooooos loco", Color.red));
 
         Entity tilemap = ECS.getInstance().createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
+                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 120, 120, 64, 32, TilesetMode.ISOMETRIC));
 
         ECS.getInstance().createEntity(tilemap,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0)),
                 new Position(new Vector2D(0, 0)),
                 new TileSelector(tilemap.get(TileMap.class))
         );
-        
+        /*
+        ECS.getInstance().createEntity(null, 
+                new Position(new Vector2D(50, 50), true), 
+                new Text("", Color.white), 
+                new FPScounter()
+        );
+        */
     }
 
     public void mainLoop() throws InterruptedException {
         while (running) {
             //Tenemos una cámara (clase estática) que hay que updatear.
             Camera.getInstance().update(dt);
+            
             //al updatear ecs, se updatean los sistemas y, por tanto, las entidades.
             ECS.getInstance().update(dt);
+            
             //Esto hace que se pinten todas las imágenes que han llamado a render() durante esta iteración (se pintan todas a la vez).
             //Tambien el texto
             Renderer.getInstance().repaint();
 
-            //Al acabar la iteración, se limpian los eventos de ratón, teclado, etc, porque sólo vvalen para una vez.
+            //Al acabar la iteración, se limpian los eventos de ratón, teclado, etc, porque sólo valen para una vez.
             EventManager.getInstance().clearEvents();
+            
             //Tenemos que esperar un rato (1000/30 == 30FPS) para que no se quede pillado en un bucle infinito.
-            Thread.sleep(1000 / 30);
+            Thread.sleep(1000 / FPS);
         }
     }
 

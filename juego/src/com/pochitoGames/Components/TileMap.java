@@ -27,6 +27,8 @@ public class TileMap extends Component{
     
     BufferedImage tileset;
     
+    private int[][] map;
+    
     private int tileW;
     private int tileH;
     private int tilesetW;
@@ -47,7 +49,8 @@ public class TileMap extends Component{
     // tileH:       El alto de un tile.
     // tilesetW:    El ancho de la imagen del tileset (no el tilemap)
     // tilesetH:    El alto de la imagen del tileset (no el tilemap)
-    public TileMap(BufferedImage tileset,int tileW, int tileH, int tilesetW, int tilesetH, TilesetMode mode){
+    public TileMap(BufferedImage tileset,int[][]map, int tileW, int tileH, int tilesetW, int tilesetH, TilesetMode mode){
+        this.map = map;
         this.tileset = tileset;
         this.tileW = tileW;
         this.tileH = tileH;
@@ -103,5 +106,12 @@ public class TileMap extends Component{
     
     public void markAsSet(){
         imageSet = true;
+    }
+
+    /**
+     * @return the map
+     */
+    public int[][] getMap() {
+        return map;
     }
 }
