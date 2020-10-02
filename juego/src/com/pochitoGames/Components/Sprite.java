@@ -31,7 +31,9 @@ public class Sprite extends Component{
     
     private Vector2D anchor;
     //profuncidad a la hora de pintar unos sprites sobre otros
-    private int depth;
+    private float depth;
+    
+    private boolean updateDepth;
     
     //Indica el índice de la animacion que se está pintando actualmente. 
     //Si no tiene animaciones, es -1
@@ -46,9 +48,13 @@ public class Sprite extends Component{
         srcSize = new Vector2D(0, 0);
         anchor = new Vector2D(0, 0);
     }
-    public Sprite(String path, Vector2D anchor, Animation... animations) {
+    public Sprite(String path, Vector2D anchor, boolean updateDepth, Animation... animations) {
         image = ImageManager.getImage(path);
-        depth = 0;
+        this.updateDepth = updateDepth;
+        if(updateDepth)
+            depth = 0;
+        else
+            depth = Float.MAX_VALUE;
         srcPos = new Vector2D(0, 0);
         srcSize = new Vector2D(image.getWidth(), image.getHeight());
         this.animations = new LinkedList<>();
@@ -58,10 +64,14 @@ public class Sprite extends Component{
         }
         this.anchor = anchor;
     }
-    //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen deirectamete
-    public Sprite(BufferedImage image, Vector2D anchor, Animation... animations) {
+    //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen directamete
+    public Sprite(BufferedImage image, Vector2D anchor, boolean updateDepth, Animation... animations) {
         this.image = image;
-        depth = 0;
+        this.updateDepth = updateDepth;        
+        if(updateDepth)
+            depth = 0;
+        else
+            depth = Float.MAX_VALUE;
         srcPos = new Vector2D(0, 0);
         srcSize = new Vector2D(image.getWidth(), image.getHeight());
         
@@ -88,11 +98,11 @@ public class Sprite extends Component{
         return image;
     }
     
-    public void setDepth(int depth){
+    public void setDepth(float depth){
         this.depth = depth;
     }
     
-    public int getDepth(){
+    public float getDepth(){
         return depth;
     }
     
@@ -118,6 +128,10 @@ public class Sprite extends Component{
     public Animation getCurrentAnimation(){
         if(currentAnimation < 0) return null;
         return animations.get(currentAnimation);
+    }
+    
+    public boolean isDepthUpdated(){
+        return updateDepth;
     }
 }
 

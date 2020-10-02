@@ -30,6 +30,7 @@ public class SpriteSystem extends System{
     public void update(double dt) {
         for(Entity e : getEntities()){
             Sprite s = e.get(Sprite.class);
+            Position p = e.get(Position.class);
             
             if(s.getCurrentAnimationIndex() >= 0){
                 Animation anim = s.getCurrentAnimation();
@@ -40,6 +41,8 @@ public class SpriteSystem extends System{
                 s.setSrcSize(srcSize);
                 s.setSrcPos(srcPos);
             }
+            if(s.isDepthUpdated())
+                s.setDepth(p.getWorldPos().y);
 
             Renderer.getInstance().renderSprite(s);
         }

@@ -52,7 +52,7 @@ public class ConstructorSystem extends System{
                         sprite.setCurrentAnimationIndex(1);
                         constructor.setState(ConstructorState.BUILDING);
                     }
-                    p.setLocalPos(Vector2D.add(Vector2D.mult(Vector2D.normalized(dir), constructor.getSpeed()), pos));
+                    p.setLocalPos(Vector2D.add(Vector2D.mult(Vector2D.normalized(dir), (float)(constructor.getSpeed() * dt)), pos));
                     break;
                 case BUILDING:
                     //Construye algo

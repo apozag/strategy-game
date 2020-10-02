@@ -76,7 +76,7 @@ public class Renderer extends JPanel{
             Graphics2D g2D = (Graphics2D) g;
             //Antes de pintar se ordenan los srites por profundidad
             renderQueue.sort(new SortByDepth());
-            AffineTransform transform = Camera.getInstance().getZoom();
+            //AffineTransform transform = Camera.getInstance().getZoom();
             //g2D.scale(transform.getScaleX(), transform.getScaleY());
             while(!renderQueue.isEmpty()){
                 Sprite s = renderQueue.remove(0);
@@ -137,6 +137,6 @@ class SortByDepth implements Comparator<Sprite>
     @Override
     public int compare(Sprite a, Sprite b) 
     { 
-        return a.getDepth() - b.getDepth(); 
+        return (int)(a.getDepth() - b.getDepth()); 
     } 
 } 

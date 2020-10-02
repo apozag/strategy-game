@@ -56,7 +56,8 @@ public class Engine {
 
         Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
-                        new Vector2D(0.5f, 1),
+                        new Vector2D(0.5f, 1.0f),
+                        true,
                         new Animation(8, 100, 250, 500, 0, 0),
                         new Animation(8, 100, 250, 500, 0, 500),
                         new Animation(14, 50, 250, 500, 0, 1000),
@@ -76,7 +77,7 @@ public class Engine {
                 TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 120, 120, 64, 32, TilesetMode.ISOMETRIC));
 
         ECS.getInstance().createEntity(tilemap,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0)),
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0), true),
                 new Position(new Vector2D(0, 0)),
                 new TileSelector(tilemap.get(TileMap.class))
         );

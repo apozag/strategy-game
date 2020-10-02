@@ -16,7 +16,7 @@ import com.pochitoGames.Misc.ConstructorState;
 public class Builder extends Component{
 
     Vector2D target;
-    float speed = 5;
+    float speed = 100;
     ConstructorState state = ConstructorState.WAITING;
     
     public Builder(){

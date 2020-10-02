@@ -35,14 +35,12 @@ public class BuildingGeneratorSystem extends System{
                 TileMap map = ts.getMap();
                 Vector2D selected = ts.getSelected();
                 Vector2D pos = TileMapSystem.indexToCartesian((int)selected.x, (int)selected.y, map);
-                /*
                 ECS.getInstance().createEntity(null, 
                         new Position(pos),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\TileMaps\\Casa.png", new Vector2D(0,3.0f/4.0f))
+                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\\\building.png",new Vector2D(0,2.5f/4.0f), true)
 
                 );
-                */
-                //Sprites\\building.png
+                //
             }
         }
     }
