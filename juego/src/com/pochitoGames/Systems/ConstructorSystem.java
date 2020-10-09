@@ -3,6 +3,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Components.Position;
 import com.pochitoGames.Components.Builder;
+import com.pochitoGames.Components.Human;
 import com.pochitoGames.Components.Sprite;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.EventManager;
@@ -22,7 +23,7 @@ import com.pochitoGames.Misc.ConstructorState;
  */
 public class ConstructorSystem extends System{
     public ConstructorSystem(){
-        include(Position.class, Sprite.class, Builder.class);
+        include(Position.class, Sprite.class, Human.class ,Builder.class);
         exclude();
     }
     
@@ -37,10 +38,12 @@ public class ConstructorSystem extends System{
                 case WAITING:
                     if(EventManager.getInstance().isMousePressed()){
                         Vector2D target = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
+                        /*
                         if(target.x < p.getWorldPos().x)
                             sprite.setCurrentAnimationIndex(3);
                         else
                             sprite.setCurrentAnimationIndex(2);
+*/
                         constructor.setTarget(target);
                         constructor.setState(ConstructorState.WALKING);
                     }
@@ -49,7 +52,7 @@ public class ConstructorSystem extends System{
                     Vector2D pos = p.getLocalPos();
                     Vector2D dir = Vector2D.sub(constructor.getTarget(), pos);
                     if(dir.magnitude() < 10){
-                        sprite.setCurrentAnimationIndex(1);
+                        //sprite.setCurrentAnimationIndex(1);
                         constructor.setState(ConstructorState.BUILDING);
                     }
                     p.setLocalPos(Vector2D.add(Vector2D.mult(Vector2D.normalized(dir), (float)(constructor.getSpeed() * dt)), pos));

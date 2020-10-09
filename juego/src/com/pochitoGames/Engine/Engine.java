@@ -53,7 +53,7 @@ public class Engine {
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem());
-
+/*
         Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
                         new Vector2D(0.5f, 1.0f),
@@ -66,7 +66,13 @@ public class Engine {
                 new Soldier(TypeSoldier.SWORD_MAN),
                 new Human(100,"Sol",10,10),
                 new Builder());
-
+*/
+        ECS.getInstance().createEntity(null,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f),true),
+            new Position(new Vector2D(500, 500)),
+            new Human(100, "WORKER", 10, 10),
+            new Builder()
+        );
         ECS.getInstance().createEntity(null,
                 new Position(new Vector2D(100, 200)),
                 new Text("Vamoooooos loco", Color.red));
@@ -74,7 +80,7 @@ public class Engine {
         Entity tilemap = ECS.getInstance().createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno piedra.png" , 120, 120, 64, 32, TilesetMode.ISOMETRIC));
+                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png" , 120, 120, 64, 32, TilesetMode.ISOMETRIC));
 
         ECS.getInstance().createEntity(tilemap,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0), true),

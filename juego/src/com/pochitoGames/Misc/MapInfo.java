@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Misc;
 
+import com.pochitoGames.Components.TileMap;
 import com.pochitoGames.Engine.Vector2D;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class MapInfo{
     static MapInfo instance;
     int[][] map;
     Map <Integer, Integer> walkCost;
+    TileMap activeTileMap;
     
     private MapInfo(){
     }
@@ -30,6 +32,14 @@ public class MapInfo{
     
     public void setMap(int[][] map){
         this.map = map;
+    }
+    
+    public void setActiveTileMap(TileMap map){
+        activeTileMap = map;
+    }
+    
+    public TileMap getActiveTileMap(){
+        return activeTileMap;
     }
     
     public void setWalkCost(Map<Integer, Integer> walkCost){

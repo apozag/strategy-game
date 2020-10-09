@@ -64,20 +64,19 @@ public class Renderer extends JPanel{
     //Esto se llama desde Engine.
     //Se pinta todo lo que había en renderQueue y textQueue
     @Override
-    public void paint(Graphics g){
-        //BufferedImage bf = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-        //Gaphics bfg = bf.getGraphics();
-        
+    public void paint(Graphics g){       
         if(!renderLock && !renderQueue.isEmpty()){
             renderLock = true;
             requestFocus();
             super.paintComponent(g);
             this.setBackground(new Color(0, 0, 0));
             Graphics2D g2D = (Graphics2D) g;
-            //Antes de pintar se ordenan los srites por profundidad
-            renderQueue.sort(new SortByDepth());
             //AffineTransform transform = Camera.getInstance().getZoom();
             //g2D.scale(transform.getScaleX(), transform.getScaleY());
+            
+            //Antes de pintar se ordenan los srites por profundidad
+            renderQueue.sort(new SortByDepth());
+           
             while(!renderQueue.isEmpty()){
                 Sprite s = renderQueue.remove(0);
                 if(s != null && s.getImage() != null){
@@ -125,9 +124,10 @@ public class Renderer extends JPanel{
             g2D.setColor(Color.white);
             
             g2D.drawString("FPS: " + currentFPS, 50, 50);
+            
+            g2D.dispose();
         }
         renderLock = false;
-        //g.drawImage(bf, this.getWidth(), this.getHeight(), this);
     }    
     
 }

@@ -38,6 +38,10 @@ public class Vector2D {
     public float magnitude(){
         return (float) Math.sqrt(x*x+y*y);
     }
+    public Vector2D normalized(){
+        float mag = magnitude();
+        return new Vector2D(x/mag, y/mag);
+    }
     
     public static Vector2D add(Vector2D v1, Vector2D v2){
         return new Vector2D(v1.x + v2.x, v1.y + v2.y);
@@ -51,5 +55,9 @@ public class Vector2D {
     public static Vector2D normalized(Vector2D v){
         float mag = v.magnitude();
         return new Vector2D(v.x/mag, v.y/mag);
+    }
+    
+    public boolean equals(Vector2D v){
+        return this.x == v.x && this.y == v.y;
     }
 }

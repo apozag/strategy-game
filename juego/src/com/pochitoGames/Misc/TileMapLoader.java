@@ -40,7 +40,7 @@ public class TileMapLoader {
        
        int [][] mapInfo = new int[width][height];
        int mapInfoIndex = 0;
-       Map<Integer, Integer> tileIndexes = new HashMap<>();
+       Map<Integer, Integer> tileCosts = new HashMap<>();
 
        int row = 0, col = 0;
 
@@ -53,18 +53,18 @@ public class TileMapLoader {
                     num+= c;
                 else{
                     int n = Integer.parseInt(num);
-                    if(!tileIndexes.containsKey(n))
-                        tileIndexes.put(n, mapInfoIndex++);
-                    mapInfo[col][row] = tileIndexes.get(n);
+                    if(!tileCosts.containsKey(n))
+                        tileCosts.put(n, mapInfoIndex++);
+                    mapInfo[col][row] = tileCosts.get(n);
                     map[col][row] = n;
                     num = "";
                     col++;
                 }
             }
             int n = Integer.parseInt(num.trim());
-            if(tileIndexes.containsKey(n))
-                tileIndexes.put(n, mapInfoIndex++);
-            mapInfo[col][row] = tileIndexes.get(n);      
+            if(tileCosts.containsKey(n))
+                tileCosts.put(n, mapInfoIndex++);
+            mapInfo[col][row] = tileCosts.get(n);      
             map[col][row] = n;
             col = 0;
             row++;
@@ -98,10 +98,13 @@ public class TileMapLoader {
 
        BufferedImage image = ImageManager.getImage(imagePath);
        
+       TileMap tileMap = new TileMap(image, map, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
+       
        MapInfo.getInstance().setMap(mapInfo);
-       MapInfo.getInstance().setWalkCost(tileIndexes);
-
-       return new TileMap(image, map, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
+       MapInfo.getInstance().setWalkCost(tileCosts);
+       MapInfo.getInstance().setActiveTileMap(tileMap);
+       
+       return tileMap;
 
    }
 }
