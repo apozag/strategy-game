@@ -12,7 +12,7 @@ package com.pochitoGames.Misc;
 public class BuildingManager {
     private static BuildingManager instance;
     
-    private Map<Integer, BuildingInfo> buildings;
+    //private Map<Integer, BuildingInfo> buildings;
     
     private BuildingManager(){
         
@@ -26,7 +26,7 @@ public class BuildingManager {
     }
     
     public static void build(int id, int col, int row){
-        BuildingInfo info = buildings.get(id);
+        //BuildingInfo info = buildings.get(id);
         
         MapInfo.getInstance().setTileId(col, row, id);
         MapInfo.getInstance().setTileId(col+1, row, id);

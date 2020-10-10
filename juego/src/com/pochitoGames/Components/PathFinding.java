@@ -19,13 +19,17 @@ public class PathFinding extends Component{
     Vector2i current;
     Queue<Vector2i> steps;
     Vector2D nextPos;
+    private Vector2i targetCell;
     private boolean walking;
     
     public PathFinding(int col, int row){
         current = new Vector2i(col, row);
         steps = new LinkedList();
     }
-    
+    public void setCurrent(Vector2i cell){
+        this.current = cell;
+    }
+
     public Vector2i getCurrent(){
         return current;
     }
@@ -61,5 +65,9 @@ public class PathFinding extends Component{
     public void setWalking(boolean walking) {
         this.walking = walking;
     }
+
+    public Vector2i getTargetCell() { return targetCell; }
+
+    public void setTargetCell(Vector2i targetCell) { this.targetCell = targetCell; }
 }
 
