@@ -28,7 +28,6 @@ public class Archer extends Component {
         setAttackRange(attackRange);
     }
 
-
     public int getLevel() {
         return level;
     }
@@ -80,7 +79,7 @@ public class Archer extends Component {
 
     public void increaseLevel() {
         if (this.level > 10) {
-            setLevel(this.level + 1);
+            setLevel(++this.level);
         }
     }
 
