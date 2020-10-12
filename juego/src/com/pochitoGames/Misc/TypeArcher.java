@@ -1,5 +1,5 @@
 package com.pochitoGames.Misc;
 
 public enum TypeArcher {
-    BOWMAN;
+    BOWMAN, CROSSBOWMAN, SPEAR_MAN;
 }

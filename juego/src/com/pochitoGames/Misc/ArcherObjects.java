@@ -1,5 +1,5 @@
 package com.pochitoGames.Misc;
 
 public enum ArcherObjects {
-    ARCHER;
+    BOW, CROSSBOW, SPEAR;
 }

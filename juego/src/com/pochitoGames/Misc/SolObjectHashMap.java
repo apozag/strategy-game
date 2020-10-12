@@ -10,7 +10,6 @@ public class SolObjectHashMap {
     private static HashMap<SoldierObjects, Integer> map = new HashMap<SoldierObjects, Integer>();
     static {
         map.put(SoldierObjects.SWORD,2);
-        map.put(SoldierObjects.BOW,1);
         map.put(SoldierObjects.ARMOR,5);
         map.put(SoldierObjects.HELMET,3);
     }

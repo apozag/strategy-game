@@ -2,10 +2,8 @@ package com.pochitoGames.Components;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Entity;
-import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ArcherObjects;
 import com.pochitoGames.Misc.ArcherState;
-import com.pochitoGames.Misc.ConstructorState;
 import com.pochitoGames.Misc.TypeArcher;
 
 public class Archer extends Component {

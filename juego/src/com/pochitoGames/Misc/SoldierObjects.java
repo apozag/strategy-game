@@ -1,5 +1,5 @@
 package com.pochitoGames.Misc;
 
 public enum SoldierObjects {
-    BOW, SWORD, ARMOR, HELMET;
+    SWORD, ARMOR, HELMET, AXE, LANCE;
 }

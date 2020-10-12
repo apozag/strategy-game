@@ -6,13 +6,9 @@
 package com.pochitoGames.Engine;
 
 import com.pochitoGames.Components.*;
-import com.pochitoGames.Misc.TypeSoldier;
+import com.pochitoGames.Misc.*;
 import com.pochitoGames.Systems.SpriteSystem;
 import com.pochitoGames.Systems.WorkerSystem;
-import com.pochitoGames.Misc.TilesetMode;
-import com.pochitoGames.Misc.Animation;
-import com.pochitoGames.Misc.TileMapLoader;
-import com.pochitoGames.Misc.Time;
 import com.pochitoGames.Systems.BuildingGeneratorSystem;
 import com.pochitoGames.Systems.ConstructorSystem;
 import com.pochitoGames.Systems.TextSystem;
@@ -53,7 +49,7 @@ public class Engine {
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem());
-/*
+
         Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
                         new Vector2D(0.5f, 1.0f),
@@ -63,16 +59,19 @@ public class Engine {
                         new Animation(14, 50, 250, 500, 0, 1000),
                         new Animation(14, 50, 250, 500, 0, 1500)),
                 new Position(new Vector2D(0, 500)),
-                new Soldier(TypeSoldier.SWORD_MAN),
-                new Human(100,"Sol",10,10),
+                new Soldier(TypeSoldier.SWORDSMAN),
+                new Human(100,"Sol",10,10, TypeHuman.DEMON),
                 new Builder());
-*/
+/*
         ECS.getInstance().createEntity(null,
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f),true),
             new Position(new Vector2D(500, 500)),
             new Human(100, "WORKER", 10, 10),
             new Builder()
         );
+
+        */
+
         ECS.getInstance().createEntity(null,
                 new Position(new Vector2D(100, 200)),
                 new Text("Vamoooooos loco", Color.red));

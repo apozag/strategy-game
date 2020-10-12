@@ -1,11 +1,7 @@
 package com.pochitoGames.Components;
 
 import com.pochitoGames.Engine.Component;
-import com.pochitoGames.Engine.Vector2D;
-import com.pochitoGames.Misc.SoldierObjects;
-import com.pochitoGames.Misc.TypeSoldier;
-import com.pochitoGames.Misc.WorkerObject;
-import com.pochitoGames.Misc.SoldierState;
+import com.pochitoGames.Misc.*;
 
 public class Human extends Component {
 
@@ -16,6 +12,15 @@ public class Human extends Component {
     private int attack;
     private int defense;
     private float velocity = 5;
+    private TypeHuman typeHuman;
+
+    public TypeHuman getTypeHuman() {
+        return typeHuman;
+    }
+
+    public void setTypeHuman(TypeHuman typeHuman) {
+        this.typeHuman = typeHuman;
+    }
 
     public boolean getAlive() {
         return alive;
@@ -33,12 +38,13 @@ public class Human extends Component {
         this.velocity = velocity;
     }
 
-    public Human(int life, String name, int attack, int defense) {
+    public Human(int life, String name, int attack, int defense, TypeHuman typeHuman) {
         setHungry(0);
         setLife(life);
         setName(name);
         setAttack(attack);
         setDefense(defense);
+        setTypeHuman(typeHuman);
     }
 
 
