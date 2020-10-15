@@ -81,7 +81,7 @@ public class PathFindingSystem extends System {
 
             closed.add(current);
 
-            if (current.cell.equals((end))) {
+            if (current.cell.equals((end))) {  
                 //Vamos sacando los padres de current y los metemos en la cola que devolvemos
 
             }
