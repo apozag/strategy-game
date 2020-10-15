@@ -1,12 +1,11 @@
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Components.Sprite;
-import com.pochitoGames.Components.Position;
-import com.pochitoGames.Components.Text;
-import com.pochitoGames.Misc.Time;
+import com.pochitoGames.Components.Visual.Sprite;
+import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.Visual.Text;
+import com.pochitoGames.Misc.Other.Time;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.LinkedList;
