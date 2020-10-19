@@ -1,0 +1,160 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.pochitoGames.Systems.GameLogic;
+
+import com.pochitoGames.Components.GameLogic.PathFinding;
+import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Engine.Entity;
+import com.pochitoGames.Engine.System;
+import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Systems.Visual.TileMapSystem;
+
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+/**
+ * @author PochitoMan
+ */
+public class PathFindingSystem extends System {
+    public PathFindingSystem() {
+        include(PathFinding.class, Position.class);
+        exclude();
+    }
+
+    @Override
+    public void update(double dt) {
+        for (Entity e : getEntities()) {
+            PathFinding pf = e.get(PathFinding.class);
+            //Si no está andando
+            if (!pf.isWalking()) {
+                //Vemos si tiene paso siguiente
+                Vector2i next = pf.peekNextStep();
+                //Si tiene lo ponemos como nuevo target y ponemos walking a true
+                if (next != null) {
+                    pf.setNextPos(TileMapSystem.indexToCartesian(next.col, next.row, MapInfo.getInstance().getActiveTileMap()));
+                    pf.setWalking(true);
+                }
+                //Si no tiene paso siguiente, hemos llegado
+                //Si tiene un nuevo target, calculamos el camino
+                else if (pf.getTargetCell() != null) {
+                    pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell()));
+                }
+            }
+            //Si ya está andando
+            else {
+                Position p = e.get(Position.class);
+                //Si ya ha llegado al target, ponemos walking a false
+                if (p.getWorldPos().equals(pf.getNextPos())) {
+                    pf.setCurrent(pf.pollNextStep());
+                    pf.setWalking(false);
+                }
+                //Si no, seguimos
+                else {
+                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), 50.0f);
+                    p.setLocalPos(Vector2D.add(p.getLocalPos(), dir));
+                }
+            }
+        }
+    }
+
+    public static Queue<Vector2i> aStar(Vector2i start, Vector2i end) {
+        Queue<Vector2i> steps = new LinkedList<>();
+
+        //algoritmo
+        int[][] map = MapInfo.getInstance().getMap();
+
+        List<Node> open = new LinkedList<Node>();
+        List<Node> closed = new LinkedList<Node>();
+
+        Node first = new Node(start, 0, 0, 0, null);
+
+        SortByCost sorter = new SortByCost();
+        while (!open.isEmpty()) {
+            open.sort(sorter);
+            Node current = open.remove(0);
+
+            closed.add(current);
+
+            if (current.cell.equals((end))) {
+                //Vamos sacando los padres de current y los metemos en la cola que devolvemos
+
+            }
+
+            //Sacar vecinos
+            Vector2i p = current.cell;
+            Vector2i[] neighbors = {new Vector2i(p.col, p.row+1),
+                                    new Vector2i(p.col, p.row-1),
+                                    new Vector2i(p.col + 1, p.row),
+                                    new Vector2i(p.col, p.row-1),
+                                    new Vector2i(p.col + 1, p.row + 1),
+                                    new Vector2i(p.col-1, p.row-1),
+                                    new Vector2i(p.col + 1, p.row - 1),
+                                    new Vector2i(p.col - 1, p.row + 1)};
+
+            int mapW = MapInfo.getInstance().getActiveTileMap().getMap().length;
+            int mapH = MapInfo.getInstance().getActiveTileMap().getMap()[0].length;
+
+            for (Vector2i n : neighbors) {
+                if(n.col < 0 || n.col > mapW || n.row < 0 || n.row > mapH)
+                    continue;
+
+                int cellId = MapInfo.getInstance().getTileId(n.col, n.row);
+                float walkCost = MapInfo.getInstance().getTileWalkCost(n.col, n.row);
+
+                if(walkCost < 0 || closed.contains(n))
+                    continue;
+
+                Node neighbor = new Node(n, 0, 0, 0, current);
+
+                neighbor.g = start.distance(n);
+                neighbor.h = end.distance(n);
+                neighbor.f = neighbor.g + neighbor.h;
+
+                // Seguir mirando en https://www.annytab.com/a-star-search-algorithm-in-python/
+            }
+        }
+
+        return steps;
+    }
+
+    private boolean addToOpen(List<Node> list, Node node){
+        for(Node n : list){
+            if(node == n && node.f >= n.f){
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+}
+
+class Node {
+
+    public Vector2i cell;
+    public float g, h, f;
+    public Node parent;
+
+    public Node(Vector2i cell, float g, float h, float f, Node parent) {
+        this.cell = cell;
+        this.g = g;
+        this.h = h;
+        this.f = f;
+        this.parent = parent;
+    }
+}
+
+class SortByCost implements Comparator<Node> {
+
+    @Override
+    public int compare(Node a, Node b) {
+        return (int) (a.f - b.f);
+    }
+}

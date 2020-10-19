@@ -5,15 +5,26 @@
  */
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Components.*;
-import com.pochitoGames.Misc.*;
-import com.pochitoGames.Systems.SpriteSystem;
-import com.pochitoGames.Systems.WorkerSystem;
-import com.pochitoGames.Systems.BuildingGeneratorSystem;
-import com.pochitoGames.Systems.ConstructorSystem;
-import com.pochitoGames.Systems.TextSystem;
-import com.pochitoGames.Systems.TileMapSystem;
-import com.pochitoGames.Systems.TileSelectorSystem;
+import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.GameLogic.TileSelector;
+import com.pochitoGames.Components.People.Builder;
+import com.pochitoGames.Components.People.Human;
+import com.pochitoGames.Components.People.Soldier;
+import com.pochitoGames.Components.Visual.Sprite;
+import com.pochitoGames.Components.Visual.Text;
+import com.pochitoGames.Components.Visual.TileMap;
+import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
+import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
+import com.pochitoGames.Misc.Map.TileMapLoader;
+import com.pochitoGames.Misc.Map.TilesetMode;
+import com.pochitoGames.Misc.Other.Animation;
+import com.pochitoGames.Systems.Visual.SpriteSystem;
+import com.pochitoGames.Systems.People.WorkerSystem;
+import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
+import com.pochitoGames.Systems.People.ConstructorSystem;
+import com.pochitoGames.Systems.Visual.TextSystem;
+import com.pochitoGames.Systems.Visual.TileMapSystem;
+import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
 import java.awt.Color;
 
 /**
@@ -43,7 +54,7 @@ public class Engine {
 /*
         int b = (int) (Math.random() * 2);
         if (b == 1)  a = "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno flores.png";
-        else a = "s rc\\com\\pochitoGames\\Resources\\TileMaps\\tileset_2.png";
+        else a = "src\\com\\pochitoGames\\Resources\\TileMaps\\tileset_2.png";
 
 */
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
@@ -51,13 +62,9 @@ public class Engine {
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem());
 
         Entity gear = ECS.getInstance().createEntity(null,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\player.png",
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
                         new Vector2D(0.5f, 1.0f),
-                        true,
-                        new Animation(8, 100, 250, 500, 0, 0),
-                        new Animation(8, 100, 250, 500, 0, 500),
-                        new Animation(14, 50, 250, 500, 0, 1000),
-                        new Animation(14, 50, 250, 500, 0, 1500)),
+                        true),
                 new Position(new Vector2D(0, 500)),
                 new Soldier(TypeSoldier.SWORDSMAN),
                 new Human(100,"Sol",10,10, TypeHuman.DEMON),
