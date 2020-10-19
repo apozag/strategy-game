@@ -17,11 +17,10 @@ import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
-import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
-import com.pochitoGames.Systems.People.ConstructorSystem;
+import com.pochitoGames.Systems.People.BuilderSystem;
 import com.pochitoGames.Systems.Visual.TextSystem;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
@@ -59,7 +58,7 @@ public class Engine {
 */
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
-        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem());
+        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), new BuildingGeneratorSystem());
 
         Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",

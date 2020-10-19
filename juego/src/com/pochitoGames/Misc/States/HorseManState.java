@@ -1,6 +1,6 @@
 package com.pochitoGames.Misc.States;
 
-public enum SoldierState {
+public enum HorseManState {
     WAITING,
     ATTACKING,
     DEFENDING,

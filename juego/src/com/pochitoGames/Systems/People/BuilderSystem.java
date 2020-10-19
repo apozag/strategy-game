@@ -1,4 +1,5 @@
 package com.pochitoGames.Systems.People;
+import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Components.GameLogic.Position;
@@ -21,9 +22,9 @@ import com.pochitoGames.Misc.States.ConstructorState;
  *
  * @author PochitoMan
  */
-public class ConstructorSystem extends System{
-    public ConstructorSystem(){
-        include(Position.class, Sprite.class, Human.class ,Builder.class);
+public class BuilderSystem extends System{
+    public BuilderSystem(){
+        include(Position.class, Sprite.class, Human.class ,Builder.class, PathFinding.class);
         exclude();
     }
     

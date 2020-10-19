@@ -1,4 +1,6 @@
 package com.pochitoGames.Components.Other;
 
-public class SiegeWeapon {
+import com.pochitoGames.Engine.Component;
+
+public class SiegeWeapon extends Component {
 }

@@ -1,4 +1,6 @@
 package com.pochitoGames.Components.Buildings;
 
-public class Fortress {
+import com.pochitoGames.Engine.Component;
+
+public class Fortress extends Component {
 }

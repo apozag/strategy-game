@@ -1,5 +1,6 @@
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.Visibility;
 import com.pochitoGames.Components.People.Human;
@@ -15,7 +16,7 @@ public class SoldierSystem extends System{
 
 
     public SoldierSystem(){
-        include(Human.class, Position.class, Soldier.class, Visibility.class);
+        include(Human.class, Position.class, Soldier.class, Visibility.class, PathFinding.class);
         exclude();
     }
 

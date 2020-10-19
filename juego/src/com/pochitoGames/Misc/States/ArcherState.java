@@ -4,5 +4,7 @@ public enum ArcherState {
     WAITING,
     ATTACKING,
     DEFENDING,
-    PATROLLING;
+    PATROLLING,
+    WALKING,
+    PASIVE;
 }
