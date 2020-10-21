@@ -77,7 +77,7 @@ public class PathFindingSystem extends System {
     public static List<Vector2i> aStar(Vector2i start, Vector2i end) {
         int[][] map = MapInfo.getInstance().getMap();
         
-        if(end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
+        if(MapInfo.getInstance().getTileWalkCost(end.col, end.row) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
             java.lang.System.out.println("AStar started to: " + end.col + ", " + end.row);
 
             List<Vector2i> steps = new LinkedList<>();
