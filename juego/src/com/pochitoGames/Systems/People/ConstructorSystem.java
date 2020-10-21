@@ -1,4 +1,5 @@
 package com.pochitoGames.Systems.People;
+import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Components.GameLogic.Position;
@@ -8,6 +9,8 @@ import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.States.ConstructorState;
 
 
@@ -23,13 +26,14 @@ import com.pochitoGames.Misc.States.ConstructorState;
  */
 public class ConstructorSystem extends System{
     public ConstructorSystem(){
-        include(Position.class, Sprite.class, Human.class ,Builder.class);
+        include(Position.class, Sprite.class, Human.class ,Builder.class, PathFinding.class);
         exclude();
     }
     
     @Override
     public void update(double dt){
         for(Entity e : getEntities()){
+            PathFinding pf = e.get(PathFinding.class);
             Builder constructor = e.get(Builder.class);
             ConstructorState state = constructor.getState();
             Sprite sprite = e.get(Sprite.class);
@@ -38,17 +42,13 @@ public class ConstructorSystem extends System{
                 case WAITING:
                     if(EventManager.getInstance().isMousePressed()){
                         Vector2D target = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
-                        /*
-                        if(target.x < p.getWorldPos().x)
-                            sprite.setCurrentAnimationIndex(3);
-                        else
-                            sprite.setCurrentAnimationIndex(2);
-                        */
-                        constructor.setTarget(target);
+                        Vector2i cell = IsometricTransformations.cartesianToIso(target);
+                        pf.setTargetCell(cell);
                         constructor.setState(ConstructorState.WALKING);
                     }
                     break;
                 case WALKING:
+                    /*
                     Vector2D pos = p.getLocalPos();
                     Vector2D dir = Vector2D.sub(constructor.getTarget(), pos);
                     if(dir.magnitude() < 10){
@@ -56,6 +56,9 @@ public class ConstructorSystem extends System{
                         constructor.setState(ConstructorState.BUILDING);
                     }
                     p.setLocalPos(Vector2D.add(Vector2D.mult(Vector2D.normalized(dir), (float)(constructor.getSpeed() * dt)), pos));
+                    */
+                    if(pf.getTargetCell() == null)
+                        constructor.setState(ConstructorState.BUILDING);
                     break;
                 case BUILDING:
                     //Construye algo

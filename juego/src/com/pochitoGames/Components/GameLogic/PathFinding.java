@@ -9,6 +9,7 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Other.Vector2i;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -17,13 +18,13 @@ import java.util.Queue;
  */
 public class PathFinding extends Component{
     Vector2i current;
-    Queue<Vector2i> steps;
+    List<Vector2i> steps;
     Vector2D nextPos;
     private Vector2i targetCell;
     private boolean walking;
     
-    public PathFinding(int col, int row){
-        current = new Vector2i(col, row);
+    public PathFinding(Vector2i cell){
+        current = cell;
         steps = new LinkedList();
     }
     public void setCurrent(Vector2i cell){
@@ -38,16 +39,22 @@ public class PathFinding extends Component{
         steps.add(new Vector2i(col, row));
     }
     
-    public void setSteps(Queue<Vector2i> steps){
+    public void setSteps(List<Vector2i> steps){
+        if(steps.isEmpty())
+            targetCell = null;
         this.steps = steps;
     }
     
     public Vector2i pollNextStep(){
-        return steps.poll();
+        if(steps.isEmpty())
+            return null;
+        return steps.remove(0);
     }
     
     public Vector2i peekNextStep(){
-        return steps.peek();
+        if(steps.isEmpty())
+            return null;
+        return steps.get(0);
     }
     
     public void setNextPos(Vector2D pos){

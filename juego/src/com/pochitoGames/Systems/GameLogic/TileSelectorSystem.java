@@ -13,7 +13,9 @@ import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 
 /**
@@ -38,15 +40,10 @@ public class TileSelectorSystem extends System{
                         
             Vector2D mousePos = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
             if(mousePos.x > 0 && mousePos.y > 0){
-                Vector2D offset = new Vector2D(mousePos.x%tm.getTileW(), mousePos.y%tm.getTileH());
                 
-                Vector2D translatedMouse = new Vector2D(mousePos.x - (MapInfo.getInstance().getMap().length) * tm.getTileW() / 2, mousePos.y);
-                Vector2D selected = new Vector2D(0, 0);
-                
-                selected.x = ((translatedMouse.x * 2 / tm.getTileW()) + translatedMouse.y * 2 / tm.getTileH()) /2;
-                selected.y = (translatedMouse.y * 2 / tm.getTileH() - (translatedMouse.x * 2 / tm.getTileW())) /2;
+                Vector2i selected = IsometricTransformations.cartesianToIso(mousePos);
 
-                Vector2D selectorPos = TileMapSystem.indexToCartesian((int)selected.x-1, (int)selected.y-1, tm);
+                Vector2D selectorPos = IsometricTransformations.isoToCartesian(selected);//TileMapSystem.indexToCartesian((int)selected.col-1, (int)selected.row-1, tm);
                 /*
                 Color c = new Color(selectorAux.getRGB((int)offset.x,(int)offset.y), true);
                 
@@ -72,9 +69,10 @@ public class TileSelectorSystem extends System{
                     }
                 }
                 */
+                                
                 p.setLocalPos(selectorPos);
                 
-                ts.select((int)selected.x, (int)selected.y);                
+                ts.select(selected);                
             }   
                 
         }       

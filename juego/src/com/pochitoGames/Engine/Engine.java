@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Engine;
 
+import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.People.Builder;
@@ -15,12 +16,15 @@ import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
+import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
+import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
+import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.ConstructorSystem;
 import com.pochitoGames.Systems.Visual.TextSystem;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
@@ -38,7 +42,7 @@ public class Engine {
 
     //Pondremos este booleano a false cuando haya que acabar el juego (se cierra sola al pulsar la X de la ventana de todas formas).
     public static boolean running = true;
-    private String a;
+    //private String a;
 
     final int SCR_HEIGHT = 768, SCR_WIDTH = 1024;
 
@@ -59,16 +63,23 @@ public class Engine {
 */
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
-        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem());
+        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new ConstructorSystem(), new BuildingGeneratorSystem(), new PathFindingSystem());
 
+        Entity tilemap = ECS.getInstance().createEntity(null,
+            new Sprite(),
+            new Position(new Vector2D(0, 0)),
+            TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
+
+        
         Entity gear = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
                         new Vector2D(0.5f, 1.0f),
                         true),
-                new Position(new Vector2D(0, 500)),
+                new Position(IsometricTransformations.isoToCartesian(new Vector2i(0, 0))),
                 new Soldier(TypeSoldier.SWORDSMAN),
                 new Human(100,"Sol",10,10, TypeHuman.DEMON),
-                new Builder());
+                new Builder(),
+                new PathFinding(new Vector2i(0, 0)));
 /*
         ECS.getInstance().createEntity(null,
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f),true),
@@ -83,13 +94,9 @@ public class Engine {
                 new Position(new Vector2D(100, 200)),
                 new Text("Vamoooooos loco", Color.red));
 
-        Entity tilemap = ECS.getInstance().createEntity(null,
-                new Sprite(),
-                new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png" , 120, 120, 64, 32, TilesetMode.ISOMETRIC));
-
+        
         ECS.getInstance().createEntity(tilemap,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0), true),
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true),
                 new Position(new Vector2D(0, 0)),
                 new TileSelector(tilemap.get(TileMap.class))
         );

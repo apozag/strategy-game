@@ -10,6 +10,7 @@ import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
@@ -38,7 +39,8 @@ public class PathFindingSystem extends System {
                 Vector2i next = pf.peekNextStep();
                 //Si tiene lo ponemos como nuevo target y ponemos walking a true
                 if (next != null) {
-                    pf.setNextPos(TileMapSystem.indexToCartesian(next.col, next.row, MapInfo.getInstance().getActiveTileMap()));
+                    pf.setNextPos(Vector2D.add(IsometricTransformations.isoToCartesian(next), 
+                                new Vector2D(MapInfo.getInstance().getActiveTileMap().getTileW()*0.5f, MapInfo.getInstance().getActiveTileMap().getTileH()*0.5f)));
                     pf.setWalking(true);
                 }
                 //Si no tiene paso siguiente, hemos llegado
@@ -51,86 +53,127 @@ public class PathFindingSystem extends System {
             else {
                 Position p = e.get(Position.class);
                 //Si ya ha llegado al target, ponemos walking a false
-                if (p.getWorldPos().equals(pf.getNextPos())) {
+                if (aproximateEquals(p.getWorldPos(), pf.getNextPos(), 5)) {
                     pf.setCurrent(pf.pollNextStep());
+                    //Si este es el cell final, quitamos el target
+                    if(pf.getCurrent().equals(pf.getTargetCell()))
+                        pf.setTargetCell(null);
                     pf.setWalking(false);
                 }
                 //Si no, seguimos
                 else {
-                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), 50.0f);
+                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), 5.0f);
                     p.setLocalPos(Vector2D.add(p.getLocalPos(), dir));
                 }
             }
         }
     }
-
-    public static Queue<Vector2i> aStar(Vector2i start, Vector2i end) {
-        Queue<Vector2i> steps = new LinkedList<>();
-
-        //algoritmo
-        int[][] map = MapInfo.getInstance().getMap();
-
-        List<Node> open = new LinkedList<Node>();
-        List<Node> closed = new LinkedList<Node>();
-
-        Node first = new Node(start, 0, 0, 0, null);
-
-        SortByCost sorter = new SortByCost();
-        while (!open.isEmpty()) {
-            open.sort(sorter);
-            Node current = open.remove(0);
-
-            closed.add(current);
-
-            if (current.cell.equals((end))) {
-                //Vamos sacando los padres de current y los metemos en la cola que devolvemos
-
-            }
-
-            //Sacar vecinos
-            Vector2i p = current.cell;
-            Vector2i[] neighbors = {new Vector2i(p.col, p.row+1),
-                                    new Vector2i(p.col, p.row-1),
-                                    new Vector2i(p.col + 1, p.row),
-                                    new Vector2i(p.col, p.row-1),
-                                    new Vector2i(p.col + 1, p.row + 1),
-                                    new Vector2i(p.col-1, p.row-1),
-                                    new Vector2i(p.col + 1, p.row - 1),
-                                    new Vector2i(p.col - 1, p.row + 1)};
-
-            int mapW = MapInfo.getInstance().getActiveTileMap().getMap().length;
-            int mapH = MapInfo.getInstance().getActiveTileMap().getMap()[0].length;
-
-            for (Vector2i n : neighbors) {
-                if(n.col < 0 || n.col > mapW || n.row < 0 || n.row > mapH)
-                    continue;
-
-                int cellId = MapInfo.getInstance().getTileId(n.col, n.row);
-                float walkCost = MapInfo.getInstance().getTileWalkCost(n.col, n.row);
-
-                if(walkCost < 0 || closed.contains(n))
-                    continue;
-
-                Node neighbor = new Node(n, 0, 0, 0, current);
-
-                neighbor.g = start.distance(n);
-                neighbor.h = end.distance(n);
-                neighbor.f = neighbor.g + neighbor.h;
-
-                // Seguir mirando en https://www.annytab.com/a-star-search-algorithm-in-python/
-            }
-        }
-
-        return steps;
+    
+    public boolean aproximateEquals(Vector2D v1, Vector2D v2, float tolerance){
+        return Math.abs(v1.x - v2.x) <= tolerance && Math.abs(v1.y - v2.y) < tolerance;
     }
 
-    private boolean addToOpen(List<Node> list, Node node){
+    // Basdo en el ejemplo de https://www.annytab.com/a-star-search-algorithm-in-python/
+    public static List<Vector2i> aStar(Vector2i start, Vector2i end) {
+        int[][] map = MapInfo.getInstance().getMap();
+        
+        if(end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
+            java.lang.System.out.println("AStar started to: " + end.col + ", " + end.row);
+
+            List<Vector2i> steps = new LinkedList<>();
+
+
+            //En open estan los candidatos a visitar
+            List<Node> open = new LinkedList<>();
+
+            //En closed están los que ya hemos visitado
+            List<Node> closed = new LinkedList<>();
+
+            Node first = new Node(start, 0, 0, 0, null);
+
+            open.add(first);
+
+            SortByCost sorter = new SortByCost();
+            while (!open.isEmpty()) {
+                open.sort(sorter);
+                Node current = open.remove(0);
+
+                closed.add(current);
+
+                if (current.cell.equals((end))) {
+                    //Vamos sacando los padres de current y los metemos en la cola que devolvemos
+                    extractParents(current, steps);
+
+                    return steps;
+                }
+
+                //Sacar vecinos
+                Vector2i p = current.cell;
+                Vector2i[] neighbors = {new Vector2i(p.col, p.row+1),
+                                        new Vector2i(p.col, p.row-1),
+                                        new Vector2i(p.col + 1, p.row),
+                                        new Vector2i(p.col - 1, p.row),
+                                        new Vector2i(p.col + 1, p.row + 1),
+                                        new Vector2i(p.col-1, p.row-1),
+                                        new Vector2i(p.col + 1, p.row - 1),
+                                        new Vector2i(p.col - 1, p.row + 1)};
+
+                int mapW = MapInfo.getInstance().getActiveTileMap().getMap().length;
+                int mapH = MapInfo.getInstance().getActiveTileMap().getMap()[0].length;
+
+                for (Vector2i n : neighbors) {
+                    if(n.col < 0 || n.col > mapW || n.row < 0 || n.row > mapH)
+                        continue;
+
+                    int cellId = MapInfo.getInstance().getTileId(n.col, n.row);
+                    float walkCost = MapInfo.getInstance().getTileWalkCost(n.col, n.row);
+
+                    Node neighbor = new Node(n, 0, 0, 0, current);
+
+                    if(walkCost < 0 || containsNode(closed, neighbor))
+                        continue;
+
+
+                    neighbor.g = start.distance(p) * walkCost + current.g;
+                    neighbor.h = end.distance(n);
+                    neighbor.f = neighbor.g + neighbor.h;
+
+                    if(addToOpen(open, neighbor)){
+                        open.add(neighbor);
+                    }
+                }
+            }
+        }
+        
+        //No se ha encontrado camino. Se devuelve lista vacía
+        java.lang.System.out.println("No path");
+        
+        return new LinkedList<>();
+    }
+
+    private static boolean addToOpen(List<Node> list, Node node){
         for(Node n : list){
-            if(node == n && node.f >= n.f){
+            if(node.cell.equals(n.cell) && node.f >= n.f){
                 return false;
             }
         }
+        return true;
+    }
+    
+    private static boolean containsNode(List<Node> list, Node node){
+        for(Node n : list){
+            if(node.cell.equals(n.cell))
+                return true;
+        }
         return false;
+    }
+    
+    private static void extractParents(Node n, List<Vector2i> list){
+        if(n != null){
+            java.lang.System.out.println("(" + n.cell.col + ", " + n.cell.row + ")");
+            list.add(0, n.cell);
+            extractParents(n.parent, list);
+        }
     }
 
 

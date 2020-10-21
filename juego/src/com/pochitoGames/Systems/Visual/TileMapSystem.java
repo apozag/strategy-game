@@ -10,6 +10,8 @@ import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Map.IsometricTransformations;
+import com.pochitoGames.Misc.Other.Vector2i;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -61,7 +63,7 @@ public class TileMapSystem extends System{
                     for(int j = 0; j < map[i].length; j++){
                         int row = map[i][j] / tm.getTilesetW();
                         int column = map[i][j] - row * tm.getTilesetW();
-                        Vector2D tilePos = indexToCartesian(i, j, tm);
+                        Vector2D tilePos = IsometricTransformations.isoToCartesian(new Vector2i(i, j));//indexToCartesian(i, j, tm);
                         tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
                         g2d.drawImage(tile, (int)tilePos.x, (int)tilePos.y , null);
                     }
@@ -72,7 +74,7 @@ public class TileMapSystem extends System{
         tm.getSprite().setDepth(-10);
         tm.markAsSet();
     }
-    
+    /*
     public static Vector2D indexToCartesian(int col, int row, TileMap tm){
         Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
         Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
@@ -80,6 +82,6 @@ public class TileMapSystem extends System{
         pos.x += (tm.getMap().length-1) * (tm.getTileW()/2);
         return pos;
     }
-    
+    */
     
 }

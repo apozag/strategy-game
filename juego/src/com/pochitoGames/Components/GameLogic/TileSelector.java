@@ -8,6 +8,7 @@ package com.pochitoGames.Components.GameLogic;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Other.Vector2i;
 
 /**
  *
@@ -16,7 +17,7 @@ import com.pochitoGames.Engine.Vector2D;
 public class TileSelector extends Component{
     TileMap tileMap;
     
-    int column, row;
+    Vector2i selected;
     
     public TileSelector(TileMap tm){
         this.tileMap = tm;
@@ -26,12 +27,11 @@ public class TileSelector extends Component{
         return tileMap;
     }
     
-    public Vector2D getSelected(){
-        return new Vector2D(column, row);
+    public Vector2i getSelected(){
+        return selected;
     }
     
-    public void select(int column, int row){
-        this.column = column;
-        this.row = row;
+    public void select(Vector2i cell){
+        selected = cell;
     }
 }
