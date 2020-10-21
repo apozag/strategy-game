@@ -1,4 +1,6 @@
 package com.pochitoGames.Components.Buildings;
 
-public class CivilBuilding {
+import com.pochitoGames.Engine.Component;
+
+public class CivilBuilding extends Component {
 }

@@ -24,8 +24,9 @@ import com.pochitoGames.Misc.States.ConstructorState;
  *
  * @author PochitoMan
  */
-public class ConstructorSystem extends System{
-    public ConstructorSystem(){
+
+public class BuilderSystem extends System{
+    public BuilderSystem(){
         include(Position.class, Sprite.class, Human.class ,Builder.class, PathFinding.class);
         exclude();
     }

@@ -1,5 +1,7 @@
 package com.pochitoGames.Components.People;
 
-public class HorseMan {
+import com.pochitoGames.Engine.Component;
+
+public class HorseMan extends Component {
 
 }

@@ -1,4 +1,9 @@
 package com.pochitoGames.Components.People;
 
-public class Charriot {
+import com.pochitoGames.Engine.Component;
+
+public class Charriot extends Component {
+
+    
+
 }

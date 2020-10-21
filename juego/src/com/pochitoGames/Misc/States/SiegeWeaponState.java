@@ -1,10 +1,11 @@
 package com.pochitoGames.Misc.States;
 
-public enum SoldierState {
+public enum SiegeWeaponState {
     WAITING,
     ATTACKING,
     DEFENDING,
     PATROLLING,
     WALKING,
     PASIVE;
+
 }

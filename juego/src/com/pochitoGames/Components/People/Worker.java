@@ -45,9 +45,7 @@ public class Worker extends Component {
             for (int i = 0; i < this.tasks.length; i++) {
                 return tasks[i];
             }
-            return null;
-        } else return null;
+            return "Empty";
+        } else return "Empty";
     }
-
-
 }

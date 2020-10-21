@@ -5,7 +5,10 @@
  */
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.GameLogic.Visibility;
+import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Engine.System;
 
@@ -18,7 +21,7 @@ public class WorkerSystem extends System {
     boolean start = false;
     
     public WorkerSystem(){
-        include(Worker.class, Position.class);
+        include(Worker.class, Position.class,  PathFinding.class, Visibility.class, Human.class);
         exclude();
     }
 
