@@ -10,7 +10,7 @@ package com.pochitoGames.Misc.States;
  * @author PochitoMan
  */
 public enum ConstructorState {
-    WAITING,
-    BUILDING,
-    WALKING
+    GO_A,
+    GO_B,
+    GO_C,
 }

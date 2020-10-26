@@ -17,7 +17,7 @@ public class Builder extends Component{
 
     Vector2D target;
     float speed = 100;
-    ConstructorState state = ConstructorState.WAITING;
+    ConstructorState state = ConstructorState.GO_A;
     
     public Builder(){
     }

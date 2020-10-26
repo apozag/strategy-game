@@ -9,6 +9,7 @@ import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.States.ConstructorState;
@@ -40,30 +41,32 @@ public class BuilderSystem extends System{
             Sprite sprite = e.get(Sprite.class);
             Position p = e.get(Position.class);
             switch(state){
-                case WAITING:
-                    if(EventManager.getInstance().isMousePressed()){
-                        Vector2D target = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
-                        Vector2i cell = IsometricTransformations.cartesianToIso(target);
-                        pf.setTargetCell(cell);
-                        constructor.setState(ConstructorState.WALKING);
+                case GO_A:
+                    if(pf.getTargetCell() == null && EventManager.getInstance().isKeyDown('e')){
+                        Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 101);
+                        if(near != null){
+                            pf.setTargetCell(near);
+                            constructor.setState(ConstructorState.GO_B);
+                        }
                     }
                     break;
-                case WALKING:
-                    /*
-                    Vector2D pos = p.getLocalPos();
-                    Vector2D dir = Vector2D.sub(constructor.getTarget(), pos);
-                    if(dir.magnitude() < 10){
-                        //sprite.setCurrentAnimationIndex(1);
-                        constructor.setState(ConstructorState.BUILDING);
-                    }
-                    p.setLocalPos(Vector2D.add(Vector2D.mult(Vector2D.normalized(dir), (float)(constructor.getSpeed() * dt)), pos));
-                    */
-                    if(pf.getTargetCell() == null)
-                        constructor.setState(ConstructorState.BUILDING);
+                case GO_B:
+                    if(pf.getTargetCell() == null && EventManager.getInstance().isKeyDown('e')){
+                       Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 102);
+                        if(near != null){
+                            pf.setTargetCell(near);
+                            constructor.setState(ConstructorState.GO_C);
+                        }
+                    }                    
                     break;
-                case BUILDING:
-                    //Construye algo
-                    constructor.setState(ConstructorState.WAITING);
+                case GO_C:
+                    if(pf.getTargetCell() == null && EventManager.getInstance().isKeyDown('e')){
+                        Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 100);
+                        if(near != null){
+                            pf.setTargetCell(near);
+                            constructor.setState(ConstructorState.GO_A);
+                        }
+                    }
                     break;                    
             }
             

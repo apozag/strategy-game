@@ -21,4 +21,10 @@ public class Vector2i {
     public float distance(Vector2i v){
         return Math.abs(v.col - col) + Math.abs(v.row - row);
     }
+    public int manhattan(){
+        return col + row;
+    }
+    public static Vector2i add(Vector2i v1, Vector2i v2){
+        return new Vector2i(v1.col + v2.col, v1.row + v2.row);
+    }
 }
