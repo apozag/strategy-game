@@ -54,7 +54,7 @@ public class BuildingManager {
 
         for(int i = 0; i < b.size.col ; i++){
             for(int j = 0; j < b.size.row; j++){
-                if(MapInfo.getInstance().getTileId(b.cell.col + i, b.cell.row + j) >= 100)
+                if(MapInfo.getInstance().getTileId(new Vector2i(b.cell.col + i, b.cell.row + j)) >= 100)
                     return;
             }
         }
@@ -97,7 +97,7 @@ public class BuildingManager {
                 bCell = Vector2i.add(b.entry, b.cell);
             }
         }
-        if(bCell.col >= 99999 ||bCell.row >= 99999)
+        if(bCell.col >= 99999 || bCell.row >= 99999)
             return null;
         return bCell;
     }

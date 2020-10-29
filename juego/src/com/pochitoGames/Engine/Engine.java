@@ -73,7 +73,7 @@ public class Engine {
             TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
 
         
-        Entity gear = ECS.getInstance().createEntity(null,
+        ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
                         new Vector2D(0.5f, 1.0f),
                         true),
@@ -82,6 +82,15 @@ public class Engine {
                 new Human(100,"Sol",10,10, TypeHuman.DEMON),
                 new Builder(),
                 new PathFinding(new Vector2i(0, 0)));
+        
+        ECS.getInstance().createEntity(null,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
+                        new Vector2D(0.5f, 1.0f),
+                        true),
+                new Position(IsometricTransformations.isoToCartesian(new Vector2i(10, 10))),
+                new Human(100,"Sol",10,10, TypeHuman.BARBARIAN),
+                new Builder(),
+                new PathFinding(new Vector2i(10, 10)));
 /*
         ECS.getInstance().createEntity(null,
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f),true),

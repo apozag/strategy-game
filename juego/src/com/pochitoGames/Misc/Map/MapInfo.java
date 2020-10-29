@@ -6,6 +6,7 @@
 package com.pochitoGames.Misc.Map;
 
 import com.pochitoGames.Components.Visual.TileMap;
+import com.pochitoGames.Misc.Other.Vector2i;
 
 import java.util.Map;
 
@@ -16,10 +17,12 @@ import java.util.Map;
 public class MapInfo{
     static MapInfo instance;
     int[][] map;
+    boolean[][] peopleLayer;
     Map <Integer, Integer> walkCost;
     TileMap activeTileMap;
     
     private MapInfo(){
+        
     }
     
     public static MapInfo getInstance(){
@@ -30,6 +33,7 @@ public class MapInfo{
     
     public void setMap(int[][] map){
         this.map = map;
+        peopleLayer = new boolean[map.length][map[0].length];
     }
     
     public void setActiveTileMap(TileMap map){
@@ -48,13 +52,28 @@ public class MapInfo{
         return map;
     }
     
-    public int getTileWalkCost(int x, int y){
-        return walkCost.get(map[x][y]);
+    public int getTileWalkCost(Vector2i cell){
+        if(cell.col >= map.length || cell.row >= map[0].length){
+            java.lang.System.out.println("IOOBE");
+        }
+        return peopleLayer[cell.col][cell.row]? -1 : walkCost.get(map[cell.col][cell.row]);
     }
 
-    public int getTileId(int col, int row){ return map[col][row]; }
+    public int getTileId(Vector2i cell){ 
+        if(cell.col >= map.length || cell.row >= map[0].length){
+            java.lang.System.out.println("IOOBE");
+        }
+        return map[cell.col][cell.row]; 
+    }
     public void setTileId(int x, int y, int id){
         map[x][y] = id;
+    }
+    
+    public boolean getPeopleLayerCell(Vector2i cell){ return peopleLayer[cell.col][cell.row]; } 
+    
+    public void updatePeopleLayerCell(Vector2i oldCell, Vector2i newCell){
+        peopleLayer[oldCell.col][oldCell.row] = false;
+        peopleLayer[newCell.col][newCell.row] = true;
     }
     
 }

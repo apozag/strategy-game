@@ -35,10 +35,23 @@ public class PathFindingSystem extends System {
             PathFinding pf = e.get(PathFinding.class);
             //Si no está andando
             if (!pf.isWalking()) {
+                
                 //Vemos si tiene paso siguiente
                 Vector2i next = pf.peekNextStep();
+                
                 //Si tiene lo ponemos como nuevo target y ponemos walking a true
                 if (next != null) {
+                    
+                    //Si nos topamos con otra persona, recalculamos el camino
+                    
+                    if(MapInfo.getInstance().getPeopleLayerCell(next)){
+                        pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell()));
+                        continue;
+                    }
+                    
+                    //Actualizamos posición en el mapa
+                    MapInfo.getInstance().updatePeopleLayerCell(pf.getCurrent(), next);
+                    
                     pf.setNextPos(Vector2D.add(IsometricTransformations.isoToCartesian(next), 
                                 new Vector2D(MapInfo.getInstance().getActiveTileMap().getTileW()*0.5f, MapInfo.getInstance().getActiveTileMap().getTileH()*0.5f)));
                     pf.setWalking(true);
@@ -77,7 +90,7 @@ public class PathFindingSystem extends System {
     public static List<Vector2i> aStar(Vector2i start, Vector2i end) {
         int[][] map = MapInfo.getInstance().getMap();
         
-        if(MapInfo.getInstance().getTileWalkCost(end.col, end.row) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
+        if(MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
             java.lang.System.out.println("AStar started to: " + end.col + ", " + end.row);
 
             List<Vector2i> steps = new LinkedList<>();
@@ -103,7 +116,7 @@ public class PathFindingSystem extends System {
                 if (current.cell.equals((end))) {
                     //Vamos sacando los padres de current y los metemos en la cola que devolvemos
                     extractParents(current, steps);
-
+                    steps.remove(0);
                     return steps;
                 }
 
@@ -122,11 +135,11 @@ public class PathFindingSystem extends System {
                 int mapH = MapInfo.getInstance().getActiveTileMap().getMap()[0].length;
 
                 for (Vector2i n : neighbors) {
-                    if(n.col < 0 || n.col > mapW || n.row < 0 || n.row > mapH)
+                    if(n.col < 0 || n.col >= mapW || n.row < 0 || n.row >= mapH)
                         continue;
 
-                    int cellId = MapInfo.getInstance().getTileId(n.col, n.row);
-                    float walkCost = MapInfo.getInstance().getTileWalkCost(n.col, n.row);
+                    int cellId = MapInfo.getInstance().getTileId(n);
+                    float walkCost = MapInfo.getInstance().getTileWalkCost(n);
 
                     Node neighbor = new Node(n, 0, 0, 0, current);
 
