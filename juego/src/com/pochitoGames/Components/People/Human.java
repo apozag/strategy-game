@@ -61,6 +61,7 @@ public class Human extends Component {
         if (life < 0) {
             alive = false;
             this.life = 0;
+
         } else this.life = life;
 
     }

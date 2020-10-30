@@ -13,8 +13,9 @@ public class Building extends Component {
     private int defense;
     private int attack;
     private boolean alive = true;
-    private WorkerObject[] objectsNeeded = new WorkerObject[6];
-    private WorkerObject[] objectsProduced = new WorkerObject[6];
+    private int id;
+    private static int contador = 0;
+
 
     public boolean isAlive() {
         return alive;
@@ -25,19 +26,13 @@ public class Building extends Component {
         else this.typeBuilding = typeBuilding;
     }
 
-    public WorkerObject[] getObjectsNeeded() {
-        return objectsNeeded;
-    }
 
-    public WorkerObject[] getObjectsProduced() {
-        return objectsProduced;
-    }
-
-    public Building(int life, int defense, int attack, TypeBuilding typeBuilding){
+    public Building(int life, int defense, int attack, TypeBuilding typeBuilding) {
         setLife(life);
         setDefense(defense);
         setAttack(attack);
         setTypeBuilding(typeBuilding);
+        id = contador++;
 
     }
 
@@ -54,11 +49,15 @@ public class Building extends Component {
     }
 
     public void setLife(int life) {
-        if (life < 0){
+        if (life < 0) {
             this.life = 0;
             alive = false;
-        } else  this.life = life;
+        } else this.life = life;
 
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getDefense() {
@@ -90,17 +89,6 @@ public class Building extends Component {
 
     public TypeBuilding getTypeBuilding() {
         return typeBuilding;
-    }
-
-
-    //Hay que hacer un timing para que produzca cada x tiempo
-    public boolean objectProduced () {
-        for(int i = 0; i<objectsProduced.length;i++){
-            if (objectsProduced[i] != null){
-                objectsProduced[i] = WorkerObject.BREAD;
-                return true;
-            } else return false;
-        } return false;
     }
 
 

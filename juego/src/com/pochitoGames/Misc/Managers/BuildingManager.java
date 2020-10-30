@@ -71,19 +71,19 @@ public class BuildingManager {
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png", new Vector2D(0, yAnchor), true),
-                    new Building(100, 50, 10, TypeBuilding.HALL));
+                    new Building(100, 50, 10, TypeBuilding.CIVIL));
                 break;
             case 101:
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_2.png", new Vector2D(0, yAnchor), true),
-                    new Building(50, 30, 10, TypeBuilding.WAREHOUSE));
+                    new Building(50, 30, 10, TypeBuilding.CIVIL));
                 break;
             case 102:
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_3.png", new Vector2D(0, yAnchor), true),
-                    new Building(30, 20, 20, TypeBuilding.BAKERY));             
+                    new Building(30, 20, 20, TypeBuilding.CIVIL));
                 break;
             default:
                 System.out.println("Building does not exist!");

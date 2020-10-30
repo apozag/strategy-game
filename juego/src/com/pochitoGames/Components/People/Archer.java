@@ -15,6 +15,22 @@ public class Archer extends Component {
     private TypeArcher typeArcher;
     private ArcherObjects[] archerObjects = new ArcherObjects[2];
     private int level = 0;
+    private int experience = 0;
+
+    public int getExperience() {
+        return experience;
+    }
+
+
+    public void checkExperience() {
+        if (experience >= 20) increaseLevel();
+    }
+
+
+    public void setExperience(int experience) {
+        if (experience <= 20) this.experience = experience;
+        else this.experience = 0;
+    }
 
     public ArcherState getState() {
         return state;
