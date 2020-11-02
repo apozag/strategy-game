@@ -36,7 +36,7 @@ public class SpriteSystem extends System{
                 Vector2D srcSize = anim.getSize();
                 Vector2D srcPos = new Vector2D();
                 srcPos.y = anim.getYoffset();
-                srcPos.x = srcSize.x * (int)(Time.getTicks() / anim.getSpeed() % anim.getFrames());
+                srcPos.x = anim.getXoffset() + srcSize.x * (int)(Time.getTicks() / anim.getSpeed() % anim.getFrames());
                 s.setSrcSize(srcSize);
                 s.setSrcPos(srcPos);
             }
@@ -48,7 +48,10 @@ public class SpriteSystem extends System{
     }
     
     public static boolean isInsideSprite(Sprite s, Vector2D p){
-        Vector2D sPos = Camera.getInstance().toCameraCoords(((Position)(s.getEntity().get(Position.class))).getWorldPos());
+        Position pos = s.getEntity().get(Position.class);
+        Vector2D sPos = pos.getWorldPos();
+        if(!pos.isLocked())
+            sPos = Camera.getInstance().toCameraCoords(sPos);
         Vector2D sSize = s.getSrcSize();
         return p.x > sPos.x && 
                p.x < sPos.x + sSize.x && 

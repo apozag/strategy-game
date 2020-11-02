@@ -42,10 +42,10 @@ public class PathFindingSystem extends System {
                 //Si tiene lo ponemos como nuevo target y ponemos walking a true
                 if (next != null) {
                     
-                    //Si nos topamos con otra persona, recalculamos el camino
-                    
-                    if(MapInfo.getInstance().getPeopleLayerCell(next)){
-                        pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell()));
+                    //Si nos topamos con otra persona, recalculamos el camino                    
+                    if(MapInfo.getInstance().getPeopleLayerCell(next) && pf.getSteps().size() > 2){
+                        //pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell()));
+                        patchPath(pf.getSteps(), 0, 2);
                         continue;
                     }
                     
@@ -75,7 +75,7 @@ public class PathFindingSystem extends System {
                 }
                 //Si no, seguimos
                 else {
-                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), 5.0f);
+                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), pf.getSpeed());
                     p.setLocalPos(Vector2D.add(p.getLocalPos(), dir));
                 }
             }
@@ -84,6 +84,12 @@ public class PathFindingSystem extends System {
     
     public boolean aproximateEquals(Vector2D v1, Vector2D v2, float tolerance){
         return Math.abs(v1.x - v2.x) <= tolerance && Math.abs(v1.y - v2.y) < tolerance;
+    }
+    
+    private void patchPath(List<Vector2i> path, int begin, int end){
+        List<Vector2i> patch =  aStar(path.get(begin), path.get(end));
+        path.subList(begin, end).clear();
+        path.addAll(begin, patch);
     }
 
     // Basdo en el ejemplo de https://www.annytab.com/a-star-search-algorithm-in-python/
@@ -143,7 +149,7 @@ public class PathFindingSystem extends System {
 
                     Node neighbor = new Node(n, 0, 0, 0, current);
 
-                    if(walkCost < 0 || containsNode(closed, neighbor))
+                    if(walkCost < 0 || cellId < 0 || containsNode(closed, neighbor))
                         continue;
 
 

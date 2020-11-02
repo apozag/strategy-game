@@ -18,7 +18,7 @@ public class Position extends Component{
     
     boolean lock = false;
     
-    boolean dirty = false;
+    boolean dirty = true;
     
     public Position(Vector2D pos){
         this.localPos = pos;

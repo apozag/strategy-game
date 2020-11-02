@@ -59,7 +59,7 @@ public class Sprite extends Component{
         srcSize = new Vector2D(image.getWidth(), image.getHeight());
         this.animations = new LinkedList<>();
         for(Animation anim : animations){
-            currentAnimation = 2;   //Esto es una chapuza para comporobar que se ejecutaba bien la animación
+            currentAnimation = 0;
             this.animations.add(anim);//Aquí la metemos en la lista.
         }
         this.anchor = anchor;
@@ -76,6 +76,7 @@ public class Sprite extends Component{
         srcSize = new Vector2D(image.getWidth(), image.getHeight());
         
         for(Animation anim : animations){
+            currentAnimation = 0;
             this.animations.add(anim);
         }
         this.anchor = anchor;

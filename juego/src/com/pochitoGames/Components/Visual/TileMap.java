@@ -105,4 +105,9 @@ public class TileMap extends Component{
     public int[][] getMap() {
         return map;
     }
+    
+    public void setTile(int id, int col, int row){
+        map[col][row] = id;
+        imageSet = false;
+    }
 }

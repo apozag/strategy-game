@@ -36,6 +36,7 @@ public class BuildingManager {
         blueprints.put(100, new BuildingInfo(100, new Vector2i(0, 0), new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Ayuntamiento
         blueprints.put(101, new BuildingInfo(101, new Vector2i(0, 0), new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Almacén
         blueprints.put(102, new BuildingInfo(102, new Vector2i(0, 0), new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
+        blueprints.put(5,   new BuildingInfo(5,   new Vector2i(0, 0), new Vector2i(0, 0),  new Vector2i(1, 1), 0));   // Lo que sea
         
         buildings = new ArrayList<>();
     }
@@ -49,12 +50,16 @@ public class BuildingManager {
     
     public void build(int id, Vector2i cell){                  
         
+        if(cell.col < 0 || cell.col >= MapInfo.getInstance().getWidth() || cell.row < 0 || cell.row >= MapInfo.getInstance().getHeight())
+            return;
+        
         BuildingInfo b = new BuildingInfo(blueprints.get(id));   
         b.cell = cell;                        
 
         for(int i = 0; i < b.size.col ; i++){
             for(int j = 0; j < b.size.row; j++){
-                if(MapInfo.getInstance().getTileId(new Vector2i(b.cell.col + i, b.cell.row + j)) >= 100)
+                int cellId = MapInfo.getInstance().getTileId(new Vector2i(b.cell.col + i, b.cell.row + j));
+                if(cellId >= 100 || cellId < 0)
                     return;
             }
         }

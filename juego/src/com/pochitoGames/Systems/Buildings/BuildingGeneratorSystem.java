@@ -22,7 +22,8 @@ import com.pochitoGames.Systems.Visual.TileMapSystem;
  */
 public class BuildingGeneratorSystem extends System{
 
-    int buildingId = -1;
+    public static int buildingId = -1;
+    public boolean firstTick = false;
     
     public BuildingGeneratorSystem(){
         include(TileSelector.class);
@@ -30,22 +31,12 @@ public class BuildingGeneratorSystem extends System{
     }
     
     @Override
-    public void update(double dt) {
-        if(EventManager.getInstance().isKeyDown('1')){
-            buildingId = 100;
-        }
-        else if(EventManager.getInstance().isKeyDown('2')){
-            buildingId = 101;
-        }
-        else if(EventManager.getInstance().isKeyDown('3')){
-            buildingId = 102;
-        }
+    public void update(double dt) {        
         for(Entity e : getEntities()){
-            if(EventManager.getInstance().isMousePressed() && buildingId >= 0){
+            if(EventManager.getInstance().mouseClicked() && buildingId >= 0){
                 TileSelector ts = (TileSelector)(e.get(TileSelector.class));
                 TileMap map = ts.getMap();
                 Vector2i selected = ts.getSelected();
-                //Vector2D pos = IsometricTransformations.isoToCartesian(selected);   
                 BuildingManager.getInstance().build(buildingId, selected);
             }
         }

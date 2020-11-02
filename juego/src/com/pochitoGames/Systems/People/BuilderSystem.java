@@ -42,7 +42,7 @@ public class BuilderSystem extends System{
             Position p = e.get(Position.class);
             switch(state){
                 case GO_A:
-                    if(pf.getTargetCell() == null && EventManager.getInstance().isKeyDown('e')){
+                    if(pf.getTargetCell() == null){
                         Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 101);
                         if(near != null){
                             pf.setTargetCell(near);
@@ -51,7 +51,7 @@ public class BuilderSystem extends System{
                     }
                     break;
                 case GO_B:
-                    if(pf.getTargetCell() == null && EventManager.getInstance().isKeyDown('e')){
+                    if(pf.getTargetCell() == null){
                        Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 102);
                         if(near != null){
                             pf.setTargetCell(near);
@@ -60,7 +60,7 @@ public class BuilderSystem extends System{
                     }                    
                     break;
                 case GO_C:
-                    if(pf.getTargetCell() == null && EventManager.getInstance().isKeyDown('e')){
+                    if(pf.getTargetCell() == null){
                         Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 100);
                         if(near != null){
                             pf.setTargetCell(near);

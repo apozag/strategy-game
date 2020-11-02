@@ -80,11 +80,11 @@ public class Renderer extends JPanel{
                 Sprite s = renderQueue.remove(0);
                 if(s != null && s.getImage() != null){
                     Position p = s.getEntity().get(Position.class);
-                    Vector2D dstPos = p.getWorldPos();
-                    BufferedImage img = s.getImage();
-                    if(s.getCurrentAnimationIndex() > 0)
-                        img = img.getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
                     
+                    BufferedImage img = s.getImage();
+                    if(s.getCurrentAnimationIndex() >= 0)
+                        img = img.getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
+                    Vector2D dstPos = p.getWorldPos();
                     if(!p.isLocked())
                         dstPos = Camera.getInstance().toCameraCoords(dstPos);
 

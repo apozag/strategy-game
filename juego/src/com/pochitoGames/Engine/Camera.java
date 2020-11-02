@@ -78,16 +78,16 @@ public class Camera {
     
     void handleMouseMove(){
         Vector2D mousePos = manager.getMousePos();
-        if(mousePos.x < 100)
+        if(mousePos.x < 30)
             vel.x = -100;
-        else if (mousePos.x > Renderer.getInstance().getWidth()-100)
+        else if (mousePos.x > Renderer.getInstance().getWidth()-30)
             vel.x = 100;
         else
             vel.x = 0;
         
-        if(mousePos.y < 100 )
+        if(mousePos.y < 30 )
             vel.y = -100;
-        else if (mousePos.y > Renderer.getInstance().getHeight()-100)
+        else if (mousePos.y > Renderer.getInstance().getHeight()-30)
             vel.y = 100;
         else
             vel.y = 0;

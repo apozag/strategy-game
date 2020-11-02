@@ -54,19 +54,29 @@ public class MapInfo{
     
     public int getTileWalkCost(Vector2i cell){
         if(cell.col >= map.length || cell.row >= map[0].length){
-            java.lang.System.out.println("IOOBE");
+            return -1;
         }
         return peopleLayer[cell.col][cell.row]? -1 : walkCost.get(map[cell.col][cell.row]);
     }
 
     public int getTileId(Vector2i cell){ 
         if(cell.col >= map.length || cell.row >= map[0].length){
-            java.lang.System.out.println("IOOBE");
+            return -1;
         }
         return map[cell.col][cell.row]; 
     }
     public void setTileId(int x, int y, int id){
         map[x][y] = id;
+        if(id < 100){
+            activeTileMap.setTile(id, x, y);
+        }
+    }
+    
+    public int getWidth(){
+        return map.length;
+    }
+    public int getHeight(){
+        return map[0].length;
     }
     
     public boolean getPeopleLayerCell(Vector2i cell){ return peopleLayer[cell.col][cell.row]; } 

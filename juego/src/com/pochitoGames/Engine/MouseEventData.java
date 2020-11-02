@@ -10,26 +10,14 @@ package com.pochitoGames.Engine;
  * @author PochitoMan
  */
 public class MouseEventData {
-    private MouseEventType type;
-    private Vector2D position;
+    public MouseEventType type;
+    public Vector2D position;
+    public boolean press;
     
-    public MouseEventData(MouseEventType type, Vector2D pos){
+    public MouseEventData(MouseEventType type, Vector2D pos, boolean press){
         this.type = type;
         this.position = pos;
-    }
-
-    /**
-     * @return the type
-     */
-    public MouseEventType getType() {
-        return type;
-    }
-
-    /**
-     * @return the position
-     */
-    public Vector2D getPosition() {
-        return position;
+        this.press = press;
     }
     
 }

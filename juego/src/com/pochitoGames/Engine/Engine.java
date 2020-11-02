@@ -5,7 +5,9 @@
  */
 package com.pochitoGames.Engine;
 
+import com.pochitoGames.Components.GameLogic.BuildingPicker;
 import com.pochitoGames.Components.GameLogic.PathFinding;
+import com.pochitoGames.Components.GameLogic.PeopleGenerator;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.People.Builder;
@@ -14,6 +16,7 @@ import com.pochitoGames.Components.People.Soldier;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Components.Visual.TileMap;
+import com.pochitoGames.Components.Visual.UIButton;
 import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
@@ -30,6 +33,9 @@ import com.pochitoGames.Systems.People.BuilderSystem;
 import com.pochitoGames.Systems.Visual.TextSystem;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
+import com.pochitoGames.Systems.UI.BuildingPickerSystem;
+import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
+import com.pochitoGames.Systems.UI.UIButtonSystem;
 import java.awt.Color;
 
 /**
@@ -65,7 +71,10 @@ public class Engine {
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
 
-        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), new BuildingGeneratorSystem(), new PathFindingSystem());
+        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), 
+                new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), 
+                new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
+                new BuildingPickerSystem(), new PeopleGeneratorSystem());
 
         Entity tilemap = ECS.getInstance().createEntity(null,
             new Sprite(),
@@ -118,10 +127,86 @@ public class Engine {
                 new FPScounter()
         );
         */
+        
+        // UI
+        
+        Entity uiPanel = ECS.getInstance().createEntity(null,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false),
+            new Position(new Vector2D(50, 50), true)
+        );
+        
+        Entity button1 = ECS.getInstance().createEntity(uiPanel,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
+                    new Animation(1, 100, 50, 50, 0, 0),
+                    new Animation(1, 100, 50, 50, 50, 0)),
+            new Position(new Vector2D(70, 70), true),
+            new UIButton(),
+            new BuildingPicker(100)
+        );
+        ECS.getInstance().createEntity(button1,
+            new Text("1", Color.black),
+            new Position(new Vector2D(90, 100), true)
+        );  
+        
+        Entity button2 = ECS.getInstance().createEntity(uiPanel,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
+                    new Animation(1, 100, 50, 50, 0, 0),
+                    new Animation(1, 100, 50, 50, 50, 0)),
+            new Position(new Vector2D(140, 70), true),
+            new UIButton(),
+            new BuildingPicker(101)
+        );
+        ECS.getInstance().createEntity(button2,
+            new Text("2", Color.black),
+            new Position(new Vector2D(160, 100), true)
+        );
+        
+        Entity button3 = ECS.getInstance().createEntity(uiPanel,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
+                    new Animation(1, 100, 50, 50, 0, 0),
+                    new Animation(1, 100, 50, 50, 50, 0)),
+            new Position(new Vector2D(190, 70), true),
+            new UIButton(),
+            new BuildingPicker(102)
+        );
+        ECS.getInstance().createEntity(button3,
+            new Text("3", Color.black),
+            new Position(new Vector2D(210, 100), true)
+        );
+
+        Entity button4 = ECS.getInstance().createEntity(uiPanel,
+           new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
+                   new Animation(1, 100, 50, 50, 0, 0),
+                   new Animation(1, 100, 50, 50, 50, 0)),
+           new Position(new Vector2D(250, 70), true),
+           new UIButton(),
+           new BuildingPicker(5)
+        );
+        ECS.getInstance().createEntity(button4,
+            new Text("Floor", Color.black),
+            new Position(new Vector2D(250, 100), true)
+        );
+        
+        Entity buttonP = ECS.getInstance().createEntity(uiPanel,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
+                    new Animation(1, 100, 50, 50, 0, 0),
+                    new Animation(1, 100, 50, 50, 50, 0)),
+            new Position(new Vector2D(70, 150), true),
+            new UIButton(),
+            new PeopleGenerator(0)
+        );
+        ECS.getInstance().createEntity(buttonP,
+            new Text("P", Color.black),
+            new Position(new Vector2D(90, 170), true)
+        );
+        
     }
 
     public void mainLoop() throws InterruptedException {
         while (running) {
+            
+            EventManager.getInstance().handleEvents();
+            
             //Tenemos una cámara (clase estática) que hay que updatear.
             Camera.getInstance().update(dt);
             

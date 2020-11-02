@@ -24,69 +24,90 @@ import java.util.Set;
  * @author PochitoMan
  */
 public class EventManager implements MouseListener, MouseWheelListener, KeyListener{
-       private static List<MouseEventData> mouseEvents;
-       private static Set<Character> keyEvents;
-       private static EventManager instance;
-       private int mouseWheelRotation;
-       
-       
-       private EventManager(){
-           mouseEvents = new LinkedList<>();
-           keyEvents = new HashSet<>();
-       }
-       
-       public static EventManager getInstance(){
-           if(instance == null)
-               instance = new EventManager();
-           return instance;
-       }
-       
-       public void addMouseEvent(MouseEventData e){
-           mouseEvents.add(e);
-       }
-       
-       public List<MouseEventData> getMouseEvents(){
-           return Collections.unmodifiableList(mouseEvents);
-       }
-       
-       public boolean isMousePressed(){
-           for(MouseEventData e : mouseEvents){
-               if(e.getType() == MouseEventType.LEFT_CLICK)
-                   return true;
-           }
-           return false;
-       }
-       public Vector2D getMousePos(){
-            //Point pos = MouseInfo.getPointerInfo().getLocation();
-            Point pos = Renderer.getInstance().getMousePosition();
-            if(pos == null)
-                return new Vector2D(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
-            return new Vector2D(pos.x, pos.y);
-       }
-       
-       public boolean isKeyDown(char c){
-           return keyEvents.contains(c);
-       }
-       
-       public int getMouseWheelRotation(){
-           return mouseWheelRotation;
-       }
-       
-       public void clearEvents(){
-           mouseEvents.clear();
-           mouseWheelRotation = 0;
-       }
+    private static List<MouseEventData> mouseEvents;
+    private static Set<Character> keyEvents;
+    private static EventManager instance;
+    private int mouseWheelRotation;
+
+    private List<ClickListener> clickListeners;
+    
+    private boolean mouseDown = false;
+    private boolean mouseFirstTick = false;
+
+    private EventManager(){
+        mouseEvents = new LinkedList<>();
+        keyEvents = new HashSet<>();
+        clickListeners = new LinkedList<>();
+    }
+
+    public static EventManager getInstance(){
+        if(instance == null)
+            instance = new EventManager();
+        return instance;
+    }
+
+    public void addMouseEvent(MouseEventData e){
+        mouseEvents.add(e);
+    }
+
+    public List<MouseEventData> getMouseEvents(){
+        return Collections.unmodifiableList(mouseEvents);
+    }
+
+    public boolean isMousePressed(){
+        return mouseDown;
+    }
+    
+    public boolean mouseClicked(){
+        return mouseDown && mouseFirstTick;
+    }
+    public Vector2D getMousePos(){
+         //Point pos = MouseInfo.getPointerInfo().getLocation();
+         Point pos = Renderer.getInstance().getMousePosition();
+         if(pos == null)
+             return new Vector2D(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+         return new Vector2D(pos.x, pos.y);
+    }
+
+    public boolean isKeyDown(char c){
+        return keyEvents.contains(c);
+    }
+
+    public int getMouseWheelRotation(){
+        return mouseWheelRotation;
+    }
+
+    public void clearEvents(){
+        mouseEvents.clear();
+        mouseWheelRotation = 0;
+        mouseFirstTick = false;
+    }
+    
+    public void handleEvents(){
+        for(ClickListener cl : clickListeners){
+            for(MouseEventData e : mouseEvents){
+                if(e.press)
+                    cl.onMouseDown(e);
+                else
+                    cl.onMouseUp(e);
+            }
+        }
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {    }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        addMouseEvent(new MouseEventData(MouseEventType.LEFT_CLICK, new Vector2D(e.getX(), e.getY())));
+        mouseDown = true;
+        mouseFirstTick = true;
+        addMouseEvent(new MouseEventData(MouseEventType.LEFT_CLICK, new Vector2D(e.getX(), e.getY()), true));        
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {   
+        mouseDown = false;
+        addMouseEvent(new MouseEventData(MouseEventType.LEFT_CLICK, new Vector2D(e.getX(), e.getY()), false));
     }
 
     @Override
@@ -115,5 +136,9 @@ public class EventManager implements MouseListener, MouseWheelListener, KeyListe
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         mouseWheelRotation += e.getWheelRotation();
+    }
+    
+    public void addClickListener(ClickListener listener){
+        clickListeners.add(listener);
     }
 }

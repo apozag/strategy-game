@@ -22,6 +22,7 @@ public class PathFinding extends Component{
     Vector2D nextPos;
     private Vector2i targetCell;
     private boolean walking;
+    private float speed = 2.5f;
     
     public PathFinding(Vector2i cell){
         current = cell;
@@ -76,5 +77,9 @@ public class PathFinding extends Component{
     public Vector2i getTargetCell() { return targetCell; }
 
     public void setTargetCell(Vector2i targetCell) { this.targetCell = targetCell; }
+    
+    public List<Vector2i> getSteps(){return steps;}
+    
+    public float getSpeed(){return speed;}
 }
 
