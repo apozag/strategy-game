@@ -24,7 +24,6 @@ import com.pochitoGames.Systems.Visual.TileMapSystem;
 public class BuildingGeneratorSystem extends System{
 
     public static TypeBuilding buildingId = null;
-    public boolean firstTick = false;
     
     public BuildingGeneratorSystem(){
         include(TileSelector.class);

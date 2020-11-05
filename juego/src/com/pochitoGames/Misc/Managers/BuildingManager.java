@@ -166,6 +166,7 @@ public class BuildingManager {
                     {
                         put(ResourceType.WOOD, 20);
                         put(ResourceType.STONE, 20);
+                        put(ResourceType.GOLD, 20);
                     }
                 }));
                 break;            

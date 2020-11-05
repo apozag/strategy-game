@@ -15,57 +15,40 @@ import java.util.Map;
  */
 public class ResourcesManager {
     
-    private static int wood = 30, stone = 30, gold = 30;
-    private static Map<Integer, Map<ResourceType, Integer>> resources = new HashMap<>();
-
-    public static int getWood() {
-        return wood;
-    }
-
-    public static void setWood(int aWood) {
-        wood = aWood;
-    }
-
-    public static int getStone() {
-        return stone;
-    }
-
-    public static void setStone(int aStone) {
-        stone = aStone;
-    }
-
-    public static int getGold() {
-        return gold;
-    }
-
-    public static void setGold(int aGold) {
-        gold = aGold;
+    private Map<Integer, Map<ResourceType, Integer>> resources = new HashMap<>();
+    
+    private static ResourcesManager instance;
+    
+    private ResourcesManager(){
+        resources.put(0, new HashMap<ResourceType, Integer>(){
+            {
+                put(ResourceType.GOLD, 0);
+                put(ResourceType.WOOD, 0);
+                put(ResourceType.STONE, 0);
+            }
+        });
     }
     
     
-    public static void addGold(int amount){
-        gold += amount;
+    public static ResourcesManager getInstance(){
+        if(instance == null)
+            instance = new ResourcesManager();
+        return instance;
     }
     
-    public static void addWood(int amount){
-        wood += amount;
+    public int getResource(int playerId, ResourceType type){
+        return resources.get(playerId).get(type);
     }
     
-    public static void addStone(int amount){
-        stone += amount;
+    public void setResource(int playerId, ResourceType type, int amount){
+        resources.get(playerId).put(type, amount);
     }
     
-    public static void takeGold(int amount){
-        gold -= amount;
+    public void addResource(int playerId, ResourceType type, int amount){
+        resources.get(playerId).put(type, resources.get(playerId).get(type) + amount);
     }
     
-    
-    public static void takeWood(int amount){
-        wood -= amount;
-    }
-
-
-    public static void takeStone(int amount){
-        stone -= amount;
+    public void subResource(int playerId, ResourceType type, int amount){
+        resources.get(playerId).put(type, resources.get(playerId).get(type) - amount);
     }
 }

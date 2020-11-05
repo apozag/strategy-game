@@ -11,5 +11,6 @@ package com.pochitoGames.Misc.Other;
  */
 public enum ResourceType {
     WOOD,
-    STONE    
+    STONE,
+    GOLD
 }

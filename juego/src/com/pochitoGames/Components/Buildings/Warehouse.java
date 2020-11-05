@@ -6,6 +6,7 @@
 package com.pochitoGames.Components.Buildings;
 
 import com.pochitoGames.Engine.Component;
+import com.pochitoGames.Misc.Managers.ResourcesManager;
 import com.pochitoGames.Misc.Other.ResourceType;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,10 +16,15 @@ import java.util.Map;
  * @author PochitoMan
  */
 public class Warehouse extends Component{
+    
     Map<ResourceType, Integer> content;
     
     public Warehouse(Map<ResourceType, Integer> content){
         this.content = content;
+        
+        for(Map.Entry<ResourceType, Integer>entry : content.entrySet()){
+           ResourcesManager.getInstance().addResource(0, entry.getKey(), entry.getValue());
+        }
     }
     
     public boolean canHave(ResourceType type){
@@ -30,13 +36,21 @@ public class Warehouse extends Component{
     }
     
     public void putContent(ResourceType type, int amount){
-        if(canHave(type))
+        if(canHave(type)){
             content.put(type, content.get(type) + amount);
+            ResourcesManager.getInstance().addResource(0, type, amount);
+        }
     }
     
     public void takeContent(ResourceType type, int amount){
-        if(hasResource(type) && content.get(type) >= amount)
+        if(hasResource(type) && content.get(type) >= amount){
             content.put(type, content.get(type) - amount);
+             ResourcesManager.getInstance().subResource(0, type, amount);
+        }
+    }
+    
+    public int getContent(ResourceType type){
+        return content.get(type);
     }
             
 }

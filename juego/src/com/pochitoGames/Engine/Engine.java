@@ -15,6 +15,7 @@ import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Soldier;
+import com.pochitoGames.Components.UI.ResourceText;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Components.Visual.TileMap;
@@ -42,6 +43,7 @@ import com.pochitoGames.Systems.Visual.TileMapSystem;
 import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
 import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
+import com.pochitoGames.Systems.UI.ResourceTextSystem;
 import com.pochitoGames.Systems.UI.UIButtonSystem;
 import java.awt.Color;
 import java.util.HashMap;
@@ -78,7 +80,7 @@ public class Engine {
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), 
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(),
-                new BuildingSystem());
+                new BuildingSystem(), new ResourceTextSystem());
 
         Entity tilemap = ECS.getInstance().createEntity(null,
             new Sprite(),
@@ -174,8 +176,20 @@ public class Engine {
         // Recursos y tal
         
         ECS.getInstance().createEntity(null,
-            new Text("Gold", Color.white),
-            new Position(new Vector2D(500, 50), true)
+            new Text("", Color.white),
+            new Position(new Vector2D(500, 50), true),
+            new ResourceText(ResourceType.GOLD)
+        );
+        
+        ECS.getInstance().createEntity(null,
+            new Text("", Color.white),
+            new Position(new Vector2D(650, 50), true),
+            new ResourceText(ResourceType.STONE)
+        );
+        ECS.getInstance().createEntity(null,
+            new Text("", Color.white),
+            new Position(new Vector2D(800, 50), true),
+            new ResourceText(ResourceType.WOOD)
         );
         
         
