@@ -1,4 +1,6 @@
 package com.pochitoGames.Systems.People;
+import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
@@ -9,10 +11,13 @@ import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
+import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
-import com.pochitoGames.Misc.States.ConstructorState;
+import com.pochitoGames.Misc.Other.ResourceType;
+import com.pochitoGames.Misc.States.BuilderState;
 
 
 /*
@@ -36,39 +41,62 @@ public class BuilderSystem extends System{
     public void update(double dt){
         for(Entity e : getEntities()){
             PathFinding pf = e.get(PathFinding.class);
-            Builder constructor = e.get(Builder.class);
-            ConstructorState state = constructor.getState();
+            Builder c = e.get(Builder.class);
+            BuilderState state = c.getState();
             Sprite sprite = e.get(Sprite.class);
             Position p = e.get(Position.class);
             switch(state){
-                case GO_A:
+                case WAIT:
+                    //Estamos parados hasta que nos requieran (Los edificios nos llaman)
+                    break;                
+                case SEARCH_RESOURCE:
                     if(pf.getTargetCell() == null){
-                        Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 101);
-                        if(near != null){
-                            pf.setTargetCell(near);
-                            constructor.setState(ConstructorState.GO_B);
-                        }
+                        Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
+                        wh.takeContent(c.getResourceNeeded(), 1);
+                        Builder mate = c.getTargetMate();
+                        PathFinding mpf = mate.getEntity().get(PathFinding.class);                        
+                        pf.setTargetCell(mpf.getCloseCell());
+                        c.setState(BuilderState.CARRY_RESOURCE);
                     }
                     break;
-                case GO_B:
+                case CARRY_RESOURCE:
                     if(pf.getTargetCell() == null){
-                       Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 102);
-                        if(near != null){
-                            pf.setTargetCell(near);
-                            constructor.setState(ConstructorState.GO_C);
-                        }
-                    }                    
+                        Builder mate = c.getTargetMate();
+                        mate.getTargetBuilding().putResources(c.getResourceNeeded(), 1);
+                        mate.setState(BuilderState.BUILD);                        
+                        c.setState(BuilderState.WAIT);
+                    }
                     break;
-                case GO_C:
+                case BUILD:
                     if(pf.getTargetCell() == null){
-                        Vector2i near = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), 100);
-                        if(near != null){
-                            pf.setTargetCell(near);
-                            constructor.setState(ConstructorState.GO_A);
+                        Building b = c.getTargetBuilding();      
+                        ResourceType needed = b.getResourceNeeded();
+                        c.setResourceNeeded(needed);
+                        if(needed == null){
+                            c.setTargetBuilding(null);
+                            c.setState(BuilderState.WAIT);
+                        }
+                        else{
+                            Builder mate = PeopleManager.getInstance().getNearestBuilder(pf.getCurrent());
+                            if(mate != null){
+                                PathFinding mpf = mate.getEntity().get(PathFinding.class);
+                                Building wh = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed);
+                                if(wh != null){
+                                    mate.setResourceNeeded(needed);
+                                    mate.setTargetBuilding(wh);
+                                    mate.setTargetMate(c);
+                                    mpf.setTargetCell(wh.getEntryCell());
+                                    mate.setState(BuilderState.SEARCH_RESOURCE);
+                                    c.setState(BuilderState.ON_HOLD);
+                                }
+                            }
                         }
                     }
-                    break;                    
+                        break;
+                case ON_HOLD:                    
+                    break;                        
             }
+
             
         }
     }

@@ -5,9 +5,11 @@
  */
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Components.GameLogic.BuildingPicker;
+import com.pochitoGames.Components.Buildings.Warehouse;
+import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.UI.BuildingPicker;
 import com.pochitoGames.Components.GameLogic.PathFinding;
-import com.pochitoGames.Components.GameLogic.PeopleGenerator;
+import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.People.Builder;
@@ -16,17 +18,22 @@ import com.pochitoGames.Components.People.Soldier;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Components.Visual.TileMap;
-import com.pochitoGames.Components.Visual.UIButton;
+import com.pochitoGames.Components.UI.UIButton;
+import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
+import com.pochitoGames.Misc.Managers.BuildingManager;
+import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
+import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
+import com.pochitoGames.Systems.Buildings.BuildingSystem;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.BuilderSystem;
 
@@ -37,6 +44,7 @@ import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.UIButtonSystem;
 import java.awt.Color;
+import java.util.HashMap;
 
 /**
  * @author PochitoMan
@@ -62,73 +70,36 @@ public class Engine {
 
     //Creamos las entidades y les metemos los componentes a través de createEntity() de ECS
     public void init() {
-/*
-        int b = (int) (Math.random() * 2);
-        if (b == 1)  a = "src\\com\\pochitoGames\\Resources\\TileMaps\\Terreno flores.png";
-        else a = "src\\com\\pochitoGames\\Resources\\TileMaps\\tileset_2.png";
 
-*/
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
 
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(), 
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), 
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
-                new BuildingPickerSystem(), new PeopleGeneratorSystem());
+                new BuildingPickerSystem(), new PeopleGeneratorSystem(),
+                new BuildingSystem());
 
         Entity tilemap = ECS.getInstance().createEntity(null,
             new Sprite(),
             new Position(new Vector2D(0, 0)),
             TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
-
         
-        ECS.getInstance().createEntity(null,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
-                        new Vector2D(0.5f, 1.0f),
-                        true),
-                new Position(IsometricTransformations.isoToCartesian(new Vector2i(0, 0))),
-                new Soldier(TypeSoldier.SWORDSMAN),
-                new Human(100,"Sol",10,10, TypeHuman.DEMON),
-                new Builder(),
-                new PathFinding(new Vector2i(0, 0)));
+        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, new Vector2i(10, 10));
+        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, new Vector2i(1, 1));
         
-        ECS.getInstance().createEntity(null,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
-                        new Vector2D(0.5f, 1.0f),
-                        true),
-                new Position(IsometricTransformations.isoToCartesian(new Vector2i(10, 10))),
-                new Human(100,"Sol",10,10, TypeHuman.BARBARIAN),
-                new Builder(),
-                new PathFinding(new Vector2i(10, 10)));
-/*
-        ECS.getInstance().createEntity(null,
-            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f),true),
-            new Position(new Vector2D(500, 500)),
-            new Human(100, "WORKER", 10, 10),
-            new Builder()
-        );
-
-        */
-
-        ECS.getInstance().createEntity(null,
-                new Position(new Vector2D(100, 200)),
-                new Text("Vamoooooos loco", Color.red));
-
+        BuildingManager.getInstance().build(TypeBuilding.CASTLE, new Vector2i(4, 4));
         
         ECS.getInstance().createEntity(tilemap,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true),
                 new Position(new Vector2D(0, 0)),
                 new TileSelector(tilemap.get(TileMap.class))
         );
-        /*
-        ECS.getInstance().createEntity(null, 
-                new Position(new Vector2D(50, 50), true), 
-                new Text("", Color.white), 
-                new FPScounter()
-        );
-        */
+
         
-        // UI
+        ///////////////////////////////
+        ///////    INTERFAZ     ///////
+        ///////////////////////////////
         
         Entity uiPanel = ECS.getInstance().createEntity(null,
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false),
@@ -141,7 +112,7 @@ public class Engine {
                     new Animation(1, 100, 50, 50, 50, 0)),
             new Position(new Vector2D(70, 70), true),
             new UIButton(),
-            new BuildingPicker(100)
+            new BuildingPicker(TypeBuilding.SCHOOL)
         );
         ECS.getInstance().createEntity(button1,
             new Text("1", Color.black),
@@ -154,7 +125,7 @@ public class Engine {
                     new Animation(1, 100, 50, 50, 50, 0)),
             new Position(new Vector2D(140, 70), true),
             new UIButton(),
-            new BuildingPicker(101)
+            new BuildingPicker(TypeBuilding.CANTEEN)
         );
         ECS.getInstance().createEntity(button2,
             new Text("2", Color.black),
@@ -167,7 +138,7 @@ public class Engine {
                     new Animation(1, 100, 50, 50, 50, 0)),
             new Position(new Vector2D(190, 70), true),
             new UIButton(),
-            new BuildingPicker(102)
+            new BuildingPicker(TypeBuilding.SAWMILL)
         );
         ECS.getInstance().createEntity(button3,
             new Text("3", Color.black),
@@ -180,7 +151,7 @@ public class Engine {
                    new Animation(1, 100, 50, 50, 50, 0)),
            new Position(new Vector2D(250, 70), true),
            new UIButton(),
-           new BuildingPicker(5)
+           new BuildingPicker(TypeBuilding.FLOOR)
         );
         ECS.getInstance().createEntity(button4,
             new Text("Floor", Color.black),
@@ -193,19 +164,27 @@ public class Engine {
                     new Animation(1, 100, 50, 50, 50, 0)),
             new Position(new Vector2D(70, 150), true),
             new UIButton(),
-            new PeopleGenerator(0)
+            new PeopleGenerator(TypeHuman.BARBARIAN)
         );
         ECS.getInstance().createEntity(buttonP,
             new Text("P", Color.black),
             new Position(new Vector2D(90, 170), true)
         );
         
+        // Recursos y tal
+        
+        ECS.getInstance().createEntity(null,
+            new Text("Gold", Color.white),
+            new Position(new Vector2D(500, 50), true)
+        );
+        
+        
     }
 
     public void mainLoop() throws InterruptedException {
         while (running) {
             
-            EventManager.getInstance().handleEvents();
+            //EventManager.getInstance().handleEvents();
             
             //Tenemos una cámara (clase estática) que hay que updatear.
             Camera.getInstance().update(dt);

@@ -33,8 +33,10 @@ public class TileMapSystem extends System{
             
             TileMap tileMap = e.get(TileMap.class);
 
-            if(!tileMap.isImageSet())
+            if(!tileMap.isImageSet()){
                 updateImage(tileMap);
+                tileMap.clearUpdatedCells();
+            }
         }
     }
     
@@ -57,20 +59,34 @@ public class TileMapSystem extends System{
                 }
                 break;
             case ISOMETRIC:
-                image = new BufferedImage((map.length) * tm.getTileW(), map[0].length * tm.getTileH(), TYPE_INT_ARGB);
-                g2d = image.createGraphics();
-                for(int i = 0; i < map.length; i++){
-                    for(int j = 0; j < map[i].length; j++){
-                        int row = map[i][j] / tm.getTilesetW();
-                        int column = map[i][j] - row * tm.getTilesetW();
-                        Vector2D tilePos = IsometricTransformations.isoToCartesian(new Vector2i(i, j));//indexToCartesian(i, j, tm);
-                        tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
-                        g2d.drawImage(tile, (int)tilePos.x, (int)tilePos.y , null);
+                if(tm.getUpdatedCellsSize() > 0){
+                    g2d = (Graphics2D) tm.getSprite().getImage().getGraphics();
+                    for(int i = 0; i < tm.getUpdatedCellsSize(); i++){
+                        Vector2i cell = tm.getUpdatedCell(i);
+                        int row = tm.getMap()[cell.col][cell.row] / tm.getTilesetW();
+                        int column = tm.getMap()[cell.col][cell.row] - row * tm.getTilesetW();
+                        tile = tm.getTileset().getSubimage(column * tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
+                        Vector2D pos = IsometricTransformations.isoToCartesian(new Vector2i(cell.col, cell.row));
+                        g2d.drawImage(tile, (int)pos.x, (int)pos.y, null);
                     }
+                }
+                else{
+                    image = new BufferedImage((map.length) * tm.getTileW(), map[0].length * tm.getTileH(), TYPE_INT_ARGB);
+                    g2d = image.createGraphics();
+                    for(int i = 0; i < map.length; i++){
+                        for(int j = 0; j < map[i].length; j++){
+                            int row = map[i][j] / tm.getTilesetW();
+                            int column = map[i][j] - row * tm.getTilesetW();
+                            Vector2D tilePos = IsometricTransformations.isoToCartesian(new Vector2i(i, j));//indexToCartesian(i, j, tm);
+                            tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
+                            g2d.drawImage(tile, (int)tilePos.x, (int)tilePos.y , null);
+                        }
+                    }
+                    tm.getSprite().setImage(image);
                 }
                 break;        
         }               
-        tm.getSprite().setImage(image);
+        
         tm.getSprite().setDepth(-10);
         tm.markAsSet();
     }

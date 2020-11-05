@@ -6,5 +6,6 @@ public enum ArcherState {
     DEFENDING,
     PATROLLING,
     WALKING,
+    AGRESSIVE,
     PASIVE;
 }

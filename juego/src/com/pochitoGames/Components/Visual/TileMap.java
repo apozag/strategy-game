@@ -7,8 +7,11 @@ package com.pochitoGames.Components.Visual;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.Map.TilesetMode;
+import com.pochitoGames.Misc.Other.Vector2i;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -26,9 +29,10 @@ public class TileMap extends Component{
     private int tilesetH;
     
     //La imagen del mapa en sí se guarda en el componente Sprite
-    //Para no calcularlo cada frame, hay imageSet es false cuando hay que recalcular la imagen (por ejemplo, se pone carretera en un tile)
+    //Para no calcularlo cada frame, imageSet es false cuando hay que recalcular la imagen (por ejemplo, se pone carretera en un tile)
     //esto de calcular la imagen de Sprite se hace en TileMapSystem
     boolean imageSet = false;
+    List<Vector2i> updatedCells = new ArrayList<>();
     
     TilesetMode mode;
         
@@ -106,8 +110,19 @@ public class TileMap extends Component{
         return map;
     }
     
+    public Vector2i getUpdatedCell(int i){return updatedCells.get(i);}
+    
+    public int getUpdatedCellsSize(){
+        return updatedCells.size();
+    }
+    
+    public void clearUpdatedCells(){
+        updatedCells.clear();
+    }
+        
     public void setTile(int id, int col, int row){
         map[col][row] = id;
         imageSet = false;
+        updatedCells.add(new Vector2i(col, row));
     }
 }

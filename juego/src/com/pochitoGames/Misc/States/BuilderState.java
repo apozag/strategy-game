@@ -9,8 +9,10 @@ package com.pochitoGames.Misc.States;
  *
  * @author PochitoMan
  */
-public enum ConstructorState {
-    GO_A,
-    GO_B,
-    GO_C,
+public enum BuilderState {
+    WAIT,    
+    SEARCH_RESOURCE,
+    CARRY_RESOURCE,
+    BUILD,
+    ON_HOLD
 }

@@ -6,7 +6,7 @@
 package com.pochitoGames.Systems.UI;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.Visual.Sprite;
-import com.pochitoGames.Components.Visual.UIButton;
+import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.System;

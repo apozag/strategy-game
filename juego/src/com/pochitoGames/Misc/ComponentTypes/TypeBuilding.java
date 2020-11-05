@@ -2,7 +2,10 @@ package com.pochitoGames.Misc.ComponentTypes;
 
 public enum TypeBuilding {
 
-    CIVIL,ARMY;
-
-
+    FLOOR,
+    SAWMILL,
+    QUARRY,
+    SCHOOL,
+    CANTEEN,
+    CASTLE
 }

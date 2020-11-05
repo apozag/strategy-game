@@ -5,11 +5,12 @@
  */
 package com.pochitoGames.Systems.UI;
 
-import com.pochitoGames.Components.GameLogic.PeopleGenerator;
-import com.pochitoGames.Components.Visual.UIButton;
+import com.pochitoGames.Components.UI.PeopleGenerator;
+import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.PeopleManager;
+import com.pochitoGames.Misc.Other.Vector2i;
 
 /**
  *
@@ -29,7 +30,7 @@ public class PeopleGeneratorSystem extends System{
             UIButton b = e.get(UIButton.class);
             PeopleGenerator pg = e.get(PeopleGenerator.class);
             if(b.down && b.firstTick){
-                PeopleManager.getInstance().createCharacter(pg.getId());
+                PeopleManager.getInstance().createCharacter(pg.getId(), new Vector2i(0, 0));
             }
         }
     }

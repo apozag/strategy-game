@@ -18,7 +18,7 @@ public class Vector2i {
     public boolean equals(Vector2i v){
         return this.col == v.col && this.row == v.row;
     }
-    public float distance(Vector2i v){
+    public int distance(Vector2i v){
         return Math.abs(v.col - col) + Math.abs(v.row - row);
     }
     public int manhattan(){

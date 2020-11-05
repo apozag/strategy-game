@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package com.pochitoGames.Systems.UI;
-import com.pochitoGames.Components.GameLogic.BuildingPicker;
-import com.pochitoGames.Components.Visual.UIButton;
+import com.pochitoGames.Components.UI.BuildingPicker;
+import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;

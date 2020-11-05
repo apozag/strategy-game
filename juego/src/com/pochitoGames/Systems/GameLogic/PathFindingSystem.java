@@ -42,13 +42,13 @@ public class PathFindingSystem extends System {
                 //Si tiene lo ponemos como nuevo target y ponemos walking a true
                 if (next != null) {
                     
-                    //Si nos topamos con otra persona, recalculamos el camino                    
+                    //Si nos topamos con otra persona, esperamos                    
+                    /*
                     if(MapInfo.getInstance().getPeopleLayerCell(next) && pf.getSteps().size() > 2){
-                        //pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell()));
-                        patchPath(pf.getSteps(), 0, 2);
+                        //patchPath(pf.getSteps(), 0, 2);
                         continue;
                     }
-                    
+                    */
                     //Actualizamos posición en el mapa
                     MapInfo.getInstance().updatePeopleLayerCell(pf.getCurrent(), next);
                     
@@ -145,13 +145,13 @@ public class PathFindingSystem extends System {
                         continue;
 
                     int cellId = MapInfo.getInstance().getTileId(n);
+
                     float walkCost = MapInfo.getInstance().getTileWalkCost(n);
 
                     Node neighbor = new Node(n, 0, 0, 0, current);
 
                     if(walkCost < 0 || cellId < 0 || containsNode(closed, neighbor))
                         continue;
-
 
                     neighbor.g = start.distance(p) * walkCost + current.g;
                     neighbor.h = end.distance(n);

@@ -82,7 +82,7 @@ public class Renderer extends JPanel{
                     Position p = s.getEntity().get(Position.class);
                     
                     BufferedImage img = s.getImage();
-                    if(s.getCurrentAnimationIndex() >= 0)
+                    if(s.isAnimated() && s.getCurrentAnimationIndex() >= 0)
                         img = img.getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
                     Vector2D dstPos = p.getWorldPos();
                     if(!p.isLocked())

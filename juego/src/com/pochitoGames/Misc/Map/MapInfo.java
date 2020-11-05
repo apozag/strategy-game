@@ -56,7 +56,11 @@ public class MapInfo{
         if(cell.col >= map.length || cell.row >= map[0].length){
             return -1;
         }
-        return peopleLayer[cell.col][cell.row]? -1 : walkCost.get(map[cell.col][cell.row]);
+
+        int num = map[cell.col][cell.row];
+        if(!walkCost.containsKey(num))
+            java.lang.System.out.println("ojknojn");
+        return walkCost.get(num);       
     }
 
     public int getTileId(Vector2i cell){ 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pochitoGames.Components.Visual;
+package com.pochitoGames.Components.UI;
 
 import com.pochitoGames.Engine.ClickListener;
 import com.pochitoGames.Engine.Component;
