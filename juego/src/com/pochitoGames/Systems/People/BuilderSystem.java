@@ -88,7 +88,7 @@ public class BuilderSystem extends System{
                         Building b = c.getTargetBuilding();      
                         //Le pregunto qué recurso necesita
                         ResourceType needed = b.getResourceNeeded();
-                        //Me lo pongo como recurso que necesito
+                        //Me lo pongo como recurso que necesito (en verdad eso no sirve para nada)
                         c.setResourceNeeded(needed);
                         
                         //Si no necesita ningún recurso, he acabado
