@@ -47,7 +47,7 @@ public class BuilderSystem extends System{
             Position p = e.get(Position.class);
             switch(state){
                 case WAIT:
-                    //Estamos parados hasta que nos requieran (Los edificios nos llaman)
+                    //Estamos parados hasta que nos requieran (Los edificios nos llamen)
                     break;                
                 case SEARCH_RESOURCE:
                     //Si hemos llegado hasta el edificio
