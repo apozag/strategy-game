@@ -114,6 +114,9 @@ public class ECS {
         //Añade los componentes que estén pendientes (no se usa de mopmento)
         for(ECContainer ec: componentsToCreate){
                 ec.entity.add(ec.components);
+                for(Component c : ec.components){
+                    c.setEntity(ec.entity);
+                }
                 eSystemValidate.add(ec.entity);
         }
         componentsToCreate.clear();

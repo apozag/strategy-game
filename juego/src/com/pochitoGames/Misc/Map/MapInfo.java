@@ -90,4 +90,22 @@ public class MapInfo{
         peopleLayer[newCell.col][newCell.row] = true;
     }
     
+   public Vector2i getCloseCell(Vector2i cell){
+        if(getPeopleLayerCell(cell)){
+            Vector2i neighbors[] = {new Vector2i(1, 0), new Vector2i(-1, 0), 
+                                    new Vector2i(0, 1), new Vector2i(0,-1), 
+                                    new Vector2i(1, -1), new Vector2i(-1, 1), 
+                                    new Vector2i(1, 1)};           
+            
+            for(int i = 0; i < 8; i++){
+                Vector2i n = Vector2i.add(cell, neighbors[i]);
+                if(!(n.col < 0 || n.col >= getWidth() || n.row < 0 || n.row >= getHeight()) && getTileWalkCost(n) >= 0){
+                    return n;
+                }
+            }
+        }
+        return cell;
+    }
+    
+    
 }

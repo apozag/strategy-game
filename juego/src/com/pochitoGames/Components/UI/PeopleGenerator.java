@@ -7,6 +7,7 @@ package com.pochitoGames.Components.UI;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
+import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 
 /**
  *
@@ -14,12 +15,17 @@ import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
  */
 public class PeopleGenerator extends Component{
     private TypeHuman type;
+    private TypeRole role;
     
-    public PeopleGenerator(TypeHuman type){
+    public PeopleGenerator(TypeHuman type, TypeRole role){
         this.type = type;
+        this.role = role;
     }
     
-    public TypeHuman getId(){
+    public TypeHuman getType(){
         return type;
+    }
+    public TypeRole getRole(){
+        return role;
     }
 }

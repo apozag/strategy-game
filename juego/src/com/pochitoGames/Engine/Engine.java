@@ -22,6 +22,7 @@ import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
+import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
@@ -87,8 +88,8 @@ public class Engine {
             new Position(new Vector2D(0, 0)),
             TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv","src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png" , 30, 30, 64, 32, TilesetMode.ISOMETRIC));
         
-        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, new Vector2i(10, 10));
-        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, new Vector2i(1, 1));
+        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, TypeRole.BUILDER, new Vector2i(10, 10));
+        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, TypeRole.WORKER, new Vector2i(1, 1));
         
         BuildingManager.getInstance().build(TypeBuilding.CASTLE, new Vector2i(4, 4));
         
@@ -125,52 +126,65 @@ public class Engine {
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
                     new Animation(1, 100, 50, 50, 0, 0),
                     new Animation(1, 100, 50, 50, 50, 0)),
-            new Position(new Vector2D(140, 70), true),
+            new Position(new Vector2D(120, 70), true),
             new UIButton(),
             new BuildingPicker(TypeBuilding.CANTEEN)
         );
         ECS.getInstance().createEntity(button2,
             new Text("2", Color.black),
-            new Position(new Vector2D(160, 100), true)
+            new Position(new Vector2D(140, 100), true)
         );
         
         Entity button3 = ECS.getInstance().createEntity(uiPanel,
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
                     new Animation(1, 100, 50, 50, 0, 0),
                     new Animation(1, 100, 50, 50, 50, 0)),
-            new Position(new Vector2D(190, 70), true),
+            new Position(new Vector2D(170, 70), true),
             new UIButton(),
             new BuildingPicker(TypeBuilding.SAWMILL)
         );
         ECS.getInstance().createEntity(button3,
             new Text("3", Color.black),
-            new Position(new Vector2D(210, 100), true)
+            new Position(new Vector2D(190, 100), true)
         );
 
         Entity button4 = ECS.getInstance().createEntity(uiPanel,
            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
                    new Animation(1, 100, 50, 50, 0, 0),
                    new Animation(1, 100, 50, 50, 50, 0)),
-           new Position(new Vector2D(250, 70), true),
+           new Position(new Vector2D(220, 70), true),
            new UIButton(),
            new BuildingPicker(TypeBuilding.FLOOR)
         );
         ECS.getInstance().createEntity(button4,
-            new Text("Floor", Color.black),
-            new Position(new Vector2D(250, 100), true)
+            new Text("F", Color.black),
+            new Position(new Vector2D(240, 100), true)
         );
         
-        Entity buttonP = ECS.getInstance().createEntity(uiPanel,
+        Entity buttonB = ECS.getInstance().createEntity(uiPanel,
             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
                     new Animation(1, 100, 50, 50, 0, 0),
                     new Animation(1, 100, 50, 50, 50, 0)),
             new Position(new Vector2D(70, 150), true),
             new UIButton(),
-            new PeopleGenerator(TypeHuman.BARBARIAN)
+            new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.BUILDER)
         );
-        ECS.getInstance().createEntity(buttonP,
-            new Text("P", Color.black),
-            new Position(new Vector2D(90, 170), true)
+        ECS.getInstance().createEntity(buttonB,
+            new Text("B", Color.black),
+            new Position(new Vector2D(80, 180), true)
+        );
+        
+        Entity buttonW = ECS.getInstance().createEntity(uiPanel,
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 
+                    new Animation(1, 100, 50, 50, 0, 0),
+                    new Animation(1, 100, 50, 50, 50, 0)),
+            new Position(new Vector2D(120, 150), true),
+            new UIButton(),
+            new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.WORKER)
+        );
+        ECS.getInstance().createEntity(buttonW,
+            new Text("W", Color.black),
+            new Position(new Vector2D(130, 180), true)
         );
         
         // Recursos y tal

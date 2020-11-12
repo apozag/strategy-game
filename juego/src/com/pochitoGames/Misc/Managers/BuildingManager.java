@@ -42,7 +42,7 @@ public class BuildingManager {
         blueprints.put(TypeBuilding.CANTEEN, new BuildingInfo(102,  new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
         blueprints.put(TypeBuilding.SCHOOL, new BuildingInfo(103,   new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
         blueprints.put(TypeBuilding.CASTLE, new BuildingInfo(104,   new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
-        blueprints.put(TypeBuilding.FLOOR,   new BuildingInfo(5,    new Vector2i(0, 0),  new Vector2i(1, 1), 0));   // Suelo
+        blueprints.put(TypeBuilding.FLOOR,   new BuildingInfo(6,    new Vector2i(0, 0),  new Vector2i(1, 1), 0));   // Suelo
         
         resourcesNeeded.put(TypeBuilding.SAWMILL, new HashMap<ResourceType, Integer>(){
             {
@@ -105,7 +105,7 @@ public class BuildingManager {
         for(int i = 0; i < b.size.col ; i++){
             for(int j = 0; j < b.size.row; j++){
                 int cellId = MapInfo.getInstance().getTileId(new Vector2i(cell.col + i, cell.row + j));
-                if(cellId >= 100 || cellId < 0 ||cellId == 5)
+                if(cellId >= 100 || cellId < 0 ||cellId == 5 || cellId == 6)
                     return;
             }
         }

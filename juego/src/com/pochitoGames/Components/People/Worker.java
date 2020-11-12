@@ -24,13 +24,13 @@ public class Worker extends Component {
     Building targetBuilding;
     ResourceType carrying;
     private ResourceType needed;
-    Worker targetMate = null;
+    Builder targetMate = null;
 
-    public Worker getTargetMate() {
+    public Builder getTargetMate() {
         return targetMate;
     }
 
-    public void setTargetMate(Worker targetMate) {
+    public void setTargetMate(Builder targetMate) {
         this.targetMate = targetMate;
     }
 
@@ -42,11 +42,11 @@ public class Worker extends Component {
         this.carrying = carrying;
     }
 
-    public ResourceType getNeeded() {
+    public ResourceType getResourceNeeded() {
         return needed;
     }
 
-    public void setNeeded(ResourceType needed) {
+    public void setResourceNeeded(ResourceType needed) {
         this.needed = needed;
     }
 
@@ -58,11 +58,11 @@ public class Worker extends Component {
         this.targetBuilding = targetBuilding;
     }
 
-    public WorkerState getWorkerState() {
+    public WorkerState getState() {
         return workerState;
     }
 
-    public void setWorkerState(WorkerState workerState) {
+    public void setState(WorkerState workerState) {
         this.workerState = workerState;
     }
 

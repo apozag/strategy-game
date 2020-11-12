@@ -5,6 +5,7 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
+import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.ObjectTypes.WorkerObject;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
@@ -52,6 +53,7 @@ public class Building extends Component {
     }
 
     public Vector2i getEntryCell() {
+        //return MapInfo.getInstance().getCloseCell(Vector2i.add(cell, BuildingManager.blueprints.get(type).entry));
         return Vector2i.add(cell, BuildingManager.blueprints.get(type).entry);
     }
 

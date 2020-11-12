@@ -30,7 +30,7 @@ public class PeopleGeneratorSystem extends System{
             UIButton b = e.get(UIButton.class);
             PeopleGenerator pg = e.get(PeopleGenerator.class);
             if(b.down && b.firstTick){
-                PeopleManager.getInstance().createCharacter(pg.getId(), new Vector2i(0, 0));
+                PeopleManager.getInstance().createCharacter(pg.getType(), pg.getRole(), new Vector2i(0, 0));
             }
         }
     }

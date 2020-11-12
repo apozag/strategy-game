@@ -82,25 +82,6 @@ public class PathFinding extends Component{
     public List<Vector2i> getSteps(){return steps;}
     
     public float getSpeed(){return speed;}
-    
-    public Vector2i getCloseCell(){
-        if(MapInfo.getInstance().getPeopleLayerCell(current)){
-            Vector2i neighbors[] = {new Vector2i(1, 0), new Vector2i(-1, 0), 
-                                    new Vector2i(0, 1), new Vector2i(0,-1), 
-                                    new Vector2i(1, -1), new Vector2i(-1, 1), 
-                                    new Vector2i(0,0),new Vector2i(1, 1) };
-            
-            int mapW = MapInfo.getInstance().getWidth();
-            int mapH = MapInfo.getInstance().getHeight();
-            
-            for(int i = 0; i < 8; i++){
-                Vector2i n = Vector2i.add(current, neighbors[i]);
-                if(!(n.col < 0 || n.col >= mapW || n.row < 0 || n.row >= mapH) && MapInfo.getInstance().getTileWalkCost(n) >= 0){
-                    return n;
-                }
-            }
-        }
-        return current;
-    }
+
 }
 

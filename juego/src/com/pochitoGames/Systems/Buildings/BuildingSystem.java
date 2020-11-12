@@ -7,8 +7,10 @@ import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.*;
 import com.pochitoGames.Engine.System;
+import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
+import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuildingState;
@@ -47,7 +49,11 @@ public class BuildingSystem extends System {
                 case BUILDING:
                     if(b.isFinished()){
                         if(s != null)
-                            s.setCurrentAnimationIndex(1);   
+                            s.setCurrentAnimationIndex(1);
+                        //El suelo es un caso especial: no se cambia su sprite sino que se avisa al tilemap para que cambie la imagen
+                        else if(b.getTypeBuilding() == TypeBuilding.FLOOR){
+                            MapInfo.getInstance().setTileId(b.getCell().col, b.getCell().row, 5);
+                        }
                         b.setState(BuildingState.FINISHED);
                     }
                     break;
