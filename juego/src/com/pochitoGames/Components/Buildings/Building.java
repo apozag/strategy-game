@@ -4,6 +4,7 @@ import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
+import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.ObjectTypes.WorkerObject;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class Building extends Component {
 
     private TypeBuilding type;
+    private TypeHuman ownerType;
     final private Vector2i cell;
     private int life;
     private int defense;
@@ -36,7 +38,8 @@ public class Building extends Component {
         this.type = typeBuilding;
     }
 
-    public Building(int life, int defense, int attack, Vector2i cell, TypeBuilding typeBuilding, Map<ResourceType, Integer> resourcesNeeded) {
+    public Building(TypeHuman ownerType, int life, int defense, int attack, Vector2i cell, TypeBuilding typeBuilding, Map<ResourceType, Integer> resourcesNeeded) {
+        this.ownerType = ownerType;
         setLife(life);
         setDefense(defense);
         setAttack(attack);
@@ -139,7 +142,12 @@ public class Building extends Component {
         updateResourcesNeeded();
     }
 
+    public TypeHuman getOwnerType(){
+        return ownerType;
+    }
+    
     private void updateResourcesNeeded() {
         resourcesNeeded.entrySet().removeIf(entry -> entry.getValue() <= 0);
     }
+    
 }

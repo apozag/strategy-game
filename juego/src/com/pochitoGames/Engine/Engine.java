@@ -5,16 +5,10 @@
  */
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Components.Buildings.Warehouse;
-import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.UI.BuildingPicker;
-import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
-import com.pochitoGames.Components.People.Builder;
-import com.pochitoGames.Components.People.Human;
-import com.pochitoGames.Components.People.Soldier;
 import com.pochitoGames.Components.UI.ResourceText;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
@@ -23,10 +17,8 @@ import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeRole;
-import com.pochitoGames.Misc.ComponentTypes.TypeSoldier;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
-import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
@@ -47,7 +39,6 @@ import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.ResourceTextSystem;
 import com.pochitoGames.Systems.UI.UIButtonSystem;
 import java.awt.Color;
-import java.util.HashMap;
 
 /**
  * @author PochitoMan
@@ -91,7 +82,7 @@ public class Engine {
         PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, TypeRole.BUILDER, new Vector2i(10, 10));
         PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, TypeRole.WORKER, new Vector2i(1, 1));
         
-        BuildingManager.getInstance().build(TypeBuilding.CASTLE, new Vector2i(4, 4));
+        BuildingManager.getInstance().build(TypeHuman.BARBARIAN, TypeBuilding.CASTLE, new Vector2i(4, 4));
         
         ECS.getInstance().createEntity(tilemap,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true),

@@ -12,6 +12,7 @@ import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
+import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Animation;
@@ -95,7 +96,7 @@ public class BuildingManager {
         buildings.add(b);
     }
     
-    public void build(TypeBuilding type, Vector2i cell){                  
+    public void build(TypeHuman ownerType, TypeBuilding type, Vector2i cell){                  
         
         if(cell.col < 0 || cell.col >= MapInfo.getInstance().getWidth() || cell.row < 0 || cell.row >= MapInfo.getInstance().getHeight())
             return;
@@ -119,7 +120,7 @@ public class BuildingManager {
         float yAnchor = 1 - (float)b.size.row /(2*b.height + b.size.col + b.size.row);
         switch(type){
             case SAWMILL:
-                newBuilding = new Building(100, 50, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 100, 50, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png", new Vector2D(0, yAnchor), true,
@@ -128,7 +129,7 @@ public class BuildingManager {
                     newBuilding);
                 break;
             case QUARRY:
-                newBuilding = new Building(50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png", new Vector2D(0, yAnchor), true,
@@ -137,7 +138,7 @@ public class BuildingManager {
                     newBuilding);
                 break;
             case SCHOOL:
-                newBuilding = new Building(50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png", new Vector2D(0, yAnchor), true,
@@ -146,7 +147,7 @@ public class BuildingManager {
                     newBuilding);
                 break;
             case CANTEEN:
-                newBuilding = new Building(50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png", new Vector2D(0, yAnchor), true,
@@ -155,7 +156,7 @@ public class BuildingManager {
                     newBuilding);
                 break;
             case CASTLE:
-                newBuilding = new Building(50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),
                     new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png", new Vector2D(0, yAnchor), true,
@@ -171,7 +172,7 @@ public class BuildingManager {
                 }));
                 break;            
             case FLOOR:
-                newBuilding = new Building(0, 0, 0, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 0, 0, 0, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null, 
                     new Position(IsometricTransformations.isoToCartesian(cell)),                   
                     newBuilding);
@@ -182,7 +183,7 @@ public class BuildingManager {
     }
     
     public Building getNearestBuilding(Vector2i cell, TypeBuilding type){
-        Building nearest = new Building(0, 0, 0, new Vector2i(999, 999), null, null);
+        Building nearest = new Building(null, 0, 0, 0, new Vector2i(999, 999), null, null);
         double nearestDist = 9999;
         for(Building b : buildings){
             BuildingInfo bi = blueprints.get(b.getTypeBuilding());

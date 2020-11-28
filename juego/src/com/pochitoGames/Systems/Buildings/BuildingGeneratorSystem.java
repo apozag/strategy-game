@@ -13,6 +13,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
+import com.pochitoGames.Misc.Managers.GameInfoManager;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
@@ -37,7 +38,7 @@ public class BuildingGeneratorSystem extends System{
                 TileSelector ts = (TileSelector)(e.get(TileSelector.class));
                 TileMap map = ts.getMap();
                 Vector2i selected = ts.getSelected();
-                BuildingManager.getInstance().build(buildingId, selected);
+                BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), buildingId, selected);
             }
         }
     }

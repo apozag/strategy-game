@@ -68,7 +68,8 @@ public class BuilderSystem extends System{
                         //Si SÍ necesita...
                         else{
                             //Busco a un compañero cercano
-                            Worker mate = PeopleManager.getInstance().getNearestWorker(pf.getCurrent());
+                            Human h = e.get(Human.class);
+                            Worker mate = PeopleManager.getInstance().getNearestWorker(h.getTypeHuman(), pf.getCurrent());
                             //Si hay alguno disponible
                             if(mate != null){
                                 //Cojo su pathFinding para saber su casilla
@@ -97,94 +98,7 @@ public class BuilderSystem extends System{
                 case ON_HOLD:
                     //NO hago nada hasta que mi compi me cambie de estado
                     break;                        
-            }
-            /*
-            switch(state){
-                case WAIT:
-                    //Estamos parados hasta que nos requieran (Los edificios nos llamen)
-                    break;                
-                case SEARCH_RESOURCE:
-                    //Si hemos llegado hasta el edificio
-                    if(pf.getTargetCell() == null){
-                        //Cojo el edificio (El componente Warehouse solo)
-                        Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
-                        //Le quito una unidad del recurso
-                        wh.takeContent(c.getResourceNeeded(), 1);
-                        //Cojo al compañero al que le tengo que llevar el recurso
-                        Builder mate = c.getTargetMate();
-                        //Cojo su pathfinding para saber su casilla
-                        PathFinding mpf = mate.getEntity().get(PathFinding.class);
-                        //Le digo a MI pathfinding que vaya a la casilla del compa
-                        pf.setTargetCell(mpf.getCloseCell());
-                        //Me congo en estado CARRY_RESOURCE
-                        c.setState(BuilderState.CARRY_RESOURCE);
-                        //Ahora empezará a andar solito hacia el compañero
-                    }
-                    break;
-                case CARRY_RESOURCE:
-                    //Si he llegado al compañero
-                    if(pf.getTargetCell() == null){
-                        //Cojo al compa
-                        Builder mate = c.getTargetMate();
-                        //Cojo el edificio que está constrruyendo mi compa (getTargetBuilding)
-                        //Y le meto (putResources) una unidad del recurso que necesita (getResourcesNeeded)
-                        mate.getTargetBuilding().putResources(c.getResourceNeeded(), 1);
-                        //Pongo al compa de vuelta al estado BUILDING (estaba en ON_HOLD)
-                        mate.setState(BuilderState.BUILD);                        
-                        //Me pongo en WAIT
-                        c.setState(BuilderState.WAIT);                        
-                    }
-                    break;
-                case BUILD:
-                    //Si he llegado al edificio a construir
-                    if(pf.getTargetCell() == null){
-                        //Cojo ese edificio
-                        Building b = c.getTargetBuilding();      
-                        //Le pregunto qué recurso necesita
-                        ResourceType needed = b.getResourceNeeded();
-                        //Me lo pongo como recurso que necesito (en verdad eso no sirve para nada)
-                        c.setResourceNeeded(needed);
-                        
-                        //Si no necesita ningún recurso, he acabado
-                        if(needed == null){
-                            c.setTargetBuilding(null);
-                            c.setState(BuilderState.WAIT);
-                        }
-                        //Si SÍ necesita...
-                        else{
-                            //Busco a un compañero cercano
-                            Builder mate = PeopleManager.getInstance().getNearestBuilder(pf.getCurrent());
-                            //Si hay alguno disponible
-                            if(mate != null){
-                                //Cojo su pathFinding para saber su casilla
-                                PathFinding mpf = mate.getEntity().get(PathFinding.class);
-                                //Busco un almacén cercano a mi compañero 
-                                //Que además tenga el recurso que quiero
-                                Building wh = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed);
-                                
-                                //Si hay alguno disponible
-                                if(wh != null){
-                                    //Le pongo al compañero toda la info que necesita
-                                    mate.setResourceNeeded(needed);
-                                    mate.setTargetBuilding(wh);
-                                    mate.setTargetMate(c);
-                                    //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
-                                    mpf.setTargetCell(wh.getEntryCell());
-                                    //Pongo al compa en estado SEARCH_RESOURCE
-                                    mate.setState(BuilderState.SEARCH_RESOURCE);
-                                    //Y yo me pongo en ON_HOLD para que nadie me moleste
-                                    c.setState(BuilderState.ON_HOLD);
-                                }
-                            }
-                        }
-                    }
-                        break;
-                case ON_HOLD:
-                    //NO hago nada hasta que mi compi me cambie de estado
-                    break;                        
-            }
-            */
-            
+            }                        
         }
     }
 }

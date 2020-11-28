@@ -4,6 +4,7 @@ import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.People.Builder;
+import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.*;
 import com.pochitoGames.Engine.System;
@@ -33,7 +34,8 @@ public class BuildingSystem extends System {
             switch(state){
                 case PLANNED:
                     if(!b.isFinished()){
-                        Builder c = PeopleManager.getInstance().getNearestBuilder(b.getEntryCell()); 
+                        //Human h = e.get(Human.class);
+                        Builder c = PeopleManager.getInstance().getNearestBuilder(b.getOwnerType(), b.getEntryCell()); 
                         if(c != null){
                             PathFinding pf = c.getEntity().get(PathFinding.class);                            
                             c.setTargetBuilding(b);

@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pochitoGames.Misc.ComponentTypes;
+package com.pochitoGames.Misc.States;
 
 /**
  *
  * @author PochitoMan
  */
-public enum TypeRole {
+public enum CanteenState {
     
-    WORKER,
-    BUILDER,
-    MINER
+    SEARCH_MINER,
+    
     
 }
