@@ -11,5 +11,6 @@ package com.pochitoGames.Misc.States;
  */
 public enum MinerState {
     WAIT,
-    WALKING_CANTEEN
+    WALKING_CANTEEN,
+    CANTERING,
 }
