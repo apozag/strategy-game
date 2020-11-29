@@ -13,6 +13,7 @@ public enum BuildingState {
     
     PLANNED,
     BUILDING,
-    FINISHED
+    FINISHED,
+    BEING_REPAIRED
     
 }

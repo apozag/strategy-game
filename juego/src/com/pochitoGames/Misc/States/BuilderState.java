@@ -14,5 +14,6 @@ public enum BuilderState {
     SEARCH_RESOURCE,
     CARRY_RESOURCE,
     BUILD,
-    ON_HOLD
+    ON_HOLD,
+    REPAIR
 }

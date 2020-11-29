@@ -24,6 +24,8 @@ import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Systems.Buildings.QuarrySystem;
+import com.pochitoGames.Systems.People.MinerSystem;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
@@ -73,7 +75,7 @@ public class Engine {
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(),
-                new BuildingSystem(), new ResourceTextSystem());
+                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new MinerSystem());
 
         Entity tilemap = ECS.getInstance().createEntity(null,
                 new Sprite(),
@@ -137,13 +139,23 @@ public class Engine {
                 new BuildingPicker(TypeBuilding.SAWMILL)
         );
 
+        Entity ButtonQuarry = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(300, 70), true),
+                new UIButton(),
+                new BuildingPicker(TypeBuilding.QUARRY)
+        );
+
         Entity button4 = ECS.getInstance().createEntity(uiPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(200, 70), true),
+                new Position(new Vector2D(240, 70), true),
+                new Text("Quarry", Color.black),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.SAWMILL)
+                new BuildingPicker(TypeBuilding.QUARRY)
         );
         ECS.getInstance().createEntity(button3,
                 new Text("3", Color.black),
@@ -159,6 +171,8 @@ public class Engine {
                 new UIButton(),
                 new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER)
         );
+
+
         ECS.getInstance().createEntity(button4,
                 new Text("F", Color.black),
                 new Position(new Vector2D(240, 100), true)

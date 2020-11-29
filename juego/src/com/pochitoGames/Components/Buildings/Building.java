@@ -18,7 +18,7 @@ public class Building extends Component {
     private TypeBuilding type;
     private TypeHuman ownerType;
     final private Vector2i cell;
-    private int life;
+    private int life = 100;
     private int defense;
     private int attack;
     private boolean alive = true;
@@ -68,7 +68,7 @@ public class Building extends Component {
         if (life < 0) {
             this.life = 0;
             alive = false;
-        } else {
+        } else if (life == 100) {
             this.life = life;
         }
 
@@ -121,7 +121,7 @@ public class Building extends Component {
         this.state = state;
     }
 
-    //Devuleve un recurso que neceste (el que mas necesite)
+    //Devuleve un recurso que necesite (el que mas necesite)
     public ResourceType getResourceNeeded() {
         ResourceType higher = null;
         int maxAmount = 0;

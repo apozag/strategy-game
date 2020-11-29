@@ -45,8 +45,8 @@ public class BuilderSystem extends System{
             PathFinding pf = e.get(PathFinding.class);
             Builder c = e.get(Builder.class);
             BuilderState state = c.getState();
-            
             switch(state){
+
                 case WAIT:
                     //Estamos parados hasta que nos requieran (Los edificios nos llamen)
                     break;                
@@ -97,8 +97,13 @@ public class BuilderSystem extends System{
                         break;
                 case ON_HOLD:
                     //NO hago nada hasta que mi compi me cambie de estado
-                    break;                        
-            }                        
+                    break;
+                case REPAIR:
+                    Building b = c.getTargetBuilding();
+                    b.setLife(b.getLife()+1);
+                    c.setState(BuilderState.WAIT);
+                    break;
+            }
         }
     }
 }

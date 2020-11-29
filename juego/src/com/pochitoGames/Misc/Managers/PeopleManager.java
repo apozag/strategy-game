@@ -77,8 +77,6 @@ public class PeopleManager {
                 }
                 break;
         }
-
-
         people.add(e);
     }
 
