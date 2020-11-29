@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pochitoGames.Misc.States;
+package com.pochitoGames.Engine;
 
 /**
  *
  * @author PochitoMan
  */
-public enum MinerState {
-    WAIT,
-    WALKING_QUARRY
+public enum Language {
+    ENGLISH,
+    SPANISH
 }

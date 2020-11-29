@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/Worker.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/MinerSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/QuarrySystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Quarry.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/PeopleManager.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/BuildingSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/Localization/eng.xml</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Language.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/ImageManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/Localization/esp.xml</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/LanguageManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Engine.java</file>
         </group>
     </open-files>
 </project-private>

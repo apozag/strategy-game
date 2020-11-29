@@ -51,8 +51,7 @@ public class Entity {
     
     ////////////MÉTODO IMPORNANTE////////////
     //Sirve para acceder a los componentes de esta entidad. por ejemplo, si queremos coger el sprite de esta entidad desde otro lado sería:
-    // Sprite s = (Sprite)(entidadEnCuestion.get(Sprite.class));
-    //Hay que hacer un casting a la clase del componente, que es lo de (Sprite)(...), porque si no no pilla el tipo.
+    // Sprite s = entidadEnCuestion.get(Sprite.class);
     public <T> T get(Class<? extends Component> componentClass){
         return (T) components.get(componentClass);
     }

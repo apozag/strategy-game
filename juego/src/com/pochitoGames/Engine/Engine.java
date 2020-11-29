@@ -65,6 +65,8 @@ public class Engine {
     //Creamos las entidades y les metemos los componentes a través de createEntity() de ECS
     public void init() {
 
+        LanguageManager.getInstance().loadLanguage(Language.SPANISH);
+        
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
 
@@ -161,7 +163,7 @@ public class Engine {
             new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.BUILDER)
         );
         ECS.getInstance().createEntity(buttonB,
-            new Text("B", Color.black),
+            new Text(LanguageManager.getInstance().getText("BUILDER"), Color.black),
             new Position(new Vector2D(80, 180), true)
         );
         

@@ -51,7 +51,7 @@ public abstract class System {
         }
     }
     
-    //Esto no se usa de momento, pero es parecido a consider solo que para entidades que ya formaban parte del sistema.
+    //Es parecido a consider solo que para entidades que ya formaban parte del sistema y se han modificado los componentes.
     public void validate(Entity e){
         if(entities.contains(e)){
             if(!this.matches(e))
@@ -59,7 +59,7 @@ public abstract class System {
         }
     }
     
-    //Devuelñve true si se cumplen los requisitos. Se usa en consider()
+    //Devuelve true si se cumplen los requisitos. Se usa en consider()
     private boolean matches(Entity e){
         return e.contains(include) && !e.containsAny(exclude);
     }
@@ -77,6 +77,6 @@ public abstract class System {
     }
     
     //Este es el método abstracto que implemnentarán las clases hijo. 
-    //En ´él se define cómo se updatearán las entidades que forman parte del sistema.
+    //En él se define cómo se updatearán las entidades que forman parte del sistema.
     public abstract void update(double dt);
 }

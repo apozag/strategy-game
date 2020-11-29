@@ -11,7 +11,6 @@ import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.People.Miner;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
-import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.States.MinerState;
 /**
@@ -33,7 +32,7 @@ public class QuarrySystem extends System{
                 Miner miner = PeopleManager.getInstance().getNearestMiner(building.getOwnerType(), building.getCell());
                 if(miner != null){
                     PathFinding pf = miner.getEntity().get(PathFinding.class);
-                    miner.setState(MinerState.WALKING_CANTEEN);
+                    miner.setState(MinerState.WALKING_QUARRY);
                     miner.setQuarry(quarry);
                     pf.setTargetCell(building.getEntryCell());
                 }
