@@ -32,7 +32,7 @@ public class QuarrySystem extends System{
                 Miner miner = PeopleManager.getInstance().getNearestMiner(building.getOwnerType(), building.getCell());
                 if(miner != null){
                     PathFinding pf = miner.getEntity().get(PathFinding.class);
-                    miner.setState(MinerState.WALKING_QUARRY);
+                    miner.setState(MinerState.WALKING_CANTEEN);
                     miner.setQuarry(quarry);
                     pf.setTargetCell(building.getEntryCell());
                 }

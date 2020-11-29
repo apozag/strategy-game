@@ -11,9 +11,13 @@ import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;  
 import org.w3c.dom.NodeList;  
 import java.io.File;  
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 /**
  *
  * @author PochitoMan
@@ -63,7 +67,7 @@ public class LanguageManager {
                 text.put(id, t);
             }
         }
-        catch(Exception e){
+        catch(IOException | ParserConfigurationException | DOMException | SAXException e){
             e.printStackTrace();  
         }
         

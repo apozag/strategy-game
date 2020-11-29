@@ -23,58 +23,65 @@ import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.WorkerState;
+
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
  * @author PochitoMan
  */
 public class PeopleManager {
-    
+
     private static PeopleManager instance;
-    
+
     private List<Entity> people;
-    
-    private PeopleManager(){
+
+    private PeopleManager() {
         people = new LinkedList<>();
     }
-    
-    public static PeopleManager getInstance(){
-        if(instance == null)
+
+    public static PeopleManager getInstance() {
+        if (instance == null)
             instance = new PeopleManager();
         return instance;
     }
-    
-    public void createCharacter(TypeHuman type, TypeRole role, Vector2i cell){
+
+    public void createCharacter(TypeHuman type, TypeRole role, Vector2i cell) {
         Entity e = null;
-        switch(type){
+        switch (type) {
             case BARBARIAN:
-                e = ECS.getInstance().createEntity(null,                    
-                    new Position(IsometricTransformations.isoToCartesian(cell)),
-                    new Human(100,"Sol",10,10, type),
-                    new PathFinding(cell)
+                e = ECS.getInstance().createEntity(null,
+                        new Position(IsometricTransformations.isoToCartesian(cell)),
+                        new Human(100, "Sol", 10, 10, type),
+                        new PathFinding(cell)
                 );
-                switch(role){
-                    case WORKER:
+                switch (role) {
+                    case WORKER -> {
                         ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character2.png",
-                                    new Vector2D(0.5f, 1.0f),
-                                    true));
+                                new Vector2D(0.5f, 1.0f),
+                                true));
                         ECS.getInstance().addComponent(e, new Worker());
-                        break;
-                    case BUILDER:
+                    }
+                    case BUILDER -> {
                         ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
-                                    new Vector2D(0.5f, 1.0f),
-                                    true));
+                                new Vector2D(0.5f, 1.0f),
+                                true));
                         ECS.getInstance().addComponent(e, new Builder());
-                        break;
+                    }
+                    case MINER -> {
+                        ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
+                                new Vector2D(0.5f, 1.0f),
+                                true));
+                        ECS.getInstance().addComponent(e, new Miner());
+                    }
                 }
                 break;
         }
-        
-        
+
+
         people.add(e);
     }
+
     /*
     public Component getNearest(TypeHuman type, TypeRole role, Vector2i cell){        
         
@@ -89,18 +96,18 @@ public class PeopleManager {
         return null;
     }
     */
-    public Builder getNearestBuilder(TypeHuman type, Vector2i cell){
+    public Builder getNearestBuilder(TypeHuman type, Vector2i cell) {
         Builder nearest = null;
         int nearestDist = 9999;
-        for(Entity e : people){
+        for (Entity e : people) {
             Builder b = e.get(Builder.class);
-            if(b != null && b.getState() == BuilderState.WAIT){
+            if (b != null && b.getState() == BuilderState.WAIT) {
                 Human h = e.get(Human.class);
-                if(h == null && h.getTypeHuman() != type)
+                if (h == null && h.getTypeHuman() != type)
                     continue;
                 PathFinding pf = e.get(PathFinding.class);
                 int dist = cell.distance(pf.getCurrent());
-                if(dist < nearestDist){
+                if (dist < nearestDist) {
                     nearestDist = dist;
                     nearest = b;
                 }
@@ -108,19 +115,19 @@ public class PeopleManager {
         }
         return nearest;
     }
-    
-    public Worker getNearestWorker(TypeHuman type, Vector2i cell){
+
+    public Worker getNearestWorker(TypeHuman type, Vector2i cell) {
         Worker nearest = null;
         int nearestDist = 9999;
-        for(Entity e : people){
+        for (Entity e : people) {
             Worker b = e.get(Worker.class);
-            if(b != null && b.getState() == WorkerState.WAIT){
+            if (b != null && b.getState() == WorkerState.WAIT) {
                 Human h = e.get(Human.class);
-                if(h == null && h.getTypeHuman() != type)
+                if (h == null && h.getTypeHuman() != type)
                     continue;
                 PathFinding pf = e.get(PathFinding.class);
                 int dist = cell.distance(pf.getCurrent());
-                if(dist < nearestDist){
+                if (dist < nearestDist) {
                     nearestDist = dist;
                     nearest = b;
                 }
@@ -128,19 +135,19 @@ public class PeopleManager {
         }
         return nearest;
     }
-    
-    public Miner getNearestMiner(TypeHuman type, Vector2i cell){
+
+    public Miner getNearestMiner(TypeHuman type, Vector2i cell) {
         Miner nearest = null;
         int nearestDist = 9999;
-        for(Entity e : people){
+        for (Entity e : people) {
             Miner m = e.get(Miner.class);
-            if(m != null && m.getState() == MinerState.WAIT){
+            if (m != null && m.getState() == MinerState.WAIT) {
                 Human h = e.get(Human.class);
-                if(h == null && h.getTypeHuman() != type)
+                if (h == null && h.getTypeHuman() != type)
                     continue;
                 PathFinding pf = e.get(PathFinding.class);
                 int dist = cell.distance(pf.getCurrent());
-                if(dist < nearestDist){
+                if (dist < nearestDist) {
                     nearestDist = dist;
                     nearest = m;
                 }
