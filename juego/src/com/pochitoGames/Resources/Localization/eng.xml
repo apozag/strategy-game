@@ -2,7 +2,7 @@
 <text>
     <!--Character roles-->
     <entry id = "WORKER"> Worker </entry>
-    <entry id = "BUILER"> Builder </entry>
+    <entry id = "BUILDER"> Builder </entry>
     <entry id = "MINER"> Miner </entry>
     <entry id = "SOLDIER"> Soldier </entry>
     <entry id = "WOODWORKER"> Woodworker </entry>

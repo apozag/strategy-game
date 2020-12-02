@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 /**
  *
@@ -53,17 +54,18 @@ public class LanguageManager {
         }
         
         try{    
-            File file = new File(filename);  
+            //File file = new File(filename);  
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
             DocumentBuilder db = dbf.newDocumentBuilder();  
-            Document doc = db.parse(file);  
+            Document doc = db.parse(filename);  
             NodeList nodeList = doc.getElementsByTagName("entry"); 
             
             text.clear();
             
             for(int i = 0; i < nodeList.getLength(); i++){
-                String id = nodeList.item(i).getAttributes().getNamedItem("id").getNodeValue();
-                String t = nodeList.item(i).getNodeValue();
+                Node node = nodeList.item(i);
+                String id = node.getAttributes().getNamedItem("id").getNodeValue();
+                String t = node.getTextContent();
                 text.put(id, t);
             }
         }

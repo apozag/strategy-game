@@ -24,7 +24,7 @@ import java.util.HashSet;
 public class MinerSystem extends System {
 
     public MinerSystem() {
-        include(Miner.class, PathFinding.class);
+        include(Miner.class, PathFinding.class, Quarry.class);
         exclude(Builder.class, Worker.class);
     }
 

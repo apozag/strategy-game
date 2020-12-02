@@ -50,7 +50,9 @@ public class Warehouse extends Component{
     }
     
     public int getContent(ResourceType type){
-        return content.get(type);
+        if(canHave(type))
+            return content.get(type);
+        return 0;
     }
             
 }

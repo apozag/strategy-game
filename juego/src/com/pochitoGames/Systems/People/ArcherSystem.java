@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 public class ArcherSystem extends System {
 
-    public ArcherSystem(){
+    public ArcherSystem() {
         include(Human.class, Position.class, Archer.class, Visibility.class, PathFinding.class);
         exclude();
     }
@@ -21,22 +21,22 @@ public class ArcherSystem extends System {
     @Override
     public void update(double dt) {
 
-        for(Entity e : getEntities()){
+        for (Entity e : getEntities()) {
             Archer archer = e.get(Archer.class);
             Human human = e.get(Human.class);
             Position p = e.get(Position.class);
             ArcherState state = archer.getState();
             Visibility v = e.get(Visibility.class);
-            switch (state){
+            switch (state) {
                 case WAITING:
                     HashSet<Entity> onSight = v.getVisibility();
-                    if(!onSight.isEmpty()){
+                    if (!onSight.isEmpty()) {
                         archer.setTarget(onSight.iterator().next());
                         archer.setState(ArcherState.ATTACKING);
                     }
                     break;
                 case ATTACKING:
-                    Entity t= archer.getTarget();
+                    Entity t = archer.getTarget();
                     Human h = t.get(Human.class);
                     h.reciveDamage(human.getAttack());
                     break;

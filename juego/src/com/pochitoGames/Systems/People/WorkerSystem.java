@@ -72,7 +72,7 @@ public class WorkerSystem extends System {
                         //Y le meto (putResources) una unidad del recurso que necesita (getResourcesNeeded)
                         mate.getTargetBuilding().putResources(c.getResourceNeeded(), 1);
                         //Pongo al compa de vuelta al estado BUILDING (estaba en ON_HOLD)
-                        mate.setState(BuilderState.BUILD); //TODO Aqui tengo dudas de comer hacerlo, porque tengo que cambiar el estado del otro builder a BUILD
+                        mate.setState(BuilderState.BUILD);
                         //Me pongo en WAIT
                         c.setState(WorkerState.WAIT);
                     }

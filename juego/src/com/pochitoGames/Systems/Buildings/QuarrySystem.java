@@ -19,7 +19,7 @@ import com.pochitoGames.Misc.States.MinerState;
  */
 public class QuarrySystem extends System{
     public QuarrySystem(){
-        include(Quarry.class);
+        include(Quarry.class, Building.class);
         exclude();
     }
 
@@ -28,13 +28,16 @@ public class QuarrySystem extends System{
         for(Entity e: getEntities()){
             Quarry quarry = e.get(Quarry.class);
             Building building = e.get(Building.class);
-            if(quarry.getMiner() == null){
+            if(building.isFinished() && quarry.getMiner() == null){
                 Miner miner = PeopleManager.getInstance().getNearestMiner(building.getOwnerType(), building.getCell());
                 if(miner != null){
                     PathFinding pf = miner.getEntity().get(PathFinding.class);
                     miner.setState(MinerState.WALKING_CANTEEN);
                     miner.setQuarry(quarry);
                     pf.setTargetCell(building.getEntryCell());
+                    quarry.setMiner(miner);
+                    //TODO : Generar piedra, y que un worker vaya a bucarla
+                    //TODO: : Miner se mueva y cuando vuelva cree piedra
                 }
             }
         }

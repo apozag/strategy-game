@@ -88,7 +88,7 @@ public class TileMapLoader {
                 charIdx++;
             }
             charIdx++;
-            while(charIdx < line.length()){
+            while(charIdx < line.length()-1){
                 cost += line.charAt(charIdx);
                 charIdx++;
             }

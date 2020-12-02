@@ -10,6 +10,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Components.UI.ResourceText;
 import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Engine.Entity;
+import com.pochitoGames.Engine.LanguageManager;
 import com.pochitoGames.Misc.Managers.ResourcesManager;
 
 /**
@@ -18,9 +19,15 @@ import com.pochitoGames.Misc.Managers.ResourcesManager;
  */
 public class ResourceTextSystem extends System{
 
+    String wood, stone, gold;
+    
     public ResourceTextSystem(){
         include(Text.class, ResourceText.class);
         exclude();
+        
+        wood = LanguageManager.getInstance().getText("WOOD") + ": ";
+        stone = LanguageManager.getInstance().getText("STONE") + ": ";
+        gold = LanguageManager.getInstance().getText("GOLD") + ": ";
     }
     
     @Override
@@ -31,13 +38,13 @@ public class ResourceTextSystem extends System{
             String s = null;
             switch(rt.getType()){
                 case WOOD:
-                    s = "Wood: ";
+                    s = wood;
                     break;
                 case STONE:
-                    s = "Stone: ";
+                    s = stone;
                     break;
                 case GOLD:
-                    s = "Gold: ";
+                    s = gold;
                     break;                                                
             }
             text.setText(s + ResourcesManager.getInstance().getResource(0, rt.getType()));

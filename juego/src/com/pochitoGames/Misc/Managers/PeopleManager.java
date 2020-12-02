@@ -56,29 +56,27 @@ public class PeopleManager {
                         new PathFinding(cell)
                 );
                 switch (role) {
-                    case WORKER -> {
+                    case WORKER:
                         ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character2.png",
                                 new Vector2D(0.5f, 1.0f),
                                 true));
                         ECS.getInstance().addComponent(e, new Worker());
-                    }
-                    case BUILDER -> {
+                    break;
+                    case BUILDER:
                         ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
                                 new Vector2D(0.5f, 1.0f),
                                 true));
                         ECS.getInstance().addComponent(e, new Builder());
-                    }
-                    case MINER -> {
+                    break;
+                    case MINER:
                         ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
                                 new Vector2D(0.5f, 1.0f),
                                 true));
                         ECS.getInstance().addComponent(e, new Miner());
-                    }
+                    break;
                 }
                 break;
         }
-
-
         people.add(e);
     }
 
