@@ -34,7 +34,7 @@ public class BuildingGeneratorSystem extends System{
     @Override
     public void update(double dt) {        
         for(Entity e : getEntities()){
-            if(EventManager.getInstance().isMousePressed() && buildingId != null){
+            if(EventManager.getInstance().mouseClicked() && buildingId != null){
                 TileSelector ts = (TileSelector)(e.get(TileSelector.class));
                 TileMap map = ts.getMap();
                 Vector2i selected = ts.getSelected();

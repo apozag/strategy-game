@@ -10,6 +10,7 @@ import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Miner;
+import com.pochitoGames.Components.People.Soldier;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Component;
@@ -57,22 +58,19 @@ public class PeopleManager {
                 );
                 switch (role) {
                     case WORKER:
-                        ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character2.png",
-                                new Vector2D(0.5f, 1.0f),
-                                true));
-                        ECS.getInstance().addComponent(e, new Worker());
+                        ECS.getInstance().addComponent(e, 
+                            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character2.png", new Vector2D(0.5f, 1.0f), true),
+                            new Worker());
                     break;
                     case BUILDER:
-                        ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
-                                new Vector2D(0.5f, 1.0f),
-                                true));
-                        ECS.getInstance().addComponent(e, new Builder());
+                        ECS.getInstance().addComponent(e, 
+                            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f), true),
+                            new Builder());
                     break;
                     case MINER:
-                        ECS.getInstance().addComponent(e, new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png",
-                                new Vector2D(0.5f, 1.0f),
-                                true));
-                        ECS.getInstance().addComponent(e, new Miner());
+                        ECS.getInstance().addComponent(e, 
+                            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f), true), 
+                            new Miner());
                     break;
                 }
                 break;

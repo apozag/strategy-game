@@ -3,22 +3,42 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/GameInfoManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/BuildingManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/ImageManager.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/QuarrySystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/ArcherSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Warehouse.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/States/CanteenState.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/ECS.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/BuildingPickerSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/CharriotSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/ComponentTypes/TypeSoldier.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/MinerSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Language.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/HorseManSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/LanguageManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/HorseMan.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Map/TileMapLoader.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/Builder.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/VisibilitySystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/PathFindingSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/QuarrySystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/SquadronManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/Localization/esp.xml</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Entity.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Engine.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/PeopleManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/States/MinerState.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/EventManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/ResourcesManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/BuilderSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/ResourceText.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/ComponentTypes/TypeRole.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/Localization/eng.xml</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/MinerSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Language.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/LanguageManager.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Map/TileMapLoader.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/BuildingGeneratorSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/Soldier.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/ResourceTextSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Map/MapInfo.java</file>
         </group>
     </open-files>
 </project-private>

@@ -68,7 +68,7 @@ public class Engine {
     //Creamos las entidades y les metemos los componentes a través de createEntity() de ECS
     public void init() {
 
-        LanguageManager.getInstance().loadLanguage(Language.ENGLISH);
+        LanguageManager.getInstance().loadLanguage(Language.SPANISH);
         
         window = new Window(SCR_WIDTH, SCR_HEIGHT);
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);

@@ -92,14 +92,12 @@ public class PathFindingSystem extends System {
         path.addAll(begin, patch);
     }
 
-    // Basdo en el ejemplo de https://www.annytab.com/a-star-search-algorithm-in-python/
     public static List<Vector2i> aStar(Vector2i start, Vector2i end) {
         int[][] map = MapInfo.getInstance().getMap();
+        List<Vector2i> steps = new LinkedList<>();
         
         if(MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
             java.lang.System.out.println("AStar started to: " + end.col + ", " + end.row);
-
-            List<Vector2i> steps = new LinkedList<>();
 
 
             //En open estan los candidatos a visitar
@@ -114,6 +112,7 @@ public class PathFindingSystem extends System {
 
             SortByCost sorter = new SortByCost();
             while (!open.isEmpty()) {
+                // TODO: No hace falta ordenar, se puede buscar solo el mas cerca y ya
                 open.sort(sorter);
                 Node current = open.remove(0);
 
@@ -167,7 +166,7 @@ public class PathFindingSystem extends System {
         //No se ha encontrado camino. Se devuelve lista vacía
         java.lang.System.out.println("No path");
         
-        return new LinkedList<>();
+        return steps;
     }
 
     private static boolean addToOpen(List<Node> list, Node node){
