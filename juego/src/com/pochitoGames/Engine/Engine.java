@@ -247,7 +247,7 @@ public class Engine {
             EventManager.getInstance().clearEvents();
 
             //Tenemos que esperar un rato (1000/30 == 30FPS) para que no se quede pillado en un bucle infinito.
-            Thread.sleep(1000 / FPS);
+            Thread.sleep( 845 / FPS);
         }
     }
 

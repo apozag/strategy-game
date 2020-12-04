@@ -31,6 +31,7 @@ public abstract class System {
     
     //Hay una refereencia al ECS también porsiaca
     ECS ecs;
+
     
     public System(){
         
