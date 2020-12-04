@@ -6,6 +6,7 @@
 package com.pochitoGames.Systems.People;
 
 import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
@@ -77,6 +78,35 @@ public class WorkerSystem extends System {
                         c.setState(WorkerState.WAIT);
                     }
                     break;
+
+                case TAKING_RESOURCE_FROM_BUILDING:
+                    //Si hemos llegado hasta el edificio
+                    if (pf.getTargetCell() == null) {
+                        Quarry quarry = c.getTargetBuilding().getEntity().get(Quarry.class);
+                        quarry.takeStone(1);
+                        Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
+                        PathFinding mpf = wh.getEntity().get(PathFinding.class);
+                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(mpf.getCurrent()));
+                        c.setState(WorkerState.CARRY_RESOURCE_TO_WAREHOUSE);
+                    }
+                    break;
+                case CARRY_RESOURCE_TO_WAREHOUSE:
+                    //Si hemos llegado hasta el edificio
+                    if (pf.getTargetCell() == null) {
+                        //Cojo el edificio (El componente Warehouse solo)
+                        Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
+                        //Le quito una unidad del recurso
+                        //wh.putContent(c.);
+                        //Cojo al compañero al que le tengo que llevar el recurso
+                        Builder mate = c.getTargetMate();
+                        //Cojo su pathfinding para saber su casilla
+                        PathFinding mpf = mate.getEntity().get(PathFinding.class);
+                        //Le digo a MI pathfinding que vaya a la casilla del compa
+                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(mpf.getCurrent()));
+                        //Me congo en estado CARRY_RESOURCE
+                        c.setState(WorkerState.CARRY_RESOURCE);
+                        //Ahora empezará a andar solito hacia el compañero
+                    }
             }
         }
     }

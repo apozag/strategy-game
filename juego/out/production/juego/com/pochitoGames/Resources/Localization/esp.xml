@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<text>
+    <!--Roles de personajes-->
+    <entry id = "WORKER"> Trabajador </entry>
+    <entry id = "BUILDER"> Constructor </entry>
+    <entry id = "MINER"> Minero </entry>
+    <entry id = "SOLDIER"> Soldado </entry>
+    <entry id = "WOODWORKER"> Carpintero </entry>
+
+    <!--Recursos-->
+    <entry id = "GOLD"> Oro </entry>
+    <entry id = "WOOD"> Madera </entry>
+    <entry id = "STONE"> Piedra </entry>
+</text>
