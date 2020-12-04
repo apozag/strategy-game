@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<text>
+    <!--Character roles-->
+    <entry id = "WORKER"> Worker </entry>
+    <entry id = "BUILDER"> Builder </entry>
+    <entry id = "MINER"> Miner </entry>
+    <entry id = "SOLDIER"> Soldier </entry>
+    <entry id = "WOODWORKER"> Woodworker </entry>
+
+    <!--Resources-->
+    <entry id = "GOLD"> Gold </entry>
+    <entry id = "WOOD"> Wood </entry>
+    <entry id = "STONE"> Stone </entry>
+</text>
