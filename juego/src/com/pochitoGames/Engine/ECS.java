@@ -75,13 +75,13 @@ public class ECS {
         //Cada componente tiene una referencia a la entidad a la que pertenece
         for(Component c : components){
             c.setEntity(e);
-            if(c instanceof ClickListener){
-                EventManager.getInstance().addClickListener((ClickListener)c);
-            }
         }
         
-        //Lo añadimops a la lista de entidades pendientes por meter en los sistemas
+        //Lo añadimoos a la lista de entidades pendientes por meter en los sistemas
         entitiesToCreate.add(e);
+        
+        if(parent != null)
+            parent.addChild(e);
         
         return e;
     }

@@ -6,6 +6,8 @@ import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Misc.Other.Time;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -102,7 +104,14 @@ public class Renderer extends JPanel{
                     pos = Camera.getInstance().toCameraCoords(p.getWorldPos());
                 g2D.setFont(text.getFont());
                 g2D.setColor(text.getColor());
-                g2D.drawString(text.getText(), pos.x, pos.y);
+                String str = text.getText();
+                int rWidth = 0;
+                if(text.isCentered()){
+                    Rectangle2D rect = text.getFont().getStringBounds(str, new FontRenderContext(null, true, true));
+                    rWidth = (int) Math.round(rect.getWidth());
+                }
+                //int rHeight = (int) Math.round(rect.getHeight());
+                g2D.drawString(str, pos.x - rWidth/2, pos.y);
             }
             
             //FPS counter

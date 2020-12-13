@@ -13,6 +13,7 @@ import com.pochitoGames.Components.People.Miner;
 import com.pochitoGames.Components.People.Soldier;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Components.Visual.Sprite;
+import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Entity;
@@ -24,9 +25,13 @@ import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.WorkerState;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author PochitoMan
@@ -35,10 +40,18 @@ public class PeopleManager {
 
     private static PeopleManager instance;
 
-    private List<Entity> people;
+    private Map<TypeHuman, List<Entity>> people;
 
     private PeopleManager() {
-        people = new LinkedList<>();
+        people = new HashMap<>();
+        people.put(TypeHuman.BARBARIAN, new ArrayList<Entity>());
+        people.put(TypeHuman.DEMON, new ArrayList<Entity>());
+        people.put(TypeHuman.DWARF, new ArrayList<Entity>());
+        people.put(TypeHuman.ELF, new ArrayList<Entity>());
+        people.put(TypeHuman.GOBLIN, new ArrayList<Entity>());
+        people.put(TypeHuman.ORC, new ArrayList<Entity>());
+        people.put(TypeHuman.HUMAN, new ArrayList<Entity>());
+        
     }
 
     public static PeopleManager getInstance() {
@@ -75,31 +88,17 @@ public class PeopleManager {
                 }
                 break;
         }
-        people.add(e);
+        people.get(type).add(e);
     }
 
-    /*
-    public Component getNearest(TypeHuman type, TypeRole role, Vector2i cell){        
-        
-        switch(role){
-            case WORKER:
-                return getNearestWorker(type, cell);
-            case BUILDER:
-                return getNearestBuilder(type, cell);
-            case MINER:
-                return getNearestMiner(type, cell);
-        }
-        return null;
-    }
-    */
     public Builder getNearestBuilder(TypeHuman type, Vector2i cell) {
         Builder nearest = null;
         int nearestDist = 9999;
-        for (Entity e : people) {
+        for (Entity e : people.get(type)) {
             Builder b = e.get(Builder.class);
             if (b != null && b.getState() == BuilderState.WAIT) {
                 Human h = e.get(Human.class);
-                if (h == null && h.getTypeHuman() != type)
+                if (h == null)
                     continue;
                 PathFinding pf = e.get(PathFinding.class);
                 int dist = cell.distance(pf.getCurrent());
@@ -115,7 +114,7 @@ public class PeopleManager {
     public Worker getNearestWorker(TypeHuman type, Vector2i cell) {
         Worker nearest = null;
         int nearestDist = 9999;
-        for (Entity e : people) {
+        for (Entity e : people.get(type)) {
             Worker b = e.get(Worker.class);
             if (b != null && b.getState() == WorkerState.WAIT) {
                 Human h = e.get(Human.class);
@@ -135,7 +134,7 @@ public class PeopleManager {
     public Miner getNearestMiner(TypeHuman type, Vector2i cell) {
         Miner nearest = null;
         int nearestDist = 9999;
-        for (Entity e : people) {
+        for (Entity e : people.get(type)) {
             Miner m = e.get(Miner.class);
             if (m != null && m.getState() == MinerState.WAIT) {
                 Human h = e.get(Human.class);

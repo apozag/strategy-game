@@ -22,10 +22,12 @@ public class Position extends Component{
     
     public Position(Vector2D pos){
         this.localPos = pos;
+        this.worldPos = pos;
     }
     
     public Position(Vector2D pos, boolean lock){
         this.localPos = pos;
+        this.worldPos = pos;
         this.lock = lock;
     }
     
@@ -39,21 +41,23 @@ public class Position extends Component{
     }
     
     public Vector2D getWorldPos(){
-        Entity parent = getEntity().getParent();
-        if(parent != null && dirty){
-            worldPos = Vector2D.add(localPos , ((Position)(parent.get(Position.class))).getWorldPos());
+        if(dirty){
+            worldPos = new Vector2D(localPos);
+            Entity parent = getEntity().getParent();
+            if(parent != null){
+                Position parentPos = parent.get(Position.class);
+                worldPos.add(parentPos.getWorldPos());
+            }
+            dirty = false;
         }
-        else{
-            return new Vector2D(localPos);
-        }
-        dirty = false;
         return new Vector2D(worldPos);
     }
     
     private void setDirtyFlag(){
         dirty = true;
         for(Entity child : getEntity().getChildren()){
-            ((Position)(child.get(Position.class))).setDirtyFlag();
+            Position childPosition = child.get(Position.class);
+            childPosition.setDirtyFlag();
         }
     }
     

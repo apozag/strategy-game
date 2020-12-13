@@ -19,10 +19,18 @@ public class Text extends Component {
     Font font;
     Color color;
     
+    boolean centered = false;
+    
     public Text(String text, Color color){
         this.text = text;
         this.font = new Font("Times New Roman", Font.PLAIN, 28);
         this.color = color;
+    }
+    public Text(String text, Color color, boolean centered){
+        this.text = text;
+        this.font = new Font("Times New Roman", Font.PLAIN, 28);
+        this.color = color;
+        this.centered = centered;
     }
     
     public String getText(){
@@ -39,5 +47,9 @@ public class Text extends Component {
     
     public Color getColor(){
         return color;
+    }
+    
+    public boolean isCentered(){
+        return centered;
     }
 }

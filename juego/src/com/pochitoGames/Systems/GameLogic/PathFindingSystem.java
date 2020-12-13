@@ -97,8 +97,6 @@ public class PathFindingSystem extends System {
         List<Vector2i> steps = new LinkedList<>();
         
         if(MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
-            java.lang.System.out.println("AStar started to: " + end.col + ", " + end.row);
-
 
             //En open estan los candidatos a visitar
             List<Node> open = new LinkedList<>();

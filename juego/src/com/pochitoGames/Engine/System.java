@@ -5,9 +5,7 @@
  */
 package com.pochitoGames.Engine;
 
-import com.pochitoGames.Engine.Component;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 /**
  *
@@ -20,7 +18,7 @@ import java.util.List;
 //Un sistema contiene referencias a las entidades que cumplen con los requisitos. 
 //A su vez, las entidades pueden ser parte de varios sistemas a la vez (En casi todos los casos)
 public abstract class System {
-    //En muchas ocasiones, el sistema necesita que la entidad tenga varios componentes de tipos concretos para asegurarse que no va aexplotar en algún momento.
+    //En muchas ocasiones, el sistema necesita que la entidad tenga varios componentes de tipos concretos para asegurarse que no va a explotar en algún momento.
     //En include están los componentes que DEBEN contener las entidades para se rparte del sistema
     private Class <? extends Component>[] include;
     //En exlude stán los componentes que NO DEBE contener la entidad para ser parte del sistema.

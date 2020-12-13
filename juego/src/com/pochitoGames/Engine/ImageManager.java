@@ -44,4 +44,18 @@ public class ImageManager {
         }
         return img;
     }
+    
+    public static void preload(String... filenames){
+        for(String filename : filenames){
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(new File(filename));
+            } catch (IOException ex) {
+                Logger.getLogger(ImageManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(img == null){                
+                images.put(filename, img);
+            }
+        }
+    }
 }
