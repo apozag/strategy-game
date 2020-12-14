@@ -186,7 +186,6 @@ public class PathFindingSystem extends System {
     
     private static void extractParents(Node n, List<Vector2i> list){
         if(n != null){
-            java.lang.System.out.println("(" + n.cell.col + ", " + n.cell.row + ")");
             list.add(0, n.cell);
             extractParents(n.parent, list);
         }

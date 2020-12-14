@@ -138,7 +138,14 @@ public class BuildingManager {
                         new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png", new Vector2D(0, yAnchor), true,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
-                        newBuilding, new Quarry());
+                        newBuilding, 
+                        new Quarry(),
+                        new Warehouse(new HashMap<ResourceType, Integer>() {
+                            {
+                                put(ResourceType.RAW_STONE, 0);
+                            }
+                        })
+                );
                 break;
             case SCHOOL:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -186,7 +193,7 @@ public class BuildingManager {
     }
 
     public Building getNearestBuilding(Vector2i cell, TypeBuilding type) {
-        Building nearest = new Building(null, 0, 0, 0, new Vector2i(999, 999), null, null);
+        Building nearest = null;
         double nearestDist = 9999;
         for (Building b : buildings) {
             BuildingInfo bi = blueprints.get(b.getTypeBuilding());
@@ -196,18 +203,18 @@ public class BuildingManager {
                 nearestDist = dist;
             }
         }
-        if (nearest.getCell().col >= 999 || nearest.getCell().row >= 999)
+        if (nearest == null || nearest.getCell().col >= 999 || nearest.getCell().row >= 999)
             return null;
         return nearest;
     }
 
-    public Building getNearestWarehouse(Vector2i cell, ResourceType type) {
+    public Building getNearestWarehouse(Vector2i cell, ResourceType type, Building exclude) {
         Building nearest = null;
         int nearestDist = 9999;
         for (Building b : buildings) {
             Warehouse wh = b.getEntity().get(Warehouse.class);
             //Solo preguntamos si tiene al menos una unidad!!! Cuidao
-            if (wh != null && wh.hasResource(type)) {
+            if (wh != null && b != exclude && wh.hasResource(type)) {
                 int dist = cell.distance(Vector2i.add(b.getCell(), blueprints.get(b.getTypeBuilding()).entry));
                 if (dist < nearestDist) {
                     nearestDist = dist;

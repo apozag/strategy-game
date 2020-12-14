@@ -25,6 +25,8 @@ public class ResourcesManager {
                 put(ResourceType.GOLD, 0);
                 put(ResourceType.WOOD, 0);
                 put(ResourceType.STONE, 0);
+                put(ResourceType.RAW_WOOD, 0);
+                put(ResourceType.RAW_STONE, 0);
             }
         });
     }

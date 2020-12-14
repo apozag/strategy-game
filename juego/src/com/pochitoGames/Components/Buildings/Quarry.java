@@ -14,9 +14,7 @@ import com.pochitoGames.Engine.Component;
 public class Quarry extends Component {
     static final float waitTime = 5.0f;
 
-    float currentTime = 0.0f;
-
-    int stone = 0;
+    double currentTime = 0.0f;
 
     Miner miner = null;
 
@@ -24,24 +22,16 @@ public class Quarry extends Component {
         return waitTime;
     }
 
-    public float getCurrentTime() {
+    public double getCurrentTime() {
         return currentTime;
     }
 
-    public void addCurrentTime(float seconds) {
+    public void addCurrentTime(double seconds) {
         currentTime += seconds;
     }
-
-    public int getStoneAmount() {
-        return stone;
-    }
-
-    public void addStone(int amount) {
-        stone += amount;
-    }
-
-    public void takeStone(int amount) {
-        stone -= amount;
+    
+    public void resetCurrentTime(){
+        currentTime = 0;
     }
 
     public Miner getMiner() {

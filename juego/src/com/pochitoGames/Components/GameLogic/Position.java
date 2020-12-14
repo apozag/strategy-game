@@ -42,7 +42,8 @@ public class Position extends Component{
     
     public Vector2D getWorldPos(){
         if(dirty){
-            worldPos = new Vector2D(localPos);
+            worldPos.x = localPos.x;
+            worldPos.y = localPos.y;
             Entity parent = getEntity().getParent();
             if(parent != null){
                 Position parentPos = parent.get(Position.class);

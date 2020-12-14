@@ -7,12 +7,14 @@ package com.pochitoGames.Systems.Buildings;
 
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Quarry;
+import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.People.Miner;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.PeopleManager;
+import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.WorkerState;
 
@@ -20,9 +22,6 @@ import com.pochitoGames.Misc.States.WorkerState;
  * @author PochitoMan
  */
 public class QuarrySystem extends System {
-
-    private double a = 0;
-
 
     public QuarrySystem() {
         include(Quarry.class, Building.class);
@@ -34,6 +33,8 @@ public class QuarrySystem extends System {
         for (Entity e : getEntities()) {
             Quarry quarry = e.get(Quarry.class);
             Building building = e.get(Building.class);
+            Warehouse wh = e.get(Warehouse.class);
+            
             if (building.isFinished() && quarry.getMiner() == null) {
                 Miner miner = PeopleManager.getInstance().getNearestMiner(building.getOwnerType(), building.getCell());
                 if (miner != null) {
@@ -44,18 +45,21 @@ public class QuarrySystem extends System {
                     quarry.setMiner(miner);
                 }
             }
-            a += dt;
-            java.lang.System.out.print(a);
-            if (a % 288 > 0) {
-                quarry.addStone(1);
-                a = 0;
-                java.lang.System.out.print(quarry.getStoneAmount());
+            quarry.addCurrentTime(dt);
+            if (quarry.getCurrentTime() - 10 > 0) {
+                wh.putContent(ResourceType.RAW_STONE, 1);
+                quarry.resetCurrentTime();
+                java.lang.System.out.println(wh.getContent(ResourceType.RAW_STONE));
             }
-            if (quarry.getStoneAmount() != 0) {
+            if (wh.getContent(ResourceType.RAW_STONE) > 0) {
                 Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
-                PathFinding pf = worker.getEntity().get(PathFinding.class);
-                worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
-                pf.setTargetCell(building.getEntryCell());
+                if(worker != null){
+                    PathFinding pf = worker.getEntity().get(PathFinding.class);
+                    worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
+                    worker.setTargetBuilding(building);
+                    worker.setResourceNeeded(ResourceType.RAW_STONE);
+                    pf.setTargetCell(building.getEntryCell());
+                }
             }
 
         }

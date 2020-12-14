@@ -76,16 +76,16 @@ public class BuilderSystem extends System{
                                 PathFinding mpf = mate.getEntity().get(PathFinding.class);
                                 //Busco un almacén cercano a mi compañero 
                                 //Que además tenga el recurso que quiero
-                                Building wh = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed);
+                                Building building = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed, c.getTargetBuilding());
                                 
                                 //Si hay alguno disponible
-                                if(wh != null){
+                                if(building != null){
                                     //Le pongo al compañero toda la info que necesita
                                     mate.setResourceNeeded(needed);
-                                    mate.setTargetBuilding(wh);
+                                    mate.setTargetBuilding(building);
                                     mate.setTargetMate(c);
                                     //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
-                                    mpf.setTargetCell(wh.getEntryCell());
+                                    mpf.setTargetCell(building.getEntryCell());
                                     //Pongo al compa en estado SEARCH_RESOURCE
                                     mate.setState(WorkerState.SEARCH_RESOURCE);
                                     //Y yo me pongo en ON_HOLD para que nadie me moleste
