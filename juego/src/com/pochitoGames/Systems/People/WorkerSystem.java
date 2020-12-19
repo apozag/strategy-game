@@ -21,8 +21,11 @@ import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.WorkerState;
+import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
+import java.util.List;
 
 /**
  * @author PochitoMan
@@ -49,18 +52,26 @@ public class WorkerSystem extends System {
                 case SEARCH_RESOURCE:
                     //Si hemos llegado hasta el edificio
                     if (pf.getTargetCell() == null) {
-                        //Cojo el edificio (El componente Warehouse solo)
-                        Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
-                        //Le quito una unidad del recurso
-                        wh.takeContent(c.getResourceNeeded(), 1);
+                        if(c.getResourceNeeded() != null){
+                            //Cojo el edificio (El componente Warehouse solo)
+                            Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
+                            //Le quito una unidad del recurso
+                            wh.takeContent(c.getResourceNeeded(), 1);
+                            c.setCarrying(c.getResourceNeeded());
+                        }
                         //Cojo al compañero al que le tengo que llevar el recurso
                         Builder mate = c.getTargetMate();
                         //Cojo su pathfinding para saber su casilla
                         PathFinding mpf = mate.getEntity().get(PathFinding.class);
                         //Le digo a MI pathfinding que vaya a la casilla del compa
-                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(mpf.getCurrent()));
-                        //Me congo en estado CARRY_RESOURCE
-                        c.setState(WorkerState.CARRY_RESOURCE);
+                        pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), mpf.getCurrent(), e.getId(), false));  
+                        //Me pongo en estado CARRY_RESOURCE
+                        if(!pf.getSteps().isEmpty()){
+                            pf.getSteps().remove(pf.getSteps().size() - 1);
+                            if(pf.getSteps().size() > 0)
+                                pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
+                            c.setState(WorkerState.CARRY_RESOURCE);
+                        }
                         //Ahora empezará a andar solito hacia el compañero
                     }
                     break;
@@ -69,9 +80,9 @@ public class WorkerSystem extends System {
                     if (pf.getTargetCell() == null) {
                         //Cojo al compa
                         Builder mate = c.getTargetMate();
-                        //Cojo el edificio que está constrruyendo mi compa (getTargetBuilding)
+                        //Cojo el edificio que está construyendo mi compa (getTargetBuilding)
                         //Y le meto (putResources) una unidad del recurso que necesita (getResourcesNeeded)
-                        mate.getTargetBuilding().putResources(c.getResourceNeeded(), 1);
+                        mate.getTargetBuilding().putResources(c.getCarrying(), 1);
                         //Pongo al compa de vuelta al estado BUILDING (estaba en ON_HOLD)
                         mate.setState(BuilderState.BUILD);
                         //Me pongo en WAIT
@@ -82,10 +93,13 @@ public class WorkerSystem extends System {
                 case TAKING_RESOURCE_FROM_BUILDING:
                     //Si hemos llegado hasta el edificio
                     if (pf.getTargetCell() == null) {
-                        Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
-                        wh.takeContent(c.getResourceNeeded(), 0);
+                        if(c.getResourceNeeded() != null){
+                            Warehouse wh = c.getTargetBuilding().getEntity().get(Warehouse.class);
+                            wh.takeContent(c.getResourceNeeded(), 0);
+                            c.setCarrying(c.getResourceNeeded());
+                        }
                         Building newTargetBuilding = null;
-                        switch(c.getResourceNeeded()){
+                        switch(c.getCarrying()){
                             case RAW_STONE:
                                 newTargetBuilding = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), TypeBuilding.CASTLE);
                                 break;
@@ -93,8 +107,17 @@ public class WorkerSystem extends System {
                                 newTargetBuilding = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), TypeBuilding.CASTLE);
                                 break;
                         }
-                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(newTargetBuilding.getEntryCell()));
-                        c.setState(WorkerState.CARRY_RESOURCE_TO_WAREHOUSE);
+                        c.setResourceNeeded(null);
+                        
+                        if(newTargetBuilding != null){
+                            
+                            pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), newTargetBuilding.getCell(), e.getId(), false));
+                            if(!pf.getSteps().isEmpty()){
+                                pf.getSteps().remove(pf.getSteps().size() - 1);
+                                pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
+                                c.setState(WorkerState.CARRY_RESOURCE_TO_WAREHOUSE);
+                            }
+                        }
                     }
                     break;
                 case CARRY_RESOURCE_TO_WAREHOUSE:

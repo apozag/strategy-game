@@ -4,18 +4,15 @@ import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.People.Builder;
-import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.*;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
-import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.MapInfo;
-import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuildingState;
 import com.pochitoGames.Misc.States.BuilderState;
+import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 
 public class BuildingSystem extends System {
 
@@ -39,10 +36,13 @@ public class BuildingSystem extends System {
                             Builder c = PeopleManager.getInstance().getNearestBuilder(b.getOwnerType(), b.getEntryCell());
                             if (c != null) {
                                 PathFinding pf = c.getEntity().get(PathFinding.class);
-                                c.setTargetBuilding(b);
-                                pf.setTargetCell(b.getEntryCell());
-                                c.setState(BuilderState.BUILD);
-                                b.setState(BuildingState.BUILDING);
+                                pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), b.getEntryCell(), e.getId(), true));
+                                if(pf.getSteps() != null){
+                                    c.setTargetBuilding(b);
+                                    pf.setTargetCell(b.getEntryCell());
+                                    c.setState(BuilderState.BUILD);
+                                    b.setState(BuildingState.BUILDING);
+                                }
                             }
                         } else {
                             b.setState(BuildingState.BUILDING);
@@ -60,6 +60,10 @@ public class BuildingSystem extends System {
                         }
                         break;
                     case FINISHED:
+                        // Si es suelo, realmente ya no hace nada asique se puede eliminar la entidad
+                        if(b.getTypeBuilding() == TypeBuilding.FLOOR){
+                            ECS.getInstance().removeEntity(e);
+                        }
                         break;
                     case BEING_REPAIRED:
                         Builder c = PeopleManager.getInstance().getNearestBuilder(b.getOwnerType(), b.getEntryCell());

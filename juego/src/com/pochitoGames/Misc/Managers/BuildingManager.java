@@ -40,13 +40,13 @@ public class BuildingManager {
     private List<Building> buildings;
 
     private BuildingManager() {
-        //              id                                      id       pos               pos entrada         ancho y alto    altura
-        blueprints.put(TypeBuilding.SAWMILL, new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Ayuntamiento
-        blueprints.put(TypeBuilding.QUARRY, new BuildingInfo(101, new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Almacén
-        blueprints.put(TypeBuilding.CANTEEN, new BuildingInfo(102, new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
-        blueprints.put(TypeBuilding.SCHOOL, new BuildingInfo(103, new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
-        blueprints.put(TypeBuilding.CASTLE, new BuildingInfo(104, new Vector2i(-1, 0), new Vector2i(2, 2), 1));   // Lo que sea
-        blueprints.put(TypeBuilding.FLOOR, new BuildingInfo(6, new Vector2i(0, 0), new Vector2i(1, 1), 0));   // Suelo
+        //              tipo                                   id      pos entrada         ancho y alto    altura     imagen
+        blueprints.put(TypeBuilding.SAWMILL, new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   // Ayuntamiento
+        blueprints.put(TypeBuilding.QUARRY, new BuildingInfo(101, new Vector2i(-1, 0),  new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   // Almacén
+        blueprints.put(TypeBuilding.CANTEEN, new BuildingInfo(102, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.SCHOOL, new BuildingInfo(103, new Vector2i(-1, 0),  new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.CASTLE, new BuildingInfo(104, new Vector2i(-1, 0),  new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.FLOOR, new BuildingInfo(6, new Vector2i(0, 0),      new Vector2i(1, 1), 0, ""));                                                                // Suelo
 
         resourcesNeeded.put(TypeBuilding.SAWMILL, new HashMap<ResourceType, Integer>() {
             {
@@ -82,8 +82,7 @@ public class BuildingManager {
             {
                 put(ResourceType.STONE, 1);
             }
-        });
-
+        });       
 
         buildings = new ArrayList<>();
     }
@@ -106,17 +105,12 @@ public class BuildingManager {
 
         final BuildingInfo b = blueprints.get(type);
 
-        for (int i = 0; i < b.size.col; i++) {
-            for (int j = 0; j < b.size.row; j++) {
-                int cellId = MapInfo.getInstance().getTileId(new Vector2i(cell.col + i, cell.row + j));
-                if (cellId >= 100 || cellId < 0 || cellId == 5 || cellId == 6)
-                    return;
-            }
-        }
+        if(!canBuild(type, cell))
+            return;
 
         for (int i = 0; i < b.size.col; i++) {
             for (int j = 0; j < b.size.row; j++) {
-                MapInfo.getInstance().setTileId(cell.col + i, cell.row + j, blueprints.get(type).id);
+                MapInfo.getInstance().setTileId(cell.col + i, cell.row - j, blueprints.get(type).id);
             }
         }
         Building newBuilding = null;
@@ -126,7 +120,7 @@ public class BuildingManager {
                 newBuilding = new Building(ownerType, 100, 50, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png", new Vector2D(0, yAnchor), true,
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
                         newBuilding);
@@ -135,7 +129,7 @@ public class BuildingManager {
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png", new Vector2D(0, yAnchor), true,
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f, 
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
                         newBuilding, 
@@ -151,7 +145,7 @@ public class BuildingManager {
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png", new Vector2D(0, yAnchor), true,
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f, 
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         newBuilding);
@@ -160,7 +154,7 @@ public class BuildingManager {
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png", new Vector2D(0, yAnchor), true,
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         newBuilding);
@@ -169,7 +163,7 @@ public class BuildingManager {
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png", new Vector2D(0, yAnchor), true,
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         newBuilding,
@@ -190,6 +184,18 @@ public class BuildingManager {
         }
 
         buildings.add(newBuilding);
+    }
+    
+    public boolean canBuild(TypeBuilding type, Vector2i cell){
+        BuildingInfo b = blueprints.get(type);
+        for (int i = 0; i < b.size.col; i++) {
+            for (int j = 0; j < b.size.row; j++) {
+                int cellId = MapInfo.getInstance().getTileId(new Vector2i(cell.col+i, cell.row-j));
+                if (cellId >= 100 || cellId < 0 || cellId == 5 || cellId == 6)
+                    return false;
+            }
+        }
+        return true;
     }
 
     public Building getNearestBuilding(Vector2i cell, TypeBuilding type) {

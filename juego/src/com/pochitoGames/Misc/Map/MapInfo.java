@@ -17,7 +17,7 @@ import java.util.Map;
 public class MapInfo{
     static MapInfo instance;
     int[][] map;
-    boolean[][] peopleLayer;
+    int[][] peopleLayer;
     Map <Integer, Integer> walkCost;
     TileMap activeTileMap;
     
@@ -33,7 +33,13 @@ public class MapInfo{
     
     public void setMap(int[][] map){
         this.map = map;
-        peopleLayer = new boolean[map.length][map[0].length];
+        peopleLayer = new int[map.length][map[0].length];
+        
+        for(int i = 0; i < map.length; i++){
+            for(int j = 0; j < map[0].length; j++){
+                peopleLayer[i][j] = -1;
+            }
+        }
     }
     
     public void setActiveTileMap(TileMap map){
@@ -64,7 +70,7 @@ public class MapInfo{
     }
 
     public int getTileId(Vector2i cell){ 
-        if(cell.col >= map.length || cell.row >= map[0].length){
+        if(cell.col < 0 || cell.row < 0 || cell.col >= map.length || cell.row >= map[0].length){
             return -1;
         }
         return map[cell.col][cell.row]; 
@@ -83,27 +89,30 @@ public class MapInfo{
         return map[0].length;
     }
     
-    public boolean getPeopleLayerCell(Vector2i cell){ return peopleLayer[cell.col][cell.row]; } 
+    public int getPeopleLayerCell(Vector2i cell){ return peopleLayer[cell.col][cell.row]; } 
     
-    public void updatePeopleLayerCell(Vector2i oldCell, Vector2i newCell){
-        peopleLayer[oldCell.col][oldCell.row] = false;
-        peopleLayer[newCell.col][newCell.row] = true;
+    public void updatePeopleLayerCell(Vector2i oldCell, Vector2i newCell, int id){
+        peopleLayer[oldCell.col][oldCell.row] = -1;
+        peopleLayer[newCell.col][newCell.row] = id;
+    }
+    public void setPeopleLayerCell(Vector2i cell, int id){
+        peopleLayer[cell.col][cell.row] = id;
     }
     
    public Vector2i getCloseCell(Vector2i cell){
-        if(getPeopleLayerCell(cell)){
+        //if(getPeopleLayerCell(cell) == -1 && getTileWalkCost(cell) < 0){
             Vector2i neighbors[] = {new Vector2i(1, 0), new Vector2i(-1, 0), 
-                                    new Vector2i(0, 1), new Vector2i(0,-1), 
+                                    new Vector2i(0, 1), new Vector2i(0,-1),
                                     new Vector2i(1, -1), new Vector2i(-1, 1), 
                                     new Vector2i(1, 1)};           
             
-            for(int i = 0; i < 8; i++){
+            for(int i = 0; i < 4; i++){
                 Vector2i n = Vector2i.add(cell, neighbors[i]);
-                if(!(n.col < 0 || n.col >= getWidth() || n.row < 0 || n.row >= getHeight()) && getTileWalkCost(n) >= 0){
+                if(!(n.col < 0 || n.col >= getWidth() || n.row < 0 || n.row >= getHeight()) && getPeopleLayerCell(n) == -1 && getTileWalkCost(n) >= 0){
                     return n;
                 }
             }
-        }
+        //}
         return cell;
     }
     

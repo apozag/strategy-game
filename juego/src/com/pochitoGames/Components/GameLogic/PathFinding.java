@@ -42,19 +42,19 @@ public class PathFinding extends Component{
     }
     
     public void setSteps(List<Vector2i> steps){
-        if(steps.isEmpty())
+        if(steps == null || steps.isEmpty())
             targetCell = null;
         this.steps = steps;
     }
     
     public Vector2i pollNextStep(){
-        if(steps.isEmpty())
+        if(steps == null || steps.isEmpty())
             return null;
         return steps.remove(0);
     }
     
     public Vector2i peekNextStep(){
-        if(steps.isEmpty())
+        if(steps == null || steps.isEmpty())
             return null;
         return steps.get(0);
     }
@@ -77,7 +77,7 @@ public class PathFinding extends Component{
 
     public Vector2i getTargetCell() { return targetCell; }
 
-    public void setTargetCell(Vector2i targetCell) { this.targetCell = targetCell; }
+    public void setTargetCell(Vector2i targetCell) { this.targetCell = targetCell; }    
     
     public List<Vector2i> getSteps(){return steps;}
     

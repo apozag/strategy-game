@@ -9,6 +9,9 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.ImageManager;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Other.Animation;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +39,9 @@ public class Sprite extends Component {
     private boolean updateDepth;
 
     private boolean animated = false;
-
+    
+    private float transparency = 1.0f;
+   
     //Indica el índice de la animacion que se está pintando actualmente. 
     //Si no tiene animaciones, es -1
     private int currentAnimation = -1;
@@ -51,7 +56,7 @@ public class Sprite extends Component {
         anchor = new Vector2D(0, 0);
     }
 
-    public Sprite(String path, Vector2D anchor, boolean updateDepth, Animation... animations) {
+    public Sprite(String path, Vector2D anchor, boolean updateDepth, float transparency, Animation... animations) {
         image = ImageManager.getImage(path);
         this.updateDepth = updateDepth;
         if (updateDepth) {
@@ -60,7 +65,10 @@ public class Sprite extends Component {
             depth = Float.MAX_VALUE;
         }
         srcPos = new Vector2D(0, 0);
-        srcSize = new Vector2D(image.getWidth(), image.getHeight());
+        if(image != null)
+            srcSize = new Vector2D(image.getWidth(), image.getHeight());
+        else 
+            srcSize = new Vector2D(0, 0);
         this.animations = new LinkedList<>();
         for (Animation anim : animations) {
             animated = true;
@@ -68,10 +76,12 @@ public class Sprite extends Component {
             this.animations.add(anim);//Aquí la metemos en la lista.
         }
         this.anchor = anchor;
+        this.transparency = transparency;
+        
     }
 
     //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen directamete
-    public Sprite(BufferedImage image, Vector2D anchor, boolean updateDepth, Animation... animations) {
+    public Sprite(BufferedImage image, Vector2D anchor, boolean updateDepth, float transparency, Animation... animations) {
         this.image = image;
         this.updateDepth = updateDepth;
         if (updateDepth) {
@@ -88,6 +98,7 @@ public class Sprite extends Component {
             this.animations.add(anim);
         }
         this.anchor = anchor;
+        this.transparency = transparency;
     }
 
     public void setSrcSize(Vector2D size) {
@@ -100,6 +111,11 @@ public class Sprite extends Component {
 
     public void setImage(BufferedImage image) {
         this.image = image;
+        setSrcSize(new Vector2D(image.getWidth(), image.getHeight()));
+    }
+    
+    public void setImage(String path) {
+        image = ImageManager.getImage(path);
         setSrcSize(new Vector2D(image.getWidth(), image.getHeight()));
     }
 
@@ -151,4 +167,27 @@ public class Sprite extends Component {
     public boolean isAnimated() {
         return animated;
     }
+
+    public float getTransparency() {
+        return transparency;
+    }
+    
+    public void setTransparency(float transparency){
+        this.transparency = transparency;
+    }
+    
+    public void dye(Color color) {
+        if(image != null){
+            int w = image.getWidth();
+            int h = image.getHeight();
+            BufferedImage dyed = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = dyed.createGraphics();
+            g.drawImage(image, 0, 0, null);
+            g.setComposite(AlphaComposite.SrcAtop);
+            g.setColor(color);
+            g.fillRect(0, 0, w, h);
+            g.dispose();
+            image = dyed;
+        }
+  }
 }

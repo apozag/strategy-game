@@ -84,15 +84,25 @@ public class Renderer extends JPanel{
                     Position p = s.getEntity().get(Position.class);
                     
                     BufferedImage img = s.getImage();
+                    
                     if(s.isAnimated() && s.getCurrentAnimationIndex() >= 0)
                         img = img.getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
+                    
                     Vector2D dstPos = p.getWorldPos();
+                    
                     if(!p.isLocked())
                         dstPos = Camera.getInstance().toCameraCoords(dstPos);
-
+                    
+                    if(s.getTransparency() < 1.0f)
+                        g2D.setComposite(AlphaComposite.SrcOver.derive(s.getTransparency())); 
+                    
                     dstPos.x -= s.getSrcSize().x*s.getAnchor().x;
                     dstPos.y -= s.getSrcSize().y*s.getAnchor().y;
-                    g2D.drawImage(img, (int)dstPos.x, (int)dstPos.y , null);
+                    g2D.drawImage(img, (int)dstPos.x, (int)dstPos.y , null);     
+                    
+                    // Deshacer trasformaciones
+                    if(s.getTransparency() < 1.0f)
+                        g2D.setComposite(AlphaComposite.SrcOver.derive(1.0f)); 
                 }
             }
 
@@ -136,9 +146,11 @@ public class Renderer extends JPanel{
             g2D.dispose();
         }
         renderLock = false;
-    }    
+    }            
     
 }
+
+
 
 class SortByDepth implements Comparator<Sprite> 
 { 

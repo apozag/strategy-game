@@ -85,7 +85,7 @@ public class Entity {
     boolean contains(Class<? extends Component>... componentClasses){
         return components.keySet().containsAll(Arrays.asList(componentClasses));
     }
-    public long getId(){
+    public int getId(){
         return id;
     }
     
@@ -93,10 +93,18 @@ public class Entity {
         return parent;
     }
     
+    public void setParent(Entity e){
+        e.addChild(this);
+        parent = e;
+    }
+    
     public List<Entity> getChildren(){
         return Collections.unmodifiableList(children);
     }
-
+    
+    public List<Component> getComponents(){
+        return new ArrayList(components.values());
+    }
     
 }
     

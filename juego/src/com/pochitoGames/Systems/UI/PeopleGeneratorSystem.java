@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Systems.UI;
 
+import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Engine.Entity;
@@ -20,16 +21,16 @@ import com.pochitoGames.Misc.Other.Vector2i;
 public class PeopleGeneratorSystem extends System{
 
     public PeopleGeneratorSystem(){
-        include(UIButton.class, PeopleGenerator.class);
+        include(UIButton.class, PeopleGenerator.class, MouseListener.class);
         exclude();
     }
     
     @Override
     public void update(double dt) {
         for(Entity e : getEntities()){
-            UIButton b = e.get(UIButton.class);
+            MouseListener ml = e.get(MouseListener.class);
             PeopleGenerator pg = e.get(PeopleGenerator.class);
-            if(b.down && b.firstTick){
+            if(ml.down && ml.firstTick){
                 PeopleManager.getInstance().createCharacter(pg.getType(), pg.getRole(), new Vector2i(0, 0));
             }
         }

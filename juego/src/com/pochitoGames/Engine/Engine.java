@@ -9,6 +9,7 @@ import com.pochitoGames.Components.UI.BuildingPicker;
 import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
+import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.UI.ResourceText;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
@@ -24,6 +25,7 @@ import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.ResourceType;
+import com.pochitoGames.Misc.Other.Time;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Buildings.QuarrySystem;
 import com.pochitoGames.Systems.People.MinerSystem;
@@ -38,11 +40,14 @@ import com.pochitoGames.Systems.Visual.TextSystem;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
 import com.pochitoGames.Systems.UI.BuildingPickerSystem;
+import com.pochitoGames.Systems.UI.MouseListenerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.ResourceTextSystem;
 import com.pochitoGames.Systems.UI.UIButtonSystem;
 
 import java.awt.Color;
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * @author PochitoMan
@@ -81,7 +86,8 @@ public class Engine {
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(),
-                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new MinerSystem());
+                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new MinerSystem(),
+                new MouseListenerSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         
@@ -90,39 +96,40 @@ public class Engine {
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
                 TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png", 30, 30, 64, 32, TilesetMode.ISOMETRIC));
-        ECS.getInstance().createEntity(tilemap,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true),
+        ECS.getInstance().createEntity(null,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true,1.0f),
                 new Position(new Vector2D(0, 0)),
-                new TileSelector(tilemap.get(TileMap.class))
+                new TileSelector(tilemap.get(TileMap.class)),
+                new MouseListener(0)
         );
 
          
         // Personajes iniciales
-        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, TypeRole.BUILDER, new Vector2i(10, 10));
-        PeopleManager.getInstance().createCharacter(TypeHuman.BARBARIAN, TypeRole.WORKER, new Vector2i(1, 1));
+        PeopleManager.getInstance().createCharacter(GameInfoManager.getInstance().getPlayerType(), TypeRole.BUILDER, new Vector2i(2, 2));
+        PeopleManager.getInstance().createCharacter(GameInfoManager.getInstance().getPlayerType(), TypeRole.WORKER, new Vector2i(1, 1));
 
         // Edificio inicial (Castillo)
-        BuildingManager.getInstance().build(TypeHuman.BARBARIAN, TypeBuilding.CASTLE, new Vector2i(4, 4));
-
-       
+        BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), TypeBuilding.CASTLE, new Vector2i(4, 4));      
 
         ///////////////////////////////
         ///////    INTERFAZ     ///////
         ///////////////////////////////
 
         Entity uiPanel = ECS.getInstance().createEntity(null,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false),
-                new Position(new Vector2D(50, 50), true)
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false, 1.0f),
+                new Position(new Vector2D(50, window.getHeight()-200), true), 
+                new MouseListener(1)
         );
 
         //Boton crear ESCUELA
         Entity button1 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(10, 10), true),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.SCHOOL)
+                new BuildingPicker(TypeBuilding.SCHOOL),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(button1, 
                 new Position(new Vector2D(20, 25), true),
@@ -131,12 +138,13 @@ public class Engine {
 
         // Boton crear CANTINA
         Entity button2 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(60, 10), true),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.CANTEEN)
+                new BuildingPicker(TypeBuilding.CANTEEN),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(button2, 
                 new Position(new Vector2D(25, 25), true),
@@ -145,12 +153,13 @@ public class Engine {
 
         //Boton crear ASERRADERO
         Entity button3 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(110, 10), true),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.SAWMILL)
+                new BuildingPicker(TypeBuilding.SAWMILL),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(button3, 
                 new Position(new Vector2D(25, 25), true),
@@ -159,12 +168,13 @@ public class Engine {
 
         // Botón crear CANTERA 
         Entity buttonQuarry = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(160, 10), true),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.QUARRY)
+                new BuildingPicker(TypeBuilding.QUARRY),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(buttonQuarry, 
                 new Position(new Vector2D(25, 25), true),
@@ -173,12 +183,13 @@ public class Engine {
 
         //Botón crear SUELO
         Entity button4 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(210, 10), true),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.FLOOR)
+                new BuildingPicker(TypeBuilding.FLOOR),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(button4, 
                 new Position(new Vector2D(25, 25), true),
@@ -187,12 +198,13 @@ public class Engine {
 
         // Boton crear MINERO  
         Entity buttonMinero = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(260, 10), true),
                 new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER)
+                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(buttonMinero, 
                 new Position(new Vector2D(25, 25), true),
@@ -201,12 +213,13 @@ public class Engine {
         
         // Boton crear builder
         Entity buttonB = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(10, 100), true),
                 new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.BUILDER)
+                new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.BUILDER),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(buttonB, 
                 new Position(new Vector2D(25, 25), true),
@@ -215,12 +228,13 @@ public class Engine {
 
         // Boton crear Worker
         Entity buttonW = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(60, 100), true),
                 new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.WORKER)
+                new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.WORKER),
+                new MouseListener(2)
         );
         ECS.getInstance().createEntity(buttonW, 
                 new Position(new Vector2D(25, 25), true),
@@ -250,7 +264,7 @@ public class Engine {
 
     public void mainLoop() throws InterruptedException {
         while (running) {
-
+            long lastTime = java.lang.System.nanoTime();
             //EventManager.getInstance().handleEvents();
 
             //Tenemos una cámara (clase estática) que hay que updatear.
@@ -267,7 +281,12 @@ public class Engine {
             EventManager.getInstance().clearEvents();
 
             //Tenemos que esperar un rato (1000/30 == 30FPS) para que no se quede pillado en un bucle infinito.
-            Thread.sleep( 845 / FPS);
+            long elapsed = java.lang.System.nanoTime() - lastTime;
+            elapsed /= 1000000;
+            long wait = (1000 / FPS) - elapsed ;
+            if(wait < 0)
+                wait = 0;
+            Thread.sleep(wait);
         }
     }
 

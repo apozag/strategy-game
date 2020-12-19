@@ -14,12 +14,14 @@ public class BuildingInfo{
     public Vector2i entry;
     public Vector2i size;
     public int height;
+    public String image;
     
-    public BuildingInfo(int id, Vector2i entry, Vector2i size, int height){
+    public BuildingInfo(int id, Vector2i entry, Vector2i size, int height, String image){
         this.id = id;
         this.entry = entry;
         this.size = size;
         this.height = height;
+        this.image = image;
     }
     
     public BuildingInfo(BuildingInfo b){

@@ -1,25 +1,17 @@
 package com.pochitoGames.Systems.People;
 import com.pochitoGames.Components.Buildings.Building;
-import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
-import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Worker;
-import com.pochitoGames.Components.Visual.Sprite;
-import com.pochitoGames.Engine.Camera;
-import com.pochitoGames.Engine.EventManager;
-import com.pochitoGames.Engine.Vector2D;
-import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
-import com.pochitoGames.Misc.Other.Vector2i;
-import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.WorkerState;
+import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 
 
 /*
@@ -45,6 +37,7 @@ public class BuilderSystem extends System{
             PathFinding pf = e.get(PathFinding.class);
             Builder c = e.get(Builder.class);
             BuilderState state = c.getState();
+            Human human = e.get(Human.class);
             switch(state){
 
                 case WAIT:
@@ -68,30 +61,54 @@ public class BuilderSystem extends System{
                         //Si SÍ necesita...
                         else{
                             //Busco a un compañero cercano
-                            Human h = e.get(Human.class);
-                            Worker mate = PeopleManager.getInstance().getNearestWorker(h.getTypeHuman(), pf.getCurrent());
-                            //Si hay alguno disponible
-                            if(mate != null){
-                                //Cojo su pathFinding para saber su casilla
-                                PathFinding mpf = mate.getEntity().get(PathFinding.class);
-                                //Busco un almacén cercano a mi compañero 
-                                //Que además tenga el recurso que quiero
-                                Building building = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed, c.getTargetBuilding());
-                                
-                                //Si hay alguno disponible
+//                            Human h = e.get(Human.class);
+//                            Worker mate = PeopleManager.getInstance().getNearestWorker(h.getTypeHuman(), pf.getCurrent());
+//                            //Si hay alguno disponible
+//                            if(mate != null){
+//                                //Cojo su pathFinding para saber su casilla
+//                                PathFinding mpf = mate.getEntity().get(PathFinding.class);
+//                                //Busco un almacén cercano a mi compañero 
+//                                //Que además tenga el recurso que quiero
+//                                Building building = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed, c.getTargetBuilding());
+//                                
+//                                
+//                                //Si hay alguno disponible
+//                                if(building != null){
+//                                    //Le pongo al compañero toda la info que necesita
+//                                    mate.setResourceNeeded(needed);
+//                                    mate.setTargetBuilding(building);
+//                                    mate.setTargetMate(c);
+//                                    //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
+//                                    mpf.setTargetCell(building.getEntryCell());
+//                                    //Pongo al compa en estado SEARCH_RESOURCE
+//                                    mate.setState(WorkerState.SEARCH_RESOURCE);
+//                                    //Y yo me pongo en ON_HOLD para que nadie me moleste
+//                                    c.setState(BuilderState.ON_HOLD);
+//                                }
+//                            }
+                                // Busco warehouse
+                                Building building = BuildingManager.getInstance().getNearestWarehouse(pf.getCurrent(), needed, c.getTargetBuilding());
                                 if(building != null){
-                                    //Le pongo al compañero toda la info que necesita
-                                    mate.setResourceNeeded(needed);
-                                    mate.setTargetBuilding(building);
-                                    mate.setTargetMate(c);
-                                    //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
-                                    mpf.setTargetCell(building.getEntryCell());
-                                    //Pongo al compa en estado SEARCH_RESOURCE
-                                    mate.setState(WorkerState.SEARCH_RESOURCE);
-                                    //Y yo me pongo en ON_HOLD para que nadie me moleste
-                                    c.setState(BuilderState.ON_HOLD);
+                                    // Busco Worker Cerca
+                                    Worker mate = PeopleManager.getInstance().getNearestWorker(human.getTypeHuman(), building.getEntryCell());
+                                    if(mate != null){
+                                        PathFinding mpf = mate.getEntity().get(PathFinding.class);
+                                        mpf.setSteps(PathFindingSystem.aStar(mpf.getCurrent(), building.getEntryCell(), mate.getEntity().getId(), false));
+                                        // Veo si hay camino
+                                        if(mpf.getSteps() != null){
+                                            //Le pongo al compañero toda la info que necesita
+                                            mate.setResourceNeeded(needed);
+                                            mate.setTargetBuilding(building);
+                                            mate.setTargetMate(c);
+                                            //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
+                                            mpf.setTargetCell(building.getEntryCell());
+                                            //Pongo al compa en estado SEARCH_RESOURCE
+                                            mate.setState(WorkerState.SEARCH_RESOURCE);
+                                            //Y yo me pongo en ON_HOLD para que nadie me moleste
+                                            c.setState(BuilderState.ON_HOLD);
+                                        }
+                                    }
                                 }
-                            }
                         }
                     }
                         break;

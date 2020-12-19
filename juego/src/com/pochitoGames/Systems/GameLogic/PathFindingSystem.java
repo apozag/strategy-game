@@ -42,15 +42,29 @@ public class PathFindingSystem extends System {
                 //Si tiene lo ponemos como nuevo target y ponemos walking a true
                 if (next != null) {
                     
-                    //Si nos topamos con otra persona, esperamos                    
+                    //Si nos topamos con otra persona, evadimos (?)  
                     /*
-                    if(MapInfo.getInstance().getPeopleLayerCell(next) && pf.getSteps().size() > 2){
-                        //patchPath(pf.getSteps(), 0, 2);
-                        continue;
+                    int nextCellId = MapInfo.getInstance().getPeopleLayerCell(next);
+                    if(nextCellId != -1 && nextCellId != e.getId()){
+                        for(Entity other : getEntities()){
+                            if(other != e && other.getId() == MapInfo.getInstance().getPeopleLayerCell(next)){
+                                PathFinding pfo = other.get(PathFinding.class);
+                                if(pfo.getTargetCell() == null){
+                                    pfo.setTargetCell(MapInfo.getInstance().getCloseCell(pfo.getCurrent()));
+                                    break;
+                                }
+                            }
+                        }
+                        List<Vector2i> newPath  = aStar(pf.getCurrent(), pf.getTargetCell(), e.id, true);
+                        if(newPath == null)
+                            continue;
+                        pf.setSteps(newPath);
+                        next = pf.peekNextStep();
                     }
-                    */
+*/
+                    
                     //Actualizamos posición en el mapa
-                    MapInfo.getInstance().updatePeopleLayerCell(pf.getCurrent(), next);
+                    MapInfo.getInstance().updatePeopleLayerCell(pf.getCurrent(), next, e.getId());
                     
                     pf.setNextPos(Vector2D.add(IsometricTransformations.isoToCartesian(next), 
                                 new Vector2D(MapInfo.getInstance().getActiveTileMap().getTileW()*0.5f, MapInfo.getInstance().getActiveTileMap().getTileH()*0.5f)));
@@ -59,7 +73,7 @@ public class PathFindingSystem extends System {
                 //Si no tiene paso siguiente, hemos llegado
                 //Si tiene un nuevo target, calculamos el camino
                 else if (pf.getTargetCell() != null) {
-                    pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell()));
+                    pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell(), e.id, false));
                 }
             }
             //Si ya está andando
@@ -86,13 +100,14 @@ public class PathFindingSystem extends System {
         return Math.abs(v1.x - v2.x) <= tolerance && Math.abs(v1.y - v2.y) < tolerance;
     }
     
-    private void patchPath(List<Vector2i> path, int begin, int end){
-        List<Vector2i> patch =  aStar(path.get(begin), path.get(end));
+    private void patchPath(List<Vector2i> path, int begin, int end, int id){
+        List<Vector2i> patch =  aStar(path.get(begin), path.get(end), id, true);
         path.subList(begin, end).clear();
         path.addAll(begin, patch);
     }
+    
 
-    public static List<Vector2i> aStar(Vector2i start, Vector2i end) {
+    public static List<Vector2i> aStar(Vector2i start, Vector2i end, int id, boolean avoidPeople) {
         int[][] map = MapInfo.getInstance().getMap();
         List<Vector2i> steps = new LinkedList<>();
         
@@ -104,7 +119,7 @@ public class PathFindingSystem extends System {
             //En closed están los que ya hemos visitado
             List<Node> closed = new LinkedList<>();
 
-            Node first = new Node(start, 0, 0, 0, null);
+            Node first = new Node(start, 0, 0, 0, null, 0);
 
             open.add(first);
 
@@ -125,12 +140,12 @@ public class PathFindingSystem extends System {
 
                 //Sacar vecinos
                 Vector2i p = current.cell;
-                Vector2i[] neighbors = {new Vector2i(p.col, p.row+1),
-                                        new Vector2i(p.col, p.row-1),
+                Vector2i[] neighbors = {new Vector2i(p.col, p.row + 1),
+                                        new Vector2i(p.col, p.row - 1),
                                         new Vector2i(p.col + 1, p.row),
                                         new Vector2i(p.col - 1, p.row),
                                         new Vector2i(p.col + 1, p.row + 1),
-                                        new Vector2i(p.col-1, p.row-1),
+                                        new Vector2i(p.col - 1, p.row - 1),
                                         new Vector2i(p.col + 1, p.row - 1),
                                         new Vector2i(p.col - 1, p.row + 1)};
 
@@ -138,14 +153,15 @@ public class PathFindingSystem extends System {
                 int mapH = MapInfo.getInstance().getActiveTileMap().getMap()[0].length;
 
                 for (Vector2i n : neighbors) {
-                    if(n.col < 0 || n.col >= mapW || n.row < 0 || n.row >= mapH)
+                    if(n.col < 0 || n.col >= mapW || n.row < 0 || n.row >= mapH || 
+                    (avoidPeople && current.stepNum < 3 && MapInfo.getInstance().getPeopleLayerCell(n) != -1 && MapInfo.getInstance().getPeopleLayerCell(n) != id))
                         continue;
 
                     int cellId = MapInfo.getInstance().getTileId(n);
 
                     float walkCost = MapInfo.getInstance().getTileWalkCost(n);
 
-                    Node neighbor = new Node(n, 0, 0, 0, current);
+                    Node neighbor = new Node(n, 0, 0, 0, current, current.stepNum+1);
 
                     if(walkCost < 0 || cellId < 0 || containsNode(closed, neighbor))
                         continue;
@@ -164,8 +180,10 @@ public class PathFindingSystem extends System {
         //No se ha encontrado camino. Se devuelve lista vacía
         java.lang.System.out.println("No path");
         
-        return steps;
+        return null;
     }
+    
+    
 
     private static boolean addToOpen(List<Node> list, Node node){
         for(Node n : list){
@@ -199,13 +217,15 @@ class Node {
     public Vector2i cell;
     public float g, h, f;
     public Node parent;
+    public int stepNum;
 
-    public Node(Vector2i cell, float g, float h, float f, Node parent) {
+    public Node(Vector2i cell, float g, float h, float f, Node parent, int stepNum) {
         this.cell = cell;
         this.g = g;
         this.h = h;
         this.f = f;
         this.parent = parent;
+        this.stepNum = stepNum;
     }
 }
 
@@ -216,3 +236,4 @@ class SortByCost implements Comparator<Node> {
         return (int) (a.f - b.f);
     }
 }
+

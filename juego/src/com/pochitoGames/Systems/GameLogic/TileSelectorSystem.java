@@ -27,7 +27,7 @@ public class TileSelectorSystem extends System{
     //BufferedImage selectorAux = ImageManager.getImage("src\\com\\pochitoGames\\Resources\\Sprites\\selector.png");
     
     public TileSelectorSystem(){
-        include(Position.class, Sprite.class, TileSelector.class);
+        include(Position.class, TileSelector.class);
         exclude();
     }
     
