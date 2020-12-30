@@ -1,13 +1,14 @@
 package com.pochitoGames.Components.Other;
 
 import com.pochitoGames.Engine.Component;
+import com.pochitoGames.Misc.Other.Vector2i;
 
 public class Tree extends Component {
 
     private int life = 100;
-    private int posX;
-    private int posY;
+    private Vector2i cell;
 
+    
 
     public int getLife() {
         return life;
@@ -17,19 +18,13 @@ public class Tree extends Component {
         this.life = life;
     }
 
-    public int getPosX() {
-        return posX;
+    public Vector2i getCell() {
+        return cell;
     }
 
-    public void setPosX(int posX) {
-        this.posX = posX;
+    public void setCell(Vector2i cell) {
+        this.cell = cell;
     }
 
-    public int getPosY() {
-        return posY;
-    }
-
-    public void setPosY(int posY) {
-        this.posY = posY;
-    }
+ 
 }
