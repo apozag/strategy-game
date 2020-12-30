@@ -33,8 +33,6 @@ import java.util.List;
  */
 public class WorkerSystem extends System {
 
-    boolean start = false;
-
     public WorkerSystem() {
         include(Worker.class, Position.class, PathFinding.class, Human.class);
         exclude(Builder.class);
