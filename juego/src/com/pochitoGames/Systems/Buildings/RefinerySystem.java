@@ -41,8 +41,5 @@ public class RefinerySystem extends System{
                 refinery.setLastStoneAmount(wh.getContent(ResourceType.RAW_STONE));
             }
         }
-    }
-    
-    
-    
+    }            
 }
