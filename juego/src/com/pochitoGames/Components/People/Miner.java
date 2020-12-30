@@ -10,7 +10,6 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.States.MinerState;
 
 /**
- *
  * @author PochitoMan
  */
 public class Miner extends Component {

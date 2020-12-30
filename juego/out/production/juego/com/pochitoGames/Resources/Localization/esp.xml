@@ -6,6 +6,14 @@
     <entry id = "MINER"> Minero </entry>
     <entry id = "SOLDIER"> Soldado </entry>
     <entry id = "WOODWORKER"> Carpintero </entry>
+    
+    <!--Tipos edificios-->
+    <entry id = "CASTLE"> Castillo </entry>
+    <entry id = "SAWMILL"> Aserradero </entry>
+    <entry id = "QUARRY"> Cantera </entry>
+    <entry id = "CANTEEN"> Cantina </entry>
+    <entry id = "SCHOOL"> Escuela </entry>
+    <entry id = "FLOOR"> Suelo </entry>
 
     <!--Recursos-->
     <entry id = "GOLD"> Oro </entry>

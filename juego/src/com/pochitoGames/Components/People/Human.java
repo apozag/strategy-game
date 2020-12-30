@@ -63,7 +63,6 @@ public class Human extends Component {
             this.life = 0;
 
         } else this.life = life;
-
     }
 
     public void setHungry(int hungry) {

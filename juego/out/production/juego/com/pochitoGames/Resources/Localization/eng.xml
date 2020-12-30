@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <text>
     <!--Character roles-->
     <entry id = "WORKER"> Worker </entry>
@@ -6,9 +6,18 @@
     <entry id = "MINER"> Miner </entry>
     <entry id = "SOLDIER"> Soldier </entry>
     <entry id = "WOODWORKER"> Woodworker </entry>
+    
+    <!--Building yypes-->
+    <entry id = "CASTLE"> Castle </entry>
+    <entry id = "SAWMILL"> Sawmill </entry>
+    <entry id = "QUARRY"> Quarry </entry>
+    <entry id = "CANTEEN"> Canteen </entry>
+    <entry id = "SCHOOL"> School </entry>
+    <entry id = "FLOOR"> Floor </entry>
 
     <!--Resources-->
     <entry id = "GOLD"> Gold </entry>
     <entry id = "WOOD"> Wood </entry>
     <entry id = "STONE"> Stone </entry>
+    
 </text>
