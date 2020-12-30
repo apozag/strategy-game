@@ -53,22 +53,16 @@ public class LumberJackSystem extends System {
 
                 case PLANTING:
                     Vector2i pantablePos = TreeManager.getInstance().getPlantableCell(pf.getCurrent());
-                    pf.setTargetCell(pantablePos);
-                    if (pf.getTargetCell() == null) {
-                    TreeManager.getInstance().createTree(pantablePos);
-
-                }
-                   //f (pf.getTargetCell() == null) {
-                   //   //Cojo al compa
-                   //   Builder mate = c.getTargetMate();
-                   //   //Cojo el edificio que está construyendo mi compa (getTargetBuilding)
-                   //   //Y le meto (putResources) una unidad del recurso que necesita (getResourcesNeeded)
-                   //   mate.getTargetBuilding().putResources(c.getCarrying(), 1);
-                   //   //Pongo al compa de vuelta al estado BUILDING (estaba en ON_HOLD)
-                   //   mate.setState(BuilderState.BUILD);
-                   //   //Me pongo en WAIT
-                   //   c.setState(WorkerState.WAIT);
-
+                    if(pantablePos != null){
+                        pf.setTargetCell(pantablePos);
+                        lumberJack.setLumberJackState(LumberJackState.WALKING_PLANTING);
+                    }                
+                    break;
+                case WALKING_PLANTING:
+                    if(pf.getTargetCell() == null){
+                        TreeManager.getInstance().createTree(pf.getCurrent());
+                        lumberJack.setLumberJackState(LumberJackState.WALKING_HUT);
+                    }
                     break;
                 case SEARCH_TREE:
                     Tree tree = TreeManager.getInstance().getNearestTree();

@@ -60,12 +60,15 @@ public class TreeManager {
             new Vector2i(-1, 0),                         new Vector2i(1, 0),
             new Vector2i(-1, 1), new Vector2i(0, 1), new Vector2i(1, 1)
         };
-        for(int i = 0; i < positions.length; i++){
-            if(MapInfo.getInstance().getTileId(Vector2i.add(cell, positions[i])) == 4){
-                return Vector2i.add(cell, positions[i]);
+        
+        int iter = 1;
+        while(true){
+            for(int i = 0; i < positions.length; i++){
+                if(MapInfo.getInstance().getTileId(Vector2i.add(cell, Vector2i.positions[i])) == 4){
+                    return Vector2i.add(cell, positions[i]);
+                }
             }
         }
-        return null;
     }
     
     
