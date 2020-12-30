@@ -6,7 +6,8 @@ public enum LumberJackState {
     WALKING,
     CHOPPING,
     CARRYING,
-    PLANTING
-    ;
+    PLANTING,
+    SEARCH_TREE,
+    WALKING_HUT
 
 }

@@ -8,6 +8,7 @@ import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.LumberJack;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
+import com.pochitoGames.Misc.Managers.TreeManager;
 import com.pochitoGames.Misc.States.LumberJackState;
 
 import static com.pochitoGames.Misc.States.LumberJackState.CARRYING;
@@ -34,7 +35,7 @@ public class LumberJackSystem extends System {
 
                 case WALKING:
                     if (pf.getTargetCell() == null) {
-
+                        
                     }
 
                     break;
@@ -50,7 +51,13 @@ public class LumberJackSystem extends System {
                 case PLANTING:
 
                     break;
-
+                case SEARCH_TREE:
+                    Tree tree =TreeManager.getInstance().getNearestTree();
+                    if(tree != null){
+                        pf.setTargetCell(tree.getCell());
+                        lumberJack.setLumberJackState(LumberJackState.WALKING);
+                        lumberJack.setTree(tree);
+                    }
             }
         }
 
