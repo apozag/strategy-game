@@ -61,7 +61,7 @@ public class PathFindingSystem extends System {
                         pf.setSteps(newPath);
                         next = pf.peekNextStep();
                     }
-*/
+                    */
                     
                     //Actualizamos posición en el mapa
                     MapInfo.getInstance().updatePeopleLayerCell(pf.getCurrent(), next, e.getId());
@@ -89,7 +89,7 @@ public class PathFindingSystem extends System {
                 }
                 //Si no, seguimos
                 else {
-                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), pf.getSpeed());
+                    Vector2D dir = Vector2D.mult(Vector2D.sub(pf.getNextPos(), p.getWorldPos()).normalized(), (float)(pf.getSpeed() * dt));
                     p.setLocalPos(Vector2D.add(p.getLocalPos(), dir));
                 }
             }
@@ -164,6 +164,82 @@ public class PathFindingSystem extends System {
                     Node neighbor = new Node(n, 0, 0, 0, current, current.stepNum+1);
 
                     if(walkCost < 0 || cellId < 0 || containsNode(closed, neighbor))
+                        continue;
+
+                    neighbor.g = start.distance(p) * walkCost + current.g;
+                    neighbor.h = end.distance(n);
+                    neighbor.f = neighbor.g + neighbor.h;
+
+                    if(addToOpen(open, neighbor)){
+                        open.add(neighbor);
+                    }
+                }
+            }
+        }
+        
+        //No se ha encontrado camino. Se devuelve lista vacía
+        java.lang.System.out.println("No path");
+        
+        return null;
+    }
+    
+    public static List<Vector2i> aStarFloor(Vector2i start, Vector2i end, int id, boolean avoidPeople) {
+        int[][] map = MapInfo.getInstance().getMap();
+        List<Vector2i> steps = new LinkedList<>();
+        
+        if(MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
+
+            //En open estan los candidatos a visitar
+            List<Node> open = new LinkedList<>();
+
+            //En closed están los que ya hemos visitado
+            List<Node> closed = new LinkedList<>();
+
+            Node first = new Node(start, 0, 0, 0, null, 0);
+
+            open.add(first);
+
+            SortByCost sorter = new SortByCost();
+            while (!open.isEmpty()) {
+                // TODO: No hace falta ordenar, se puede buscar solo el mas cerca y ya
+                open.sort(sorter);
+                Node current = open.remove(0);
+
+                closed.add(current);
+
+                if (current.cell.equals((end))) {
+                    //Vamos sacando los padres de current y los metemos en la cola que devolvemos
+                    extractParents(current, steps);
+                    steps.remove(0);
+                    return steps;
+                }
+
+                //Sacar vecinos
+                Vector2i p = current.cell;
+                Vector2i[] neighbors = {new Vector2i(p.col, p.row + 1),
+                                        new Vector2i(p.col, p.row - 1),
+                                        new Vector2i(p.col + 1, p.row),
+                                        new Vector2i(p.col - 1, p.row),
+                                        new Vector2i(p.col + 1, p.row + 1),
+                                        new Vector2i(p.col - 1, p.row - 1),
+                                        new Vector2i(p.col + 1, p.row - 1),
+                                        new Vector2i(p.col - 1, p.row + 1)};
+
+                int mapW = MapInfo.getInstance().getActiveTileMap().getMap().length;
+                int mapH = MapInfo.getInstance().getActiveTileMap().getMap()[0].length;
+
+                for (Vector2i n : neighbors) {
+                    if(n.col < 0 || n.col >= mapW || n.row < 0 || n.row >= mapH || 
+                    (avoidPeople && current.stepNum < 3 && MapInfo.getInstance().getPeopleLayerCell(n) != -1 && MapInfo.getInstance().getPeopleLayerCell(n) != id))
+                        continue;
+
+                    int cellId = MapInfo.getInstance().getTileId(n);
+
+                    float walkCost = MapInfo.getInstance().getTileWalkCost(n);
+
+                    Node neighbor = new Node(n, 0, 0, 0, current, current.stepNum+1);
+
+                    if((cellId != 5 || containsNode(closed, neighbor)) && (!n.equals(end) || cellId != 6))
                         continue;
 
                     neighbor.g = start.distance(p) * walkCost + current.g;

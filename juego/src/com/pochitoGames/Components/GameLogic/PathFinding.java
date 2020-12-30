@@ -7,11 +7,9 @@ package com.pochitoGames.Components.GameLogic;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
-import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Vector2i;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  *
@@ -23,7 +21,7 @@ public class PathFinding extends Component{
     Vector2D nextPos;
     private Vector2i targetCell;
     private boolean walking;
-    private float speed = 2.5f;
+    private float speed = 100.0f;
     
     public PathFinding(Vector2i cell){
         current = cell;

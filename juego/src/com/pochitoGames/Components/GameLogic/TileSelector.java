@@ -19,6 +19,8 @@ public class TileSelector extends Component{
     
     Vector2i selected;
     
+    private boolean visible = true;
+    
     public TileSelector(TileMap tm){
         this.tileMap = tm;
     }
@@ -33,5 +35,13 @@ public class TileSelector extends Component{
     
     public void select(Vector2i cell){
         selected = cell;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+    
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

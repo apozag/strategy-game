@@ -16,10 +16,7 @@ public class JuegoEstrategia01 {
             engine.mainLoop();
         } catch (InterruptedException ex) {
             Logger.getLogger(JuegoEstrategia01.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        //La verdad es que esto es mas de C++ y no hace falta en Java
-        engine.clear();
+        }        
     }
     
 }

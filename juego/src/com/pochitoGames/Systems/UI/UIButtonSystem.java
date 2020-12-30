@@ -49,7 +49,7 @@ public class UIButtonSystem extends System{
                     b.down = false;
                 } */
                 MouseListener ml = e.get(MouseListener.class);
-                if(ml.down){
+                if(ml.downLeft){
                     s.setCurrentAnimationIndex(1); 
                 }
                 else{

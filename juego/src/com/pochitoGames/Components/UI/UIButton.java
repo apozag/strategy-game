@@ -5,25 +5,13 @@
  */
 package com.pochitoGames.Components.UI;
 
-import com.pochitoGames.Engine.ClickListener;
 import com.pochitoGames.Engine.Component;
-import com.pochitoGames.Engine.MouseEventData;
 
 /**
  *
  * @author PochitoMan
  */
-public class UIButton extends Component implements ClickListener{
-
+public class UIButton extends Component {
     public boolean down = false;
-    public boolean firstTick = false;
-    
-    @Override
-    public void onMouseDown(MouseEventData e) {
-    }
-
-    @Override
-    public void onMouseUp(MouseEventData e) {
-    }
-    
+    public boolean firstTick = false;       
 }

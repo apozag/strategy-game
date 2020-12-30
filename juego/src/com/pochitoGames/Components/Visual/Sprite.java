@@ -41,6 +41,8 @@ public class Sprite extends Component {
     private boolean animated = false;
     
     private float transparency = 1.0f;
+    
+    private boolean visible = true;
    
     //Indica el índice de la animacion que se está pintando actualmente. 
     //Si no tiene animaciones, es -1
@@ -190,4 +192,12 @@ public class Sprite extends Component {
             image = dyed;
         }
   }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
 }

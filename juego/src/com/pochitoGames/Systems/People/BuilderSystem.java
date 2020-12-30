@@ -87,13 +87,13 @@ public class BuilderSystem extends System{
 //                                }
 //                            }
                                 // Busco warehouse
-                                Building building = BuildingManager.getInstance().getNearestWarehouse(pf.getCurrent(), needed, c.getTargetBuilding());
+                                Building building = BuildingManager.getInstance().getNearestWarehouseGet(pf.getCurrent(), needed, null, c.getTargetBuilding());
                                 if(building != null){
                                     // Busco Worker Cerca
                                     Worker mate = PeopleManager.getInstance().getNearestWorker(human.getTypeHuman(), building.getEntryCell());
                                     if(mate != null){
                                         PathFinding mpf = mate.getEntity().get(PathFinding.class);
-                                        mpf.setSteps(PathFindingSystem.aStar(mpf.getCurrent(), building.getEntryCell(), mate.getEntity().getId(), false));
+                                        mpf.setSteps(PathFindingSystem.aStarFloor(mpf.getCurrent(), building.getEntryCell(), mate.getEntity().getId(), false));
                                         // Veo si hay camino
                                         if(mpf.getSteps() != null){
                                             //Le pongo al compañero toda la info que necesita

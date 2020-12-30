@@ -7,5 +7,6 @@ public enum TypeBuilding {
     QUARRY,
     SCHOOL,
     CANTEEN,
-    CASTLE
+    CASTLE,
+    REFINERY
 }

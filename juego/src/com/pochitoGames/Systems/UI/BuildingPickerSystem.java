@@ -12,6 +12,7 @@ import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.BuildingInfo;
@@ -32,7 +33,7 @@ public class BuildingPickerSystem extends System{
         for(Entity e : getEntities()){
             MouseListener ml = e.get(MouseListener.class);
             BuildingPicker bp = e.get(BuildingPicker.class);
-            if(ml.down && ml.firstTick){
+            if(ml.downLeft && ml.firstTickLeft){
                 BuildingGeneratorSystem.buildingId = bp.getId();
                 Entity tempImage = BuildingGeneratorSystem.tempImage;
                 Sprite s = tempImage.get(Sprite.class);
@@ -40,10 +41,14 @@ public class BuildingPickerSystem extends System{
                 float yAnchor = 1 - (float) b.size.row / (2 * b.height + b.size.col + b.size.row);
                 
                 ECS.getInstance().removeComponent(tempImage, s);
-                ECS.getInstance().addComponent(tempImage, new Sprite(b.image, new Vector2D(0, yAnchor), true, 0.5f,  
+                if (bp.getId() == TypeBuilding.FLOOR){
+                    ECS.getInstance().addComponent(tempImage, new Sprite(b.image, new Vector2D(0, yAnchor), true, 0.5f));
+                }
+                else{
+                    ECS.getInstance().addComponent(tempImage, new Sprite(b.image, new Vector2D(0, yAnchor), true, 0.5f,  
                         new Animation(1, 1, 128, 128, 0, 0))
                 );
-
+                }
             }
         }
     }

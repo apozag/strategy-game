@@ -12,16 +12,12 @@ import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Entity;
-import com.pochitoGames.Engine.EventManager;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.GameInfoManager;
-import com.pochitoGames.Misc.Map.IsometricTransformations;
-import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.Vector2i;
-import com.pochitoGames.Systems.Visual.TileMapSystem;
 import java.awt.Color;
 
 /**
@@ -37,7 +33,7 @@ public class BuildingGeneratorSystem extends System{
         tempImage = ECS.getInstance().createEntity(null,
                 new Position(new Vector2D(0, 0)),
                 new Sprite("", new Vector2D(0, 0), true,0.5f));
-        include(TileSelector.class, Position.class, MouseListener.class);
+        include(TileSelector.class, Sprite.class, Position.class, MouseListener.class);
         exclude();
     }
     
@@ -47,36 +43,42 @@ public class BuildingGeneratorSystem extends System{
             if(tempImage.getParent() == null)
                 tempImage.setParent(e);
             MouseListener ml = e.get(MouseListener.class);
-            TileSelector ts = (TileSelector)(e.get(TileSelector.class));
+            TileSelector ts = e.get(TileSelector.class);
+            Sprite s = e.get(Sprite.class);
             TileMap map = ts.getMap();
-            Vector2i selected = ts.getSelected();                
+            Vector2i selected = ts.getSelected();                    
             Sprite tempS = tempImage.get(Sprite.class);            
             
-            // Si no se puede construir, se pone en rojo la imagen
-            if(buildingId != null){
+            if(buildingId != null){    
+                s.setVisible(false);
+                // Si no se puede construir, se pone en rojo la imagen                
                 if(!BuildingManager.getInstance().canBuild(buildingId, selected)){
                     tempS.dye(Color.red);
                 }
                 else{
                     tempS.dye(Color.white);
-                    if( buildingId != null && ml.down && ml.firstTick){                
+                    if(ml.downLeft && ml.firstTickLeft){                
                         BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), buildingId, selected);
                         // Quitamos imagen transparente
                         /////////////////////// CUIDADO ///////////////////////////////
                         // ¡Posible bug si cambia el orden de update de los sistemass!
                         //////////////////////////////////////////////////////////////
+                        if(buildingId != TypeBuilding.FLOOR){
+                            buildingId = null;
+                            tempS.setTransparency(0.0f);
+                        }
+                    }
+                    
+                }
+                
+                if(ml.downRight && ml.firstTickRight){
+                        buildingId = null;
                         tempS.setTransparency(0.0f);
                     }
-                }
             }
-            /*
-            if(EventManager.getInstance().mouseClicked() && buildingId != null){
-                TileSelector ts = (TileSelector)(e.get(TileSelector.class));
-                TileMap map = ts.getMap();
-                Vector2i selected = ts.getSelected();
-                BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), buildingId, selected);
+            else{
+                s.setVisible(true);
             }
-*/
         }
     }
     

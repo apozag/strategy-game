@@ -30,7 +30,7 @@ public class PeopleGeneratorSystem extends System{
         for(Entity e : getEntities()){
             MouseListener ml = e.get(MouseListener.class);
             PeopleGenerator pg = e.get(PeopleGenerator.class);
-            if(ml.down && ml.firstTick){
+            if(ml.downLeft && ml.firstTickLeft){
                 PeopleManager.getInstance().createCharacter(pg.getType(), pg.getRole(), new Vector2i(0, 0));
             }
         }

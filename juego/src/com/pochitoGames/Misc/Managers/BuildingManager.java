@@ -7,6 +7,7 @@ package com.pochitoGames.Misc.Managers;
 
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Quarry;
+import com.pochitoGames.Components.Buildings.Refinery;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.Visual.Sprite;
@@ -19,14 +20,13 @@ import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.Other.BuildingInfo;
+import com.pochitoGames.Misc.Other.ResourceType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Systems.Buildings.QuarrySystem;
 
 /**
  * @author PochitoMan
@@ -34,19 +34,24 @@ import com.pochitoGames.Systems.Buildings.QuarrySystem;
 public class BuildingManager {
 
     private static BuildingManager instance;
+    // Blueprints contiene la info común de cada tipo de edificio. Mirar clase BuildingInfo.
     public static Map<TypeBuilding, BuildingInfo> blueprints = new HashMap<TypeBuilding, BuildingInfo>();
+    
+    // resourcesNeeded contiene los recursos que necesita cada tipo de edificio para construirse
     private static Map<TypeBuilding, Map<ResourceType, Integer>> resourcesNeeded = new HashMap<>();
 
+    // buildings contiene la lista de edificios creados
     private List<Building> buildings;
 
     private BuildingManager() {
-        //              tipo                                   id      pos entrada         ancho y alto    altura     imagen
-        blueprints.put(TypeBuilding.SAWMILL, new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   // Ayuntamiento
-        blueprints.put(TypeBuilding.QUARRY, new BuildingInfo(101, new Vector2i(-1, 0),  new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   // Almacén
-        blueprints.put(TypeBuilding.CANTEEN, new BuildingInfo(102, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.SCHOOL, new BuildingInfo(103, new Vector2i(-1, 0),  new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.CASTLE, new BuildingInfo(104, new Vector2i(-1, 0),  new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.FLOOR, new BuildingInfo(6, new Vector2i(0, 0),      new Vector2i(1, 1), 0, ""));                                                                // Suelo
+        //              tipo                                   id      pos entrada         ancho y largo    altura     imagen
+        blueprints.put(TypeBuilding.SAWMILL,    new BuildingInfo(100, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   // Ayuntamiento
+        blueprints.put(TypeBuilding.QUARRY,     new BuildingInfo(101, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   // Almacén
+        blueprints.put(TypeBuilding.CANTEEN,    new BuildingInfo(102, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.SCHOOL,     new BuildingInfo(103, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.CASTLE,     new BuildingInfo(104, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.REFINERY,   new BuildingInfo(105, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   // Lo que sea
+        blueprints.put(TypeBuilding.FLOOR,      new BuildingInfo(6,   new Vector2i(0, 0), new Vector2i(1, 1), 0, "src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"));                                                                // Suelo
 
         resourcesNeeded.put(TypeBuilding.SAWMILL, new HashMap<ResourceType, Integer>() {
             {
@@ -78,6 +83,12 @@ public class BuildingManager {
                 put(ResourceType.STONE, 0);
             }
         });
+        resourcesNeeded.put(TypeBuilding.REFINERY, new HashMap<ResourceType, Integer>() {
+            {
+                put(ResourceType.WOOD, 2);
+                put(ResourceType.STONE, 2);
+            }
+        });
         resourcesNeeded.put(TypeBuilding.FLOOR, new HashMap<ResourceType, Integer>() {
             {
                 put(ResourceType.STONE, 1);
@@ -93,11 +104,12 @@ public class BuildingManager {
         }
         return instance;
     }
-
+    /*
+    // Esta funcion es mala idea
     public void addBuilding(Building b) {
         buildings.add(b);
     }
-
+    */
     public void build(TypeHuman ownerType, TypeBuilding type, Vector2i cell) {
 
         if (cell.col < 0 || cell.col >= MapInfo.getInstance().getWidth() || cell.row < 0 || cell.row >= MapInfo.getInstance().getHeight())
@@ -175,6 +187,22 @@ public class BuildingManager {
                             }
                         }));
                 break;
+                case REFINERY:
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                ECS.getInstance().createEntity(null,
+                        new Position(IsometricTransformations.isoToCartesian(cell)),
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
+                                new Animation(1, 1, 128, 128, 0, 0),
+                                new Animation(1, 1, 128, 128, 128, 0)),
+                        newBuilding,
+                        new Refinery(2000),
+                        new Warehouse(new HashMap<ResourceType, Integer>() {
+                            {
+                                put(ResourceType.RAW_STONE, 0);
+                                put(ResourceType.STONE, 0);
+                            }
+                        }));
+                break;
             case FLOOR:
                 newBuilding = new Building(ownerType, 0, 0, 0, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
@@ -186,8 +214,13 @@ public class BuildingManager {
         buildings.add(newBuilding);
     }
     
+    // Devuelve true si se puede construir un edificio del tipo type en la casilla cell
     public boolean canBuild(TypeBuilding type, Vector2i cell){
         BuildingInfo b = blueprints.get(type);
+        
+        int entryCellId = MapInfo.getInstance().getTileId(Vector2i.add(cell, b.entry));
+        if (entryCellId >= 100 || entryCellId < 0)
+                    return false;
         for (int i = 0; i < b.size.col; i++) {
             for (int j = 0; j < b.size.row; j++) {
                 int cellId = MapInfo.getInstance().getTileId(new Vector2i(cell.col+i, cell.row-j));
@@ -214,23 +247,52 @@ public class BuildingManager {
         return nearest;
     }
 
-    public Building getNearestWarehouse(Vector2i cell, ResourceType type, Building exclude) {
-        Building nearest = null;
+    public Building getNearestWarehouseGet(Vector2i cell, ResourceType type, TypeBuilding excludeType, Building excludeBuilding) {
+        Building candidate = null;
         int nearestDist = 9999;
+        int greatestAmount = 0;
         for (Building b : buildings) {
             Warehouse wh = b.getEntity().get(Warehouse.class);
-            //Solo preguntamos si tiene al menos una unidad!!! Cuidao
-            if (wh != null && b != exclude && wh.hasResource(type)) {
-                int dist = cell.distance(Vector2i.add(b.getCell(), blueprints.get(b.getTypeBuilding()).entry));
-                if (dist < nearestDist) {
-                    nearestDist = dist;
-                    nearest = b;
+            if (wh != null && b != excludeBuilding && b.getTypeBuilding() != excludeType && wh.hasResource(type)) {
+                if(wh.getContent(type) > greatestAmount){
+                    greatestAmount = wh.getContent(type);
+                    candidate = b;
+                }
+                else if(wh.getContent(type) == greatestAmount){
+                    int dist = cell.distance(Vector2i.add(b.getCell(), blueprints.get(b.getTypeBuilding()).entry));
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        candidate = b;
+                    }
                 }
             }
         }
-        return nearest;
+        return candidate;
     }
-
+    public Building getNearestWarehousePut(Vector2i cell, ResourceType type, TypeBuilding excludeType, Building excludeBuilding) {
+        Building candidate = null;
+        int nearestDist = 9999;
+        int lowestAmount = 9999;
+        for (Building b : buildings) {
+            Warehouse wh = b.getEntity().get(Warehouse.class);
+            if (wh != null && b != excludeBuilding && b.getTypeBuilding() != excludeType && wh.canHave(type)) {
+                if(wh.getContent(type) < lowestAmount){
+                    lowestAmount = wh.getContent(type);
+                    candidate = b;
+                }
+                else if(wh.getContent(type) == lowestAmount){
+                    int dist = cell.distance(Vector2i.add(b.getCell(), blueprints.get(b.getTypeBuilding()).entry));
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        candidate = b;
+                    }
+                }
+            }
+        }
+        return candidate;
+    }
+/*
+    // No se usa de momento
     public Building getUnfinishedBuilding() {
         for (Building b : buildings) {
             if (!b.isFinished())
@@ -238,4 +300,5 @@ public class BuildingManager {
         }
         return null;
     }
+*/
 }

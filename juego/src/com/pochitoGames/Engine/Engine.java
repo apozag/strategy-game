@@ -33,6 +33,7 @@ import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
 import com.pochitoGames.Systems.Buildings.BuildingSystem;
+import com.pochitoGames.Systems.Buildings.RefinerySystem;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.BuilderSystem;
 
@@ -86,7 +87,7 @@ public class Engine {
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(),
-                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new MinerSystem(),
+                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new MinerSystem(),
                 new MouseListenerSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
@@ -180,13 +181,28 @@ public class Engine {
                 new Position(new Vector2D(25, 25), true),
                 new Text("Q", Color.BLACK, true)
             );
+        
+        // Botón crear Refinería 
+        Entity buttonRef = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(210, 10), true),
+                new UIButton(),
+                new BuildingPicker(TypeBuilding.REFINERY),
+                new MouseListener(2)
+        );
+        ECS.getInstance().createEntity(buttonRef, 
+                new Position(new Vector2D(25, 25), true),
+                new Text("R", Color.BLACK, true)
+            );
 
         //Botón crear SUELO
         Entity button4 = ECS.getInstance().createEntity(uiPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(210, 10), true),
+                new Position(new Vector2D(260, 10), true),
                 new UIButton(),
                 new BuildingPicker(TypeBuilding.FLOOR),
                 new MouseListener(2)
@@ -201,7 +217,7 @@ public class Engine {
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(260, 10), true),
+                new Position(new Vector2D(310, 10), true),
                 new UIButton(),
                 new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER),
                 new MouseListener(2)
@@ -263,9 +279,9 @@ public class Engine {
     }
 
     public void mainLoop() throws InterruptedException {
+        long elapsed = 0;
         while (running) {
             long lastTime = java.lang.System.nanoTime();
-            //EventManager.getInstance().handleEvents();
 
             //Tenemos una cámara (clase estática) que hay que updatear.
             Camera.getInstance().update(dt);
@@ -273,17 +289,15 @@ public class Engine {
             //al updatear ecs, se updatean los sistemas y, por tanto, las entidades.
             ECS.getInstance().update(dt);
 
-            //Esto hace que se pinten todas las imágenes que han llamado a render() durante esta iteración (se pintan todas a la vez).
-            //Tambien el texto
+            //Esto hace que se pinten todas las imágenes y texto que han llamado a render() durante esta iteración (se pintan todas a la vez).
             Renderer.getInstance().repaint();
 
             //Al acabar la iteración, se limpian los eventos de ratón, teclado, etc, porque sólo valen para una vez.
             EventManager.getInstance().clearEvents();
 
             //Tenemos que esperar un rato (1000/30 == 30FPS) para que no se quede pillado en un bucle infinito.
-            long elapsed = java.lang.System.nanoTime() - lastTime;
-            elapsed /= 1000000;
-            long wait = (1000 / FPS) - elapsed ;
+            elapsed = (java.lang.System.nanoTime() - lastTime) / 1000000;
+            long wait = (1000 / FPS) - elapsed;
             if(wait < 0)
                 wait = 0;
             Thread.sleep(wait);

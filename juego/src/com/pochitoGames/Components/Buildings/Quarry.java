@@ -17,6 +17,8 @@ public class Quarry extends Component {
     double currentTime = 0.0f;
 
     Miner miner = null;
+    
+    public boolean foundWorker = false;
 
     public float getWaitTime() {
         return waitTime;

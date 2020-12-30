@@ -36,18 +36,12 @@ public class Position extends Component{
     }
     
     public void setLocalPos(Vector2D pos){
-        if(getEntity().getComponents().size() == 2){
-            System.out.println("klk");
-        }
         this.localPos = pos;
         setDirtyFlag();
     }
     
     public Vector2D getWorldPos(){
         if(dirty){
-            if(getEntity().getComponents().size() == 2){
-                System.out.println("klk");
-            }
             worldPos.x = localPos.x;
             worldPos.y = localPos.y;
             Entity parent = getEntity().getParent();

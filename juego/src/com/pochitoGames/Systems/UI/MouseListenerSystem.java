@@ -37,25 +37,47 @@ public class MouseListenerSystem extends System{
         for(Entity e : getEntities()){
                 MouseListener ml = e.get(MouseListener.class);
                 Sprite s = e.get(Sprite.class);
-                if(EventManager.getInstance().isMousePressed()){            
+                if(EventManager.getInstance().isMouseLeftPressed()){            
                     Vector2D mousePos = EventManager.getInstance().getMousePos();
                     if(SpriteSystem.isInsideSprite(s, mousePos)){
-                        if(ml.down)
-                                ml.firstTick = false;
+                        if(ml.downLeft)
+                                ml.firstTickLeft = false;
                         else{
-                            ml.down = true;
-                            ml.firstTick = true;
+                            ml.downLeft = true;
+                            ml.firstTickLeft = true;
                         }
                         // Bloquea el click para el resto
                         break;
                     }
                 }
                 else{
-                    if(ml.released)
-                        ml.released = false;
+                    if(ml.releasedLeft)
+                        ml.releasedLeft = false;
                     else{
-                        ml.down = false;
-                        ml.released = true;
+                        ml.downLeft = false;
+                        ml.releasedLeft = true;
+                    }
+                }
+                
+                if(EventManager.getInstance().isMouseRightPressed()){            
+                    Vector2D mousePos = EventManager.getInstance().getMousePos();
+                    if(SpriteSystem.isInsideSprite(s, mousePos)){
+                        if(ml.downRight)
+                                ml.firstTickRight = false;
+                        else{
+                            ml.downRight = true;
+                            ml.firstTickRight = true;
+                        }
+                        // Bloquea el click para el resto
+                        break;
+                    }
+                }
+                else{
+                    if(ml.releasedRight)
+                        ml.releasedRight = false;
+                    else{
+                        ml.downRight = false;
+                        ml.releasedRight = true;
                     }
                 }
             }
