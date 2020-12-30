@@ -27,4 +27,7 @@ public class Vector2i {
     public static Vector2i add(Vector2i v1, Vector2i v2){
         return new Vector2i(v1.col + v2.col, v1.row + v2.row);
     }
+    public static Vector2i mult(Vector2i v, int i){
+        return new Vector2i(v.col * i, v.row * i);
+    }
 }
