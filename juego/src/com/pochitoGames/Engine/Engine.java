@@ -11,6 +11,7 @@ import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.UI.ResourceText;
+import com.pochitoGames.Components.UI.TreeGenerator;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
 import com.pochitoGames.Components.Visual.TileMap;
@@ -44,6 +45,7 @@ import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.MouseListenerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.ResourceTextSystem;
+import com.pochitoGames.Systems.UI.TreeGeneratorSystem;
 import com.pochitoGames.Systems.UI.UIButtonSystem;
 
 import java.awt.Color;
@@ -86,7 +88,7 @@ public class Engine {
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(),
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
-                new BuildingPickerSystem(), new PeopleGeneratorSystem(),
+                new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(),
                 new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new MinerSystem(),
                 new MouseListenerSystem());
 
@@ -255,6 +257,21 @@ public class Engine {
         ECS.getInstance().createEntity(buttonW, 
                 new Position(new Vector2D(25, 25), true),
                 new Text("W", Color.BLACK, true)
+            );
+        
+        // Boton crear Arbol
+        Entity buttonT = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(110, 100), true),
+                new UIButton(),
+                new TreeGenerator(),
+                new MouseListener(2)
+        );
+        ECS.getInstance().createEntity(buttonT, 
+                new Position(new Vector2D(25, 25), true),
+                new Text("T", Color.BLACK, true)
             );
 
         // Recursos y tal

@@ -36,10 +36,20 @@ public class TreeManager {
     }
     
     public void createTree(Vector2i cell){
+        Tree tree = new Tree();
         ECS.getInstance().createEntity(null, 
                 new Position(IsometricTransformations.isoToCartesian(cell)),
-                new Sprite("", new Vector2D(0.5f, 0.0f), true, 1.0f)
-                );
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.5f, 0.0f), true, 1.0f),
+                tree
+        );
+        
+        trees.add(tree);
+    }
+    
+    public Tree getNearestTree(){
+        if(trees.isEmpty())
+            return null;
+        return trees.get(0);
     }
     
     
