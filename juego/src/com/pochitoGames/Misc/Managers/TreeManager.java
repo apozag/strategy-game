@@ -62,13 +62,14 @@ public class TreeManager {
         };
         
         int iter = 1;
-        while(true){
+        while(iter < 10){
             for(int i = 0; i < positions.length; i++){
-                if(MapInfo.getInstance().getTileId(Vector2i.add(cell, Vector2i.positions[i])) == 4){
+                if(MapInfo.getInstance().getTileId(Vector2i.add(cell, Vector2i.mult(positions[i], iter))) == 4){
                     return Vector2i.add(cell, positions[i]);
                 }
             }
         }
+        return null;
     }
     
     
