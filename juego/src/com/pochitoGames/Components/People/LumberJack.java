@@ -15,7 +15,7 @@ public class LumberJack extends Component {
     private LumberJackState lumberJackState = LumberJackState.WAITING;
     private ResourceType resourceType = null;
     
-    private double waitTime = 5000.0;// milliseconds
+    private double waitTime = 1000.0;// milliseconds
     private double lastTime = 999999999;// milliseconds
 
     public ResourceType getResourceType() {

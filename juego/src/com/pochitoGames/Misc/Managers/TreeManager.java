@@ -46,6 +46,11 @@ public class TreeManager {
         trees.add(tree);
     }
     
+    public void removeTree(Tree tree){
+        trees.remove(tree);
+        ECS.getInstance().removeEntity(tree.getEntity());
+    }
+    
     public Tree getNearestTree(){
         if(trees.isEmpty())
             return null;

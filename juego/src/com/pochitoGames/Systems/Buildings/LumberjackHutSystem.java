@@ -7,11 +7,13 @@ package com.pochitoGames.Systems.Buildings;
 
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.LumberjackHut;
+import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.People.LumberJack;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.PeopleManager;
+import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.LumberJackState;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 
@@ -22,7 +24,7 @@ import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 public class LumberjackHutSystem extends System{
 
     public LumberjackHutSystem(){
-        include(LumberjackHut.class, Building.class);
+        include(LumberjackHut.class, Building.class, Warehouse.class);
         exclude();
     }
     
@@ -43,6 +45,12 @@ public class LumberjackHutSystem extends System{
                             pf.setTargetCell(b.getEntryCell());
                             lj.setState(LumberJackState.WALKING_HUT);
                         }
+                    }
+                }
+                else{
+                    Warehouse wh = e.get(Warehouse.class);
+                    if(wh.getContent(ResourceType.RAW_WOOD) > 5){
+                        
                     }
                 }
             }

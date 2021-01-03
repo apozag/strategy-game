@@ -61,7 +61,9 @@ public class LumberJackSystem extends System {
 
                 case CHOPPING:
                     if(java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()){
-                        ECS.getInstance().removeEntity(lj.getTree().getEntity());
+                        //ECS.getInstance().removeEntity(lj.getTree().getEntity());
+                        TreeManager.getInstance().removeTree(lj.getTree());
+                        lj.setTree(null);
                         Building b = lj.getHut().get(Building.class);
                         pf.setTargetCell(b.getEntryCell());
                         lj.setState(LumberJackState.CARRYING);
