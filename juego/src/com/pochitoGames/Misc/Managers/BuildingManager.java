@@ -142,7 +142,13 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
-                        newBuilding);
+                        newBuilding,
+                        new Warehouse(new HashMap<ResourceType, Integer>() {
+                            {
+                                put(ResourceType.WOOD, 0);
+                                put(ResourceType.RAW_WOOD, 0);
+                            }
+                        }));
                 break;
             case QUARRY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
