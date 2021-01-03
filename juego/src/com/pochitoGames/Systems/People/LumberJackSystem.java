@@ -36,7 +36,7 @@ public class LumberJackSystem extends System {
             switch (lumberJackState) {
                 case WAITING:
                     // Cada x segundos vamos a por un arbol
-                    if(java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()){
+                    if(lj.getHut() != null && java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()){
                         lj.setState(LumberJackState.SEARCHING_TREE);
                     }
                     break;

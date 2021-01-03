@@ -34,7 +34,7 @@ public class LumberjackHutSystem extends System{
                 LumberjackHut ljh = e.get(LumberjackHut.class);
                 if(ljh.getLumberjack() == null){
                     LumberJack lj = PeopleManager.getInstance().getNearestLumberjack(b.getOwnerType(), b.getCell());
-                    if(lj != null){
+                    if(lj != null && lj.getHut() == null){
                         ljh.setLumberjack(lj);
                         PathFinding pf = lj.getEntity().get(PathFinding.class);
                         pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), b.getEntryCell(), lj.getEntity().getId(),false));
