@@ -36,10 +36,10 @@ public class TreeManager {
     }
     
     public void createTree(Vector2i cell){
-        Tree tree = new Tree();
+        Tree tree = new Tree(cell);
         ECS.getInstance().createEntity(null, 
                 new Position(IsometricTransformations.isoToCartesian(cell)),
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.5f, 0.0f), true, 1.0f),
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.5f, 1.0f), true, 1.0f),
                 tree
         );
         
@@ -53,12 +53,12 @@ public class TreeManager {
     }
     
     public Vector2i getPlantableCell(Vector2i cell){
-        int[][] map = MapInfo.getInstance().getMap();
-        
+        //int[][] map = MapInfo.getInstance().getMap();
+        /*
         Vector2i[] positions = {
-            new Vector2i(-1, -1), new Vector2i(0, -1), new Vector2i(1, -1),
-            new Vector2i(-1, 0),                         new Vector2i(1, 0),
-            new Vector2i(-1, 1), new Vector2i(0, 1), new Vector2i(1, 1)
+            new Vector2i(-1, -1),   new Vector2i(0, -1),    new Vector2i(1, -1),
+            new Vector2i(-1, 0),                            new Vector2i(1, 0),
+            new Vector2i(-1, 1),    new Vector2i(0, 1),     new Vector2i(1, 1)
         };
         
         int iter = 1;
@@ -69,7 +69,30 @@ public class TreeManager {
                 }
             }
         }
-        return null;
+*/
+        
+        // Metodo cutre
+        
+        int diameter = 4;
+        int iter = 0;
+        int maxIter = 20;
+        Vector2i candidate = new Vector2i(cell.col + (int)Math.random() * diameter, cell.row + (int)Math.random()*diameter);
+        while(MapInfo.getInstance().getTileId(candidate) != 4){
+            candidate = new Vector2i(cell.col + (int)Math.random() * diameter, cell.row + (int)Math.random()*diameter);
+            iter++;
+            if(iter >= maxIter){
+                iter = 0;
+                diameter += 4;
+                if(cell.col + diameter + 4 >= MapInfo.getInstance().getWidth() || cell.row + diameter + 4 >= MapInfo.getInstance().getHeight()){
+                    candidate.col = MapInfo.getInstance().getWidth()-1;
+                    candidate.row = MapInfo.getInstance().getHeight()-1;
+                }
+                else if(cell.col + diameter + 4 == MapInfo.getInstance().getWidth() || cell.row + diameter + 4 == MapInfo.getInstance().getHeight()){
+                    return null;
+                }
+            }
+        }
+        return candidate;
     }
     
     

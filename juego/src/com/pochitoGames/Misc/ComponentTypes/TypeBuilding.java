@@ -8,5 +8,6 @@ public enum TypeBuilding {
     SCHOOL,
     CANTEEN,
     CASTLE,
-    REFINERY
+    REFINERY,
+    LUMBERJACK_HUT
 }

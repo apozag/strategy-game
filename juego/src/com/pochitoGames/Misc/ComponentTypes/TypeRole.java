@@ -14,6 +14,7 @@ public enum TypeRole {
     WORKER,
     BUILDER,
     MINER,
+    LUMBERJACK,
     SOLDIER,
     HORSEMAN
     

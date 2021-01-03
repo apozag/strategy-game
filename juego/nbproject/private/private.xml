@@ -4,46 +4,62 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/UIButton.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/ComponentTypes/TypeBuilding.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/BuildingManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/ImageManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/States/LumberJackState.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/WorkerSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Warehouse.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Renderer.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/TileMaps/cost.csv</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/ECS.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/MouseListenerSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/BuildingPickerSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/HumanManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/System.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/TileSelectorSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Visual/Sprite.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/MouseListener.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Camera.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/JuegoEstrategia01.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/Worker.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/TileMaps/tileSet.png</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/PathFindingSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/GameLogic/TileSelector.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/QuarrySystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Quarry.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Entity.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/RefinerySystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Engine.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/EventManager.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/PeopleManager.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/BuildingSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Visual/SpriteSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/GameLogic/Position.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/BuilderSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Other/Time.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Refinery.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Building.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/LumberJackSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/PeopleGenerator.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/UIButtonSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Other/BuildingInfo.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/FortressSystem.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/BuildingGeneratorSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/LumberJack.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/LumberjackHut.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/GameLogic/PathFinding.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Resources/Sprites/selected_tile.png</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/PeopleGeneratorSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/TreeManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/TreeGenerator.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/BuildingPicker.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/ComponentTypes/TypeBuilding.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/BuildingManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Warehouse.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/WarehouseSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/TreeGeneratorSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Other/Tree.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/JuegoEstrategia01.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/People/Worker.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/VisibilitySystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/PathFindingSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/QuarrySystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Quarry.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/EventManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/BuildingSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Visual/SpriteSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/LumberjackHutSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/ResourcesManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/People/BuilderSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Other/Time.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Buildings/Refinery.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/ComponentTypes/TypeRole.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/FortressSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/BuildingGeneratorSystem.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Component.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Map/MapInfo.java</file>
         </group>

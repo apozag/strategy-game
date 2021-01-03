@@ -9,6 +9,9 @@ public class Tree extends Component {
     private Vector2i cell;
 
     
+    public Tree(Vector2i cell){
+        this.cell = cell;
+    }
 
     public int getLife() {
         return life;

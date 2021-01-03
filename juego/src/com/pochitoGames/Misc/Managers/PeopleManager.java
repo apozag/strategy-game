@@ -9,6 +9,7 @@ import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
+import com.pochitoGames.Components.People.LumberJack;
 import com.pochitoGames.Components.People.Miner;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Components.Visual.Sprite;
@@ -22,6 +23,7 @@ import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
+import com.pochitoGames.Misc.States.LumberJackState;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.WorkerState;
 import java.util.ArrayList;
@@ -84,6 +86,11 @@ public class PeopleManager {
                             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f), true, 1.0f), 
                             new Miner());
                     break;
+                    case LUMBERJACK:
+                        ECS.getInstance().addComponent(e, 
+                            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f), true, 1.0f), 
+                            new LumberJack());
+                    break;
                 }
                 break;
         }
@@ -137,6 +144,26 @@ public class PeopleManager {
         for (Entity e : people.get(type)) {
             Miner m = e.get(Miner.class);
             if (m != null && m.getState() == MinerState.WAIT) {
+                Human h = e.get(Human.class);
+                if (h == null && h.getTypeHuman() != type)
+                    continue;
+                PathFinding pf = e.get(PathFinding.class);
+                int dist = cell.distance(pf.getCurrent());
+                if (dist < nearestDist) {
+                    nearestDist = dist;
+                    nearest = m;
+                }
+            }
+        }
+        return nearest;
+    }
+    
+    public LumberJack getNearestLumberjack(TypeHuman type, Vector2i cell) {
+        LumberJack nearest = null;
+        int nearestDist = 9999;
+        for (Entity e : people.get(type)) {
+            LumberJack m = e.get(LumberJack.class);
+            if (m != null && m.getState() == LumberJackState.WAITING) {
                 Human h = e.get(Human.class);
                 if (h == null && h.getTypeHuman() != type)
                     continue;

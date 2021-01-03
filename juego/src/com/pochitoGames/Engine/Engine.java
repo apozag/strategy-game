@@ -34,6 +34,7 @@ import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
 import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
 import com.pochitoGames.Systems.Buildings.BuildingSystem;
+import com.pochitoGames.Systems.Buildings.LumberjackHutSystem;
 import com.pochitoGames.Systems.Buildings.RefinerySystem;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.BuilderSystem;
@@ -41,6 +42,7 @@ import com.pochitoGames.Systems.People.BuilderSystem;
 import com.pochitoGames.Systems.Visual.TextSystem;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
+import com.pochitoGames.Systems.People.LumberJackSystem;
 import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.MouseListenerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
@@ -86,11 +88,11 @@ public class Engine {
 
         // Añadir sistemas
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(),
-                new TextSystem(), new TileSelectorSystem(), new BuilderSystem(),
+                new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), new LumberJackSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(),
-                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new MinerSystem(),
-                new MouseListenerSystem());
+                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(),
+                new MinerSystem(),  new MouseListenerSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         
@@ -213,21 +215,22 @@ public class Engine {
                 new Position(new Vector2D(25, 25), true),
                 new Text("F", Color.BLACK, true)
             );
-
-        // Boton crear MINERO  
-        Entity buttonMinero = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
+         //Botón crear CABAÑA LEÑADOR
+        Entity buttonH = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(310, 10), true),
                 new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER),
+                new BuildingPicker(TypeBuilding.LUMBERJACK_HUT),
                 new MouseListener(2)
         );
-        ECS.getInstance().createEntity(buttonMinero, 
+        ECS.getInstance().createEntity(buttonH, 
                 new Position(new Vector2D(25, 25), true),
-                new Text("M", Color.BLACK, true)
+                new Text("LH", Color.BLACK, true)
             );
+
+///////////////// PERSONAJES //////////////////////        
         
         // Boton crear builder
         Entity buttonB = ECS.getInstance().createEntity(uiPanel,
@@ -258,13 +261,44 @@ public class Engine {
                 new Position(new Vector2D(25, 25), true),
                 new Text("W", Color.BLACK, true)
             );
+        // Boton crear MINERO  
+        Entity buttonMinero = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(110, 100), true),
+                new UIButton(),
+                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER),
+                new MouseListener(2)
+        );
+        ECS.getInstance().createEntity(buttonMinero, 
+                new Position(new Vector2D(25, 25), true),
+                new Text("M", Color.BLACK, true)
+            );
+        
+        // Boton crear MINERO  
+        Entity buttonLeñador = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(160, 100), true),
+                new UIButton(),
+                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.LUMBERJACK),
+                new MouseListener(2)
+        );
+        ECS.getInstance().createEntity(buttonLeñador, 
+                new Position(new Vector2D(25, 25), true),
+                new Text("L", Color.BLACK, true)
+            );
+        
+////////////////////////// OTROS //////////////////////
         
         // Boton crear Arbol
         Entity buttonT = ECS.getInstance().createEntity(uiPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(110, 100), true),
+                new Position(new Vector2D(370, 10), true),
                 new UIButton(),
                 new TreeGenerator(),
                 new MouseListener(2)

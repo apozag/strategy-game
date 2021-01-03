@@ -6,6 +6,7 @@ import com.pochitoGames.Components.Other.Tree;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.LumberJack;
+import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.TreeManager;
@@ -20,7 +21,7 @@ import static com.pochitoGames.Misc.States.LumberJackState.CHOPPING;
 public class LumberJackSystem extends System {
 
     public LumberJackSystem() {
-        include(Tree.class, Position.class, PathFinding.class, Human.class);
+        include(Position.class, PathFinding.class, Human.class, LumberJack.class);
         exclude(Builder.class);
     }
 
@@ -29,18 +30,28 @@ public class LumberJackSystem extends System {
     public void update(double dt) {
         for (Entity e : getEntities()) {
             PathFinding pf = e.get(PathFinding.class);
-            LumberJack lumberJack = e.get(LumberJack.class);
-            LumberJackState lumberJackState = lumberJack.getLumberJackState();
+            LumberJack lj = e.get(LumberJack.class);
+            LumberJackState lumberJackState = lj.getState();
             switch (lumberJackState) {
                 case WAITING:
-                    //Estamos parados hasta que nos requieran
+                    // Cada x segundos vamos a por un arbol
+                    if(java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()){
+                        lj.setState(LumberJackState.SEARCHING_TREE);
+                    }
+                    break;
+                    
+                case WALKING_HUT:
+                    if(pf.getTargetCell() == null){
+                        lj.setLastTime(java.lang.System.currentTimeMillis());
+                        lj.setState(LumberJackState.WAITING);
+                    }
                     break;
 
-                case WALKING:
+                case WALKING_TREE:
                     if (pf.getTargetCell() == null) {
-
+                        lj.setLastTime(java.lang.System.currentTimeMillis());
+                        lj.setState(LumberJackState.CHOPPING);    
                     }
-                    lumberJack.setLumberJackState(LumberJackState.CHOPPING);
                     break;
 
                 case CARRYING:
@@ -48,28 +59,35 @@ public class LumberJackSystem extends System {
                     break;
 
                 case CHOPPING:
-
+                    if(java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()){
+                        ECS.getInstance().removeEntity(lj.getTree().getEntity());
+                        lj.setState(LumberJackState.CARRYING);
+                    }
                     break;
 
                 case PLANTING:
                     Vector2i pantablePos = TreeManager.getInstance().getPlantableCell(pf.getCurrent());
                     if(pantablePos != null){
                         pf.setTargetCell(pantablePos);
-                        lumberJack.setLumberJackState(LumberJackState.WALKING_PLANTING);
+                        lj.setState(LumberJackState.WALKING_PLANTING);
                     }                
                     break;
                 case WALKING_PLANTING:
                     if(pf.getTargetCell() == null){
                         TreeManager.getInstance().createTree(pf.getCurrent());
-                        lumberJack.setLumberJackState(LumberJackState.WALKING_HUT);
+                        lj.setState(LumberJackState.WALKING_HUT);
                     }
                     break;
-                case SEARCH_TREE:
+                case SEARCHING_TREE:
                     Tree tree = TreeManager.getInstance().getNearestTree();
                     if (tree != null) {
                         pf.setTargetCell(tree.getCell());
-                        lumberJack.setLumberJackState(LumberJackState.WALKING);
-                        lumberJack.setTree(tree);
+                        lj.setState(LumberJackState.WALKING_TREE);
+                        lj.setTree(tree);
+                    }
+                    else{
+                        lj.setLastTime(java.lang.System.currentTimeMillis());
+                        lj.setState(LumberJackState.WAITING);
                     }
             }
         }
