@@ -10,11 +10,13 @@ import com.pochitoGames.Components.Buildings.LumberjackHut;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.People.LumberJack;
+import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.LumberJackState;
+import com.pochitoGames.Misc.States.WorkerState;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 
 /**
@@ -31,9 +33,9 @@ public class LumberjackHutSystem extends System{
     @Override
     public void update(double dt) {
         for(Entity e : getEntities()){
-            Building b = e.get(Building.class);
+            Building b = e.get(Building.class);                
+            LumberjackHut ljh = e.get(LumberjackHut.class);            
             if(b.isFinished()){
-                LumberjackHut ljh = e.get(LumberjackHut.class);
                 if(ljh.getLumberjack() == null){
                     LumberJack lj = PeopleManager.getInstance().getNearestLumberjack(b.getOwnerType(), b.getCell());
                     if(lj != null && lj.getHut() == null){
@@ -49,12 +51,29 @@ public class LumberjackHutSystem extends System{
                 }
                 else{
                     Warehouse wh = e.get(Warehouse.class);
-                    if(wh.getContent(ResourceType.RAW_WOOD) > 5){
-                        
+                    Building building = e.get(Building.class);
+                    if(ljh.getLastWood() < wh.getContent(ResourceType.RAW_WOOD)){
+                        ljh.setHasWorker(false);
                     }
+                    if(wh.getContent(ResourceType.RAW_WOOD) >= 1 && !ljh.isHasWorker()){
+                        Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
+                        if(worker != null){
+                            PathFinding pf = worker.getEntity().get(PathFinding.class);
+                            pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), building.getEntryCell(), worker.getEntity().getId(), false));
+                            if(pf.getSteps() != null){
+                                pf.setTargetCell(building.getEntryCell());
+                                worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
+                                worker.setTargetBuilding(building);
+                                worker.setResourceNeeded(ResourceType.RAW_WOOD);
+                                ljh.setHasWorker(true);
+                            }
+                    }
+                    ljh.setLastWood(wh.getContent(ResourceType.RAW_WOOD));
                 }
             }
         }
     }
     
+    }
 }
+

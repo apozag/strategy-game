@@ -111,7 +111,7 @@ public class WorkerSystem extends System {
                                 break;
                         }
                         */
-                        Building newTargetBuilding = BuildingManager.getInstance().getNearestWarehousePut(pf.getCurrent(), c.getCarrying(), TypeBuilding.QUARRY, null);
+                        Building newTargetBuilding = BuildingManager.getInstance().getNearestWarehousePut(pf.getCurrent(), c.getCarrying(), c.getTargetBuilding().getTypeBuilding(), null);
                         c.setResourceNeeded(null);
                         
                         //Me pongo el pathfinding a ese edificio si lo he encontrado

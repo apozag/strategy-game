@@ -14,6 +14,8 @@ import com.pochitoGames.Engine.Component;
  */
 public class LumberjackHut extends Component{
     private LumberJack lumberjack;
+    private int lastWood = 0;
+    private boolean hasWorker = false;
     
     public LumberjackHut(){
         
@@ -25,6 +27,22 @@ public class LumberjackHut extends Component{
 
     public void setLumberjack(LumberJack lumberjack) {
         this.lumberjack = lumberjack;
+    }
+
+    public int getLastWood() {
+        return lastWood;
+    }
+
+    public void setLastWood(int lastWood) {
+        this.lastWood = lastWood;
+    }
+
+    public boolean isHasWorker() {
+        return hasWorker;
+    }
+
+    public void setHasWorker(boolean hasWorker) {
+        this.hasWorker = hasWorker;
     }
     
     
