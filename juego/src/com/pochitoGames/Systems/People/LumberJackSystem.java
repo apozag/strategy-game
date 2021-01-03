@@ -1,5 +1,6 @@
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.Other.Tree;
@@ -61,6 +62,8 @@ public class LumberJackSystem extends System {
                 case CHOPPING:
                     if(java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()){
                         ECS.getInstance().removeEntity(lj.getTree().getEntity());
+                        Building b = lj.getHut().get(Building.class);
+                        pf.setTargetCell(b.getEntryCell());
                         lj.setState(LumberJackState.CARRYING);
                     }
                     break;

@@ -2,6 +2,7 @@ package com.pochitoGames.Components.People;
 
 import com.pochitoGames.Components.Other.Tree;
 import com.pochitoGames.Engine.Component;
+import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.LumberJackState;
@@ -63,5 +64,13 @@ public class LumberJack extends Component {
 
     public void setLastTime(double lastTime) {
         this.lastTime = lastTime;
+    }
+
+    public Entity getHut() {
+        return hut;
+    }
+
+    public void setHut(Entity hut) {
+        this.hut = hut;
     }
 }
