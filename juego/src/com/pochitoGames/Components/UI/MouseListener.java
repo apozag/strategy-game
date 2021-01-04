@@ -22,7 +22,9 @@ public class MouseListener extends Component {
     
     public boolean downRight = false;
     public boolean firstTickRight = false;
-    public boolean releasedRight = false;   
+    public boolean releasedRight = false; 
+    
+    public boolean mouseOver = false;
     
     public MouseListener(int layer){
         this.layer = layer;

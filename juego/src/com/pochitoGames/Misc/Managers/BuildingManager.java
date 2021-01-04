@@ -11,6 +11,8 @@ import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Refinery;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.UI.MouseListener;
+import com.pochitoGames.Components.Visual.SeeThrough;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Vector2D;
@@ -142,6 +144,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),
                         newBuilding,
                         new Warehouse(new HashMap<ResourceType, Integer>() {
                             {
@@ -157,6 +161,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f, 
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
                         newBuilding, 
                         new Quarry(),
                         new Warehouse(new HashMap<ResourceType, Integer>() {
@@ -173,6 +179,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f, 
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
                         newBuilding);
                 break;
             case CANTEEN:
@@ -182,6 +190,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
                         newBuilding);
                 break;
             case CASTLE:
@@ -191,6 +201,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
                         newBuilding,
                         new Warehouse(new HashMap<ResourceType, Integer>() {
                             {
@@ -207,6 +219,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
                         newBuilding,
                         new Refinery(2000),
                         new Warehouse(new HashMap<ResourceType, Integer>() {
@@ -223,6 +237,8 @@ public class BuildingManager {
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
                         newBuilding,
                         new LumberjackHut(),
                         new Warehouse(new HashMap<ResourceType, Integer>() {

@@ -12,6 +12,7 @@ import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.TreeManager;
+import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
@@ -102,9 +103,9 @@ public class LumberJackSystem extends System {
                     break;
 
                 case SEARCHING_TREE:
-                    Tree tree = TreeManager.getInstance().getNearestTree();
+                    Tree tree = TreeManager.getInstance().getNearestTree(pf.getCurrent());
                     if (tree != null) {
-                        pf.setTargetCell(tree.getCell());
+                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(tree.getCell()));
                         lj.setState(LumberJackState.WALKING_TREE);
                         java.lang.System.out.println("Voy al arbol");
                         lj.setTree(tree);

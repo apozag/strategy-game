@@ -11,6 +11,7 @@ import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.UI.ResourceText;
+import com.pochitoGames.Components.UI.StoneGenerator;
 import com.pochitoGames.Components.UI.TreeGenerator;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.Text;
@@ -47,8 +48,10 @@ import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.MouseListenerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.ResourceTextSystem;
+import com.pochitoGames.Systems.UI.StoneGeneratorSystem;
 import com.pochitoGames.Systems.UI.TreeGeneratorSystem;
 import com.pochitoGames.Systems.UI.UIButtonSystem;
+import com.pochitoGames.Systems.Visual.SeeThroughSystem;
 
 import java.awt.Color;
 import java.time.Duration;
@@ -87,10 +90,10 @@ public class Engine {
         Camera.getInstance().setScreenSize(SCR_WIDTH, SCR_WIDTH);
 
         // Añadir sistemas
-        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new WorkerSystem(),
+        ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new SeeThroughSystem(), new WorkerSystem(),
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), new LumberJackSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
-                new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(),
+                new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(), new StoneGeneratorSystem(),
                 new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(),
                 new MinerSystem(),  new MouseListenerSystem());
 
@@ -125,6 +128,8 @@ public class Engine {
                 new Position(new Vector2D(50, window.getHeight()-200), true), 
                 new MouseListener(1)
         );
+
+//////////////// EDIFICIOS ///////////////////////
 
         //Boton crear ESCUELA
         Entity button1 = ECS.getInstance().createEntity(uiPanel,
@@ -307,7 +312,21 @@ public class Engine {
                 new Position(new Vector2D(25, 25), true),
                 new Text("T", Color.BLACK, true)
             );
-
+        // Boton crear Pierda
+        Entity buttonP = ECS.getInstance().createEntity(uiPanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(420, 10), true),
+                new UIButton(),
+                new StoneGenerator(),
+                new MouseListener(2)
+        );
+        ECS.getInstance().createEntity(buttonP, 
+                new Position(new Vector2D(25, 25), true),
+                new Text("ST", Color.BLACK, true)
+            );
+        
         // Recursos y tal
         ECS.getInstance().createEntity(null,
                 new Text("", Color.white),

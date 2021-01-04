@@ -7,6 +7,8 @@ package com.pochitoGames.Misc.Managers;
 
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.Other.Tree;
+import com.pochitoGames.Components.UI.MouseListener;
+import com.pochitoGames.Components.Visual.SeeThrough;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Vector2D;
@@ -39,22 +41,37 @@ public class TreeManager {
         Tree tree = new Tree(cell);
         ECS.getInstance().createEntity(null, 
                 new Position(IsometricTransformations.isoToCartesian(cell)),
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.5f, 1.0f), true, 1.0f),
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.25f, 0.75f + 0.125f), true, 1.0f),
+                new SeeThrough(),
+                new MouseListener(0),
                 tree
         );
+        
+        MapInfo.getInstance().setTileId(cell.col, cell.row, 200);
+        
+        java.lang.System.out.println(cell.col + ", " + cell.row);
         
         trees.add(tree);
     }
     
     public void removeTree(Tree tree){
         trees.remove(tree);
-        ECS.getInstance().removeEntity(tree.getEntity());
+        ECS.getInstance().removeEntity(tree.getEntity());        
+        MapInfo.getInstance().setTileId(tree.getCell().col, tree.getCell().row, 4);
+        
     }
     
-    public Tree getNearestTree(){
-        if(trees.isEmpty())
-            return null;
-        return trees.get(0);
+    public Tree getNearestTree(Vector2i cell){        
+        Tree nearest = null;
+        int nearestDist = Integer.MAX_VALUE;        
+        for(Tree tree : trees){
+            int dist = tree.getCell().distance(cell);
+            if(dist < nearestDist){
+                nearestDist = dist;
+                nearest = tree;
+            }
+        }
+        return nearest;
     }
     
     public Vector2i getPlantableCell(Vector2i cell){

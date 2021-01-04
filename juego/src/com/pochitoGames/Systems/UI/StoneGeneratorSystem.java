@@ -6,22 +6,21 @@
 package com.pochitoGames.Systems.UI;
 
 import com.pochitoGames.Components.UI.MouseListener;
-import com.pochitoGames.Components.UI.TreeGenerator;
-import com.pochitoGames.Components.UI.UIButton;
+import com.pochitoGames.Components.UI.StoneGenerator;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
+import com.pochitoGames.Misc.Managers.StoneManager;
 import com.pochitoGames.Misc.Managers.TreeManager;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Vector2i;
-
 /**
  *
  * @author PochitoMan
  */
-public class TreeGeneratorSystem extends System{
+public class StoneGeneratorSystem extends System{
 
-    public TreeGeneratorSystem(){
-        include(TreeGenerator.class, MouseListener.class, UIButton.class);
+    public StoneGeneratorSystem(){
+        include(StoneGenerator.class, MouseListener.class);
         exclude();
     }
     
@@ -34,7 +33,7 @@ public class TreeGeneratorSystem extends System{
                 do{
                     cell = new Vector2i((int)(Math.random() * MapInfo.getInstance().getHeight()-1), (int)(Math.random() * MapInfo.getInstance().getHeight()-1));
                 }while(MapInfo.getInstance().getTileId(cell) >= 100 || MapInfo.getInstance().getTileId(cell) == 5 || MapInfo.getInstance().getTileId(cell) == 6);                
-                TreeManager.getInstance().createTree(cell);
+                StoneManager.getInstance().createStone(cell);                
             }
         }
     }

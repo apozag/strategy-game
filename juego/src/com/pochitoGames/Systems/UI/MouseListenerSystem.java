@@ -32,8 +32,9 @@ public class MouseListenerSystem extends System{
         
         if(!started){
             getEntities().sort(new SortByLayer());
+            //started = true;
         }
-        
+        /*
         for(Entity e : getEntities()){
                 MouseListener ml = e.get(MouseListener.class);
                 Sprite s = e.get(Sprite.class);
@@ -82,7 +83,72 @@ public class MouseListenerSystem extends System{
                 }
             }
     }
-    
+*/
+        boolean pointBlock = false;
+        for(Entity e : getEntities()){
+            MouseListener ml = e.get(MouseListener.class);
+            Sprite s = e.get(Sprite.class);
+            Vector2D mousePos = EventManager.getInstance().getMousePos();
+            if(SpriteSystem.isInsideSprite(s, mousePos)){
+                // Click Izq
+                if(!pointBlock && EventManager.getInstance().isMouseLeftPressed()){
+                    if( ml.downLeft)
+                        ml.firstTickLeft = false;
+                    else{
+                        ml.downLeft = true;
+                        ml.firstTickLeft = true;
+                    }
+                    // Bloquea el click para el resto
+                    pointBlock = true;
+                } 
+                else{
+                    if(ml.releasedLeft)
+                        ml.releasedLeft = false;
+                    else{
+                        ml.downLeft = false;
+                        ml.releasedLeft = true;
+                    }
+                }
+                
+                // Click Dch
+                if(!pointBlock && EventManager.getInstance().isMouseRightPressed()){            
+                    if(ml.downRight)
+                        ml.firstTickRight = false;
+                    else{
+                        ml.downRight = true;
+                        ml.firstTickRight = true;
+                    }
+                    // Bloquea el click para el resto
+                    pointBlock = true;
+                }
+                else{
+                    if(ml.releasedRight)
+                        ml.releasedRight = false;
+                    else{
+                        ml.downRight = false;
+                        ml.releasedRight = true;
+                    }
+                }
+                // MouseEnter
+                ml.mouseOver = true;
+            }
+            else{
+                ml.mouseOver = false;
+                if(ml.releasedLeft)
+                        ml.releasedLeft = false;
+                else{
+                    ml.downLeft = false;
+                    ml.releasedLeft = true;
+                }
+                if(ml.releasedRight)
+                        ml.releasedRight = false;
+                    else{
+                        ml.downRight = false;
+                        ml.releasedRight = true;
+                    }
+            }
+        }
+    }
 }
 
 class SortByLayer implements Comparator<Entity> {

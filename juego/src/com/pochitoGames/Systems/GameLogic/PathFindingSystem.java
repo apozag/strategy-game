@@ -178,7 +178,7 @@ public class PathFindingSystem extends System {
         }
         
         //No se ha encontrado camino. Se devuelve lista vacía
-       // java.lang.System.out.println("No path");
+        java.lang.System.out.println("No path");
 
         return null;
     }
