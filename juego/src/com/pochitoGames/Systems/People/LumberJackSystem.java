@@ -68,7 +68,7 @@ public class LumberJackSystem extends System {
                                 break;
                             }
                             else {
-                                lj.setState(LumberJackState.PLANTING);
+                                lj.setState(LumberJackState.WALKING_PLANTING);
                                 java.lang.System.out.println("He plantado tanto arboles :"+plantedTrees);
                                 java.lang.System.out.println("Cambio de estado a plantar");
                             }
@@ -114,7 +114,7 @@ public class LumberJackSystem extends System {
                     break;
                 case WALKING_PLANTING:
                     if (pf.getTargetCell() == null) {
-                        TreeManager.getInstance().createTree(pf.getCurrent());
+                        TreeManager.getInstance().createTree(TreeManager.getInstance().getPlantableCell(pf.getCurrent()));
                         lj.setState(LumberJackState.WALKING_HUT);
                         java.lang.System.out.println("Voy a la cabaña");
 
