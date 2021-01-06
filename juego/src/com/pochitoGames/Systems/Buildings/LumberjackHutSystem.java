@@ -54,6 +54,7 @@ public class LumberjackHutSystem extends System{
                     Building building = e.get(Building.class);
                     if(ljh.getLastWood() < wh.getContent(ResourceType.RAW_WOOD)){
                         ljh.setHasWorker(false);
+                        ljh.setLastWood(wh.getContent(ResourceType.RAW_WOOD));
                     }
                     if(wh.getContent(ResourceType.RAW_WOOD) >= 1 && !ljh.isHasWorker()){
                         Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
@@ -68,7 +69,6 @@ public class LumberjackHutSystem extends System{
                                 ljh.setHasWorker(true);
                             }
                     }
-                    ljh.setLastWood(wh.getContent(ResourceType.RAW_WOOD));
                 }
             }
         }

@@ -5,7 +5,10 @@
  */
 package com.pochitoGames.Components.People;
 
+import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Quarry;
+import com.pochitoGames.Components.Buildings.Refinery;
+import com.pochitoGames.Components.Other.Stone;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.States.MinerState;
 
@@ -15,7 +18,12 @@ import com.pochitoGames.Misc.States.MinerState;
 public class Miner extends Component {
 
     MinerState state = MinerState.WAIT;
-    Quarry quarry;
+    Building quarry;
+    //Refinery refinery;
+    private Stone mine;
+    
+    private long waitTime = 1000;  // milliseconds
+    private long lastTime = 99999; // milliseconds
 
     public MinerState getState() {
         return state;
@@ -25,12 +33,35 @@ public class Miner extends Component {
         this.state = state;
     }
 
-    public void setQuarry(Quarry canteen) {
+    public void setQuarry(Building canteen) {
         this.quarry = canteen;
     }
 
-    public Quarry getQuarry() {
+    public Building getQuarry() {
         return quarry;
     }
 
+    public Stone getMine() {
+        return mine;
+    }
+
+    public void setMine(Stone mine) {
+        this.mine = mine;
+    }
+
+    public long getWaitTime() {
+        return waitTime;
+    }
+
+    public void setWaitTime(long waitTime) {
+        this.waitTime = waitTime;
+    }
+
+    public long getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(long lastTime) {
+        this.lastTime = lastTime;
+    }
 }

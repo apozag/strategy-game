@@ -110,6 +110,7 @@ public class LumberJackSystem extends System {
                         java.lang.System.out.println("Voy al arbol");
                         lj.setTree(tree);
                     } else {
+                        tree.setTaken();
                         lj.setLastTime(java.lang.System.currentTimeMillis());
                         lj.setState(LumberJackState.WAITING);
                         java.lang.System.out.println("Me espero");

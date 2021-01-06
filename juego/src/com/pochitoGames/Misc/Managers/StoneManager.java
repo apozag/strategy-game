@@ -36,7 +36,7 @@ public class StoneManager {
     }
     
     public void createStone(Vector2i cell) {
-        Stone s = new Stone();
+        Stone s = new Stone(cell);
          ECS.getInstance().createEntity(null, 
                 new Position(IsometricTransformations.isoToCartesian(cell)),
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\stone.png", new Vector2D(0.0f, 0.5f), true, 1.0f),
@@ -52,5 +52,20 @@ public class StoneManager {
         this.stone.remove(stone);
         ECS.getInstance().removeEntity(stone.getEntity());
         MapInfo.getInstance().setTileId(stone.cell.col, stone.cell.row, 4);
+    }
+    
+    public Stone getNearestStone(Vector2i cell){        
+        Stone nearest = null;
+        int nearestDist = Integer.MAX_VALUE;        
+        for(Stone s : stone){
+            if(!s.taken){
+                int dist = s.cell.distance(cell);
+                if(dist < nearestDist){
+                    nearestDist = dist;
+                    nearest = s;
+                }
+            }
+        }
+        return nearest;
     }
 }

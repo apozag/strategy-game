@@ -7,7 +7,7 @@ public class Tree extends Component {
 
     private int life = 100;
     private Vector2i cell;
-
+    private boolean taken = false;
     
     public Tree(Vector2i cell){
         this.cell = cell;
@@ -27,6 +27,14 @@ public class Tree extends Component {
 
     public void setCell(Vector2i cell) {
         this.cell = cell;
+    }
+
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken() {
+        this.taken = true;
     }
 
  

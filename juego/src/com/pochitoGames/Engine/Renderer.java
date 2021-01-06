@@ -20,10 +20,9 @@ import java.util.List;
 //Aquí se pinta todo lo del juego
 public class Renderer extends JPanel{
     
-    //Como con la cámara, sólo hay una ionstancia estática de Renderer en todo el programa, para poder llamarla desde cualquier lado.
     private static Renderer instance;
             
-    //En esta lista se van guiardando los sprites que quieren ser piuntados
+    //En esta lista se van guardando los sprites que quieren ser piuntados
     private List<Sprite> renderQueue;
     
     //Igual con el texto

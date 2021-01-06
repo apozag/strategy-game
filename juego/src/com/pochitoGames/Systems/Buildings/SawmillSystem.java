@@ -1,11 +1,12 @@
-/* * To change this license header, choose License Headers in Project Properties.
+/*
+ * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.pochitoGames.Systems.Buildings;
 
 import com.pochitoGames.Components.Buildings.Building;
-import com.pochitoGames.Components.Buildings.Refinery;
+import com.pochitoGames.Components.Buildings.Sawmill;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.People.Worker;
@@ -19,44 +20,45 @@ import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
  *
  * @author PochitoMan
  */
-public class RefinerySystem extends System{
+public class SawmillSystem extends System{
 
-    public RefinerySystem(){
-        include(Building.class, Refinery.class, Warehouse.class);
-        exclude();   
+    public SawmillSystem(){
+        include(Building.class, Sawmill.class, Warehouse.class);
+        exclude();
     }
     
     @Override
     public void update(double dt) {
         for(Entity e : getEntities()){
             Building b = e.get(Building.class);
-            if(b.isFinished()){                    
-                Warehouse wh = e.get(Warehouse.class);                
-                Refinery refinery = e.get(Refinery.class);    
-                if(wh.getContent(ResourceType.RAW_STONE) > 0){
-                    if(java.lang.System.currentTimeMillis() - refinery.getLastTime() > refinery.getFrequency()){
-                        refinery.setLastTime(java.lang.System.currentTimeMillis());
-                        wh.takeContent(ResourceType.RAW_STONE, 1);
-                        wh.putContent(ResourceType.STONE, 1);
+            if(b.isFinished()){
+                Sawmill s = e.get(Sawmill.class);
+                Warehouse wh = e.get(Warehouse.class);
+                if(wh.getContent(ResourceType.RAW_WOOD) >= 1){
+                    if(java.lang.System.currentTimeMillis() - s.getLastTime() > s.getFrequency()){
+                        wh.putContent(ResourceType.WOOD, 1);
+                        wh.takeContent(ResourceType.RAW_WOOD, 1);
+                        s.setLastTime(java.lang.System.currentTimeMillis());
                     }
-                }else{
-                    refinery.setLastTime(java.lang.System.currentTimeMillis());
+                }
+                else{
+                    s.setLastTime(java.lang.System.currentTimeMillis());
                 }
                 
-                if(refinery.getLastStoneAmount() != wh.getContent(ResourceType.RAW_STONE)){
-                    refinery.setHasWorker(false);
-                    refinery.setLastStoneAmount(wh.getContent(ResourceType.RAW_STONE));
+                if(s.getLastWoodAmount() != wh.getContent(ResourceType.WOOD)){
+                    s.setHasWorker(false);
+                    s.setLastWoodAmount(wh.getContent(ResourceType.WOOD));
                 }
                 
-                if(wh.getContent(ResourceType.STONE) > 3 && !refinery.isHasWorker()){
+                if(wh.getContent(ResourceType.WOOD) > 3 && !s.isHasWorker()){
                     Worker w = PeopleManager.getInstance().getNearestWorker(b.getOwnerType(), b.getEntryCell());
-                    if(w != null){ 
+                    if(w != null){
                         PathFinding pf = w.getEntity().get(PathFinding.class);
                         pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), b.getEntryCell(), w.getEntity().getId(), false));
                         if(pf.getSteps() != null){
-                            refinery.setHasWorker(true);
+                            s.setHasWorker(true);
                             w.setTargetBuilding(b);
-                            w.setResourceNeeded(ResourceType.STONE);
+                            w.setResourceNeeded(ResourceType.WOOD);
                             w.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
                             pf.setTargetCell(b.getEntryCell());
                         }
@@ -64,5 +66,6 @@ public class RefinerySystem extends System{
                 }
             }
         }
-    }            
+    }
+    
 }

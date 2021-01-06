@@ -65,10 +65,12 @@ public class TreeManager {
         Tree nearest = null;
         int nearestDist = Integer.MAX_VALUE;        
         for(Tree tree : trees){
-            int dist = tree.getCell().distance(cell);
-            if(dist < nearestDist){
-                nearestDist = dist;
-                nearest = tree;
+            if(!tree.isTaken()){
+                int dist = tree.getCell().distance(cell);
+                if(dist < nearestDist){
+                    nearestDist = dist;
+                    nearest = tree;
+                }
             }
         }
         return nearest;

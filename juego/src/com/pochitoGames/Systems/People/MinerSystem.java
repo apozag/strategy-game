@@ -5,14 +5,22 @@
  */
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Quarry;
+import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.Other.Stone;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Miner;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
+import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
+import com.pochitoGames.Misc.Managers.BuildingManager;
+import com.pochitoGames.Misc.Managers.StoneManager;
+import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.SoldierState;
 
@@ -24,7 +32,7 @@ import java.util.HashSet;
 public class MinerSystem extends System {
 
     public MinerSystem() {
-        include(Miner.class, PathFinding.class, Quarry.class);
+        include(Miner.class, PathFinding.class);
         exclude(Builder.class, Worker.class);
     }
 
@@ -36,12 +44,54 @@ public class MinerSystem extends System {
             MinerState minerState = miner.getState();
             switch (minerState) {
                 case WAIT:
+                    // Cada 'waitTime' segundos buscamos piedra
+                    if(miner.getQuarry() != null && java.lang.System.currentTimeMillis() - miner.getLastTime() > miner.getWaitTime()){
+                        miner.setState(MinerState.SEARCH_MINE);
+                    }
                     break;
-                case WALKING_CANTEEN:
-                    if (pf.getTargetCell() == null) miner.setState(MinerState.WAIT);
+                case SEARCH_MINE:
+                    // Si encontramos piedra, vamos a por ella
+                    Stone s = StoneManager.getInstance().getNearestStone(pf.getCurrent());
+                    if(s == null){
+                        // Si no, volvemos a wait;
+                        miner.setLastTime(java.lang.System.currentTimeMillis());
+                        miner.setState(MinerState.WAIT);
+                    }
+                    else{
+                        s.taken = true;
+                        miner.setMine(s);
+                        miner.setState(MinerState.WALKING_MINE);
+                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(s.cell));
+                    }
                     break;
-                case CANTERING:
-
+                case WALKING_MINE:                          
+                    // SI hemos llegado, a minar
+                    if(pf.getTargetCell() == null){
+                        miner.setLastTime(java.lang.System.currentTimeMillis());
+                        miner.setState(MinerState.MINING);
+                    }
+                    break;
+                case MINING:
+                    // Si terminamos de minar, eliminamos la piedra y vamos al quary
+                    if(java.lang.System.currentTimeMillis() - miner.getLastTime() > miner.getWaitTime()){
+                        StoneManager.getInstance().removeStone(miner.getMine());
+                        pf.setTargetCell(miner.getQuarry().getEntryCell());                        
+                        miner.setState(MinerState.WALKING_QUARRY);
+                    }
+                    break;
+                case WALKING_QUARRY:
+                    if(pf.getTargetCell() == null){
+                        Warehouse wh = miner.getQuarry().getEntity().get(Warehouse.class);
+                        wh.putContent(ResourceType.RAW_STONE, 1);
+                        miner.setLastTime(java.lang.System.currentTimeMillis());
+                        miner.setState(MinerState.WAIT);
+                    }
+                    break;
+                case WALKING:
+                    if(pf.getTargetCell() == null){
+                        miner.setLastTime(java.lang.System.currentTimeMillis());
+                        miner.setState(MinerState.WAIT);
+                    }
                     break;
             }
         }

@@ -37,25 +37,23 @@ public class QuarrySystem extends System {
             Warehouse wh = e.get(Warehouse.class);
             
             if (building.isFinished()) {
+                
                 if(quarry.getMiner() == null){
                     Miner miner = PeopleManager.getInstance().getNearestMiner(building.getOwnerType(), building.getCell());
                     if (miner != null) {
                         PathFinding pf = miner.getEntity().get(PathFinding.class);
-                        miner.setState(MinerState.WALKING_CANTEEN);
-                        miner.setQuarry(quarry);
+                        miner.setState(MinerState.WALKING);
+                        miner.setQuarry(building);
                         pf.setTargetCell(building.getEntryCell());
                         quarry.setMiner(miner);
                     }
                 }
-                else{
-                    quarry.addCurrentTime(dt);
-                    if (quarry.getCurrentTime() - 10 > 0) {
-                        wh.putContent(ResourceType.RAW_STONE, 1);
-                        quarry.resetCurrentTime();
-                        java.lang.System.out.println(wh.getContent(ResourceType.RAW_STONE));
-                        quarry.foundWorker = false;
+                else {
+                    if(quarry.getLastStoneAmount() < wh.getContent(ResourceType.RAW_STONE)){
+                        quarry.setHasWorker(false);
+                        quarry.setLastStoneAmount(wh.getContent(ResourceType.RAW_STONE));
                     }
-                    if (wh.getContent(ResourceType.RAW_STONE) > 5 || (!quarry.foundWorker && wh.getContent(ResourceType.RAW_STONE) > 0)) {
+                    if (wh.getContent(ResourceType.RAW_STONE) > 3 && !quarry.isHasWorker()) {
                         Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
                         if(worker != null){
                             PathFinding pf = worker.getEntity().get(PathFinding.class);
@@ -65,9 +63,9 @@ public class QuarrySystem extends System {
                                 worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
                                 worker.setTargetBuilding(building);
                                 worker.setResourceNeeded(ResourceType.RAW_STONE);
-                                quarry.foundWorker = true;
+                                quarry.setHasWorker(true);
                             }
-                            
+
                         }
                     }
                 }

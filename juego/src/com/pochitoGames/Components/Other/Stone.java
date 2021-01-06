@@ -14,4 +14,8 @@ import com.pochitoGames.Misc.Other.Vector2i;
  */
 public class Stone extends Component {
     public Vector2i cell;
+    public boolean taken = false;
+    public Stone(Vector2i cell){
+        this.cell = cell;
+    }
 }

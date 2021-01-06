@@ -37,6 +37,7 @@ import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
 import com.pochitoGames.Systems.Buildings.BuildingSystem;
 import com.pochitoGames.Systems.Buildings.LumberjackHutSystem;
 import com.pochitoGames.Systems.Buildings.RefinerySystem;
+import com.pochitoGames.Systems.Buildings.SawmillSystem;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.BuilderSystem;
 
@@ -94,7 +95,7 @@ public class Engine {
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), new LumberJackSystem(),
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(), new StoneGeneratorSystem(),
-                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(),
+                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(), new SawmillSystem(),
                 new MinerSystem(),  new MouseListenerSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
@@ -351,7 +352,7 @@ public class Engine {
     public void mainLoop() throws InterruptedException {
         long elapsed = 0;
         while (running) {
-            long lastTime = java.lang.System.nanoTime();
+            long lastTime = java.lang.System.currentTimeMillis();
 
             //Tenemos una cámara (clase estática) que hay que updatear.
             Camera.getInstance().update(dt);
@@ -366,8 +367,8 @@ public class Engine {
             EventManager.getInstance().clearEvents();
 
             //Tenemos que esperar un rato (1000/30 == 30FPS) para que no se quede pillado en un bucle infinito.
-            elapsed = (java.lang.System.nanoTime() - lastTime) / 1000000;
-            long wait = (1000 / FPS) - elapsed;
+            elapsed = java.lang.System.currentTimeMillis() - lastTime;
+            long wait = Math.max((1000 / FPS) - elapsed, 5);
             if(wait < 0)
                 wait = 0;
             Thread.sleep(wait);

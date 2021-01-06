@@ -18,7 +18,9 @@ public class Quarry extends Component {
 
     Miner miner = null;
     
-    public boolean foundWorker = false;
+    private int lastStoneAmount = 0;
+    
+    private boolean hasWorker = false;
 
     public float getWaitTime() {
         return waitTime;
@@ -42,6 +44,22 @@ public class Quarry extends Component {
 
     public void setMiner(Miner miner) {
         this.miner = miner;
+    }
+    
+    public int getLastStoneAmount() {
+        return lastStoneAmount;
+    }
+
+    public void setLastStoneAmount(int lastWoodAmount) {
+        this.lastStoneAmount = lastWoodAmount;
+    }
+
+    public boolean isHasWorker() {
+        return hasWorker;
+    }
+
+    public void setHasWorker(boolean hasWorker) {
+        this.hasWorker = hasWorker;
     }
 
 }

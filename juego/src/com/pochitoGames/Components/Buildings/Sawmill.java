@@ -11,42 +11,38 @@ import com.pochitoGames.Engine.Component;
  *
  * @author PochitoMan
  */
-public class Refinery extends Component{
+public class Sawmill extends Component{
     //La ultima vez en milisegundos que genero piedra
     private double lastTime = 0;
     // Frecuyencia con la que genera piedra en milisegundos
     private double frequency = 2000;   
     
-    private int lastStoneAmount = 0;
+    private int lastWoodAmount = 0;
     
     private boolean hasWorker = false;
-    
-    public Refinery(long frequency){
-        this.frequency = frequency;
-    }
 
     public double getLastTime() {
         return lastTime;
     }
 
-    public void setLastTime(long lastTime) {
+    public void setLastTime(double lastTime) {
         this.lastTime = lastTime;
     }
-
+    
     public double getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(long frequency) {
+    public void setFrequency(double frequency) {
         this.frequency = frequency;
     }
 
-    public int getLastStoneAmount() {
-        return lastStoneAmount;
+    public int getLastWoodAmount() {
+        return lastWoodAmount;
     }
 
-    public void setLastStoneAmount(int lastStoneAmount) {
-        this.lastStoneAmount = lastStoneAmount;
+    public void setLastWoodAmount(int lastWoodAmount) {
+        this.lastWoodAmount = lastWoodAmount;
     }
 
     public boolean isHasWorker() {

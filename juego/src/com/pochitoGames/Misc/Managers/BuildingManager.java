@@ -9,6 +9,7 @@ import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.LumberjackHut;
 import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Refinery;
+import com.pochitoGames.Components.Buildings.Sawmill;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.UI.MouseListener;
@@ -145,6 +146,7 @@ public class BuildingManager {
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
                         new SeeThrough(),
+                        new Sawmill(),
                         new MouseListener(0),
                         newBuilding,
                         new Warehouse(new HashMap<ResourceType, Integer>() {
