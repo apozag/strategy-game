@@ -100,9 +100,9 @@ public class TreeManager {
         int diameter = 4;
         int iter = 0;
         int maxIter = 20;
-        Vector2i candidate = new Vector2i(cell.col + (int)Math.random() * diameter, cell.row + (int)Math.random()*diameter);
+        Vector2i candidate = new Vector2i(cell.col + (int) (Math.random() * diameter), cell.row + (int) (Math.random() * diameter));
         while(MapInfo.getInstance().getTileId(candidate) != 4){
-            candidate = new Vector2i(cell.col + (int)Math.random() * diameter, cell.row + (int)Math.random()*diameter);
+            candidate = new Vector2i(cell.col + (int) (Math.random() * diameter), cell.row + (int) (Math.random() * diameter));
             iter++;
             if(iter >= maxIter){
                 iter = 0;
