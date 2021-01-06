@@ -5,11 +5,12 @@ import com.pochitoGames.Misc.Other.Vector2i;
 
 public class Tree extends Component {
 
+    private double age = 0;
     private int life = 100;
     private Vector2i cell;
     private boolean taken = false;
-    
-    public Tree(Vector2i cell){
+
+    public Tree(Vector2i cell) {
         this.cell = cell;
     }
 
@@ -37,5 +38,15 @@ public class Tree extends Component {
         this.taken = true;
     }
 
- 
+    public double getAge() {
+        return age;
+    }
+
+    public void setAge(double age) {
+        this.age = age;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
 }

@@ -44,13 +44,6 @@ public class CivilBuilding extends Component {
     }
 
 
-    public WorkerObject[] getObjectsNeeded() {
-        return objectsNeeded;
-    }
-
-    public WorkerObject[] getObjectsProduced() {
-        return objectsProduced;
-    }
 
     public void increaseLevel() {
         if (this.level > 10) {
@@ -59,13 +52,5 @@ public class CivilBuilding extends Component {
     }
 
 
-    //Función tiene que ir con timming especial
-    public boolean objectProduced () {
-        for(int i = 0; i<objectsProduced.length;i++){
-            if (objectsProduced[i] != null){
-                objectsProduced[i] = WorkerObject.BREAD;
-                return true;
-            } else return false;
-        } return false;
-    }
+
 }

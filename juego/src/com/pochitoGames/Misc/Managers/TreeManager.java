@@ -15,59 +15,60 @@ import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Vector2i;
+
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
  * @author PochitoMan
  */
 public class TreeManager {
     private static TreeManager instance;
-    
+
     List<Tree> trees = new LinkedList<>();
-    
-    private TreeManager(){
-        
+
+    private TreeManager() {
+
     }
-    public static TreeManager getInstance(){
-        if(instance == null){
+
+    public static TreeManager getInstance() {
+        if (instance == null) {
             instance = new TreeManager();
         }
         return instance;
     }
-    
-    public void createTree(Vector2i cell){
+
+    public void createTree(Vector2i cell) {
         Tree tree = new Tree(cell);
-        ECS.getInstance().createEntity(null, 
+        ECS.getInstance().createEntity(null,
                 new Position(IsometricTransformations.isoToCartesian(cell)),
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.25f, 0.75f + 0.125f), true, 1.0f),
                 new SeeThrough(),
                 new MouseListener(0),
                 tree
         );
-        
+
         MapInfo.getInstance().setTileId(cell.col, cell.row, 200);
-        
+
         java.lang.System.out.println(cell.col + ", " + cell.row);
-        
+
         trees.add(tree);
     }
-    
-    public void removeTree(Tree tree){
+
+    public void removeTree(Tree tree) {
         trees.remove(tree);
-        ECS.getInstance().removeEntity(tree.getEntity());        
+        ECS.getInstance().removeEntity(tree.getEntity());
         MapInfo.getInstance().setTileId(tree.getCell().col, tree.getCell().row, 4);
-        
+
     }
-    
-    public Tree getNearestTree(Vector2i cell){        
+
+    public Tree getNearestTree(Vector2i cell) {
         Tree nearest = null;
-        int nearestDist = Integer.MAX_VALUE;        
-        for(Tree tree : trees){
-            if(!tree.isTaken()){
+        int nearestDist = Integer.MAX_VALUE;
+        for (Tree tree : trees) {
+            if (!tree.isTaken()) {
                 int dist = tree.getCell().distance(cell);
-                if(dist < nearestDist){
+                if (dist < nearestDist) {
                     nearestDist = dist;
                     nearest = tree;
                 }
@@ -75,49 +76,28 @@ public class TreeManager {
         }
         return nearest;
     }
-    
-    public Vector2i getPlantableCell(Vector2i cell){
-        //int[][] map = MapInfo.getInstance().getMap();
-        /*
-        Vector2i[] positions = {
-            new Vector2i(-1, -1),   new Vector2i(0, -1),    new Vector2i(1, -1),
-            new Vector2i(-1, 0),                            new Vector2i(1, 0),
-            new Vector2i(-1, 1),    new Vector2i(0, 1),     new Vector2i(1, 1)
-        };
-        
-        int iter = 1;
-        while(iter < 10){
-            for(int i = 0; i < positions.length; i++){
-                if(MapInfo.getInstance().getTileId(Vector2i.add(cell, Vector2i.mult(positions[i], iter))) == 4){
-                    return Vector2i.add(cell, positions[i]);
-                }
-            }
-        }
-*/
-        
-        // Metodo cutre
-        
+
+    public Vector2i getPlantableCell(Vector2i cell) {
         int diameter = 4;
         int iter = 0;
         int maxIter = 20;
         Vector2i candidate = new Vector2i(cell.col + (int) (Math.random() * diameter), cell.row + (int) (Math.random() * diameter));
-        while(MapInfo.getInstance().getTileId(candidate) != 4){
+        while (MapInfo.getInstance().getTileId(candidate) != 4) {
             candidate = new Vector2i(cell.col + (int) (Math.random() * diameter), cell.row + (int) (Math.random() * diameter));
             iter++;
-            if(iter >= maxIter){
+            if (iter >= maxIter) {
                 iter = 0;
                 diameter += 4;
-                if(cell.col + diameter + 4 >= MapInfo.getInstance().getWidth() || cell.row + diameter + 4 >= MapInfo.getInstance().getHeight()){
-                    candidate.col = MapInfo.getInstance().getWidth()-1;
-                    candidate.row = MapInfo.getInstance().getHeight()-1;
-                }
-                else if(cell.col + diameter + 4 == MapInfo.getInstance().getWidth() || cell.row + diameter + 4 == MapInfo.getInstance().getHeight()){
+                if (cell.col + diameter + 4 >= MapInfo.getInstance().getWidth() || cell.row + diameter + 4 >= MapInfo.getInstance().getHeight()) {
+                    candidate.col = MapInfo.getInstance().getWidth() - 1;
+                    candidate.row = MapInfo.getInstance().getHeight() - 1;
+                } else if (cell.col + diameter + 4 == MapInfo.getInstance().getWidth() || cell.row + diameter + 4 == MapInfo.getInstance().getHeight()) {
                     return null;
                 }
             }
         }
         return candidate;
     }
-    
-    
+
+
 }

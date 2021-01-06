@@ -50,7 +50,7 @@ public class LumberJackSystem extends System {
                     }
                     if (plant) {
                         plantedTrees++;
-                        if (plantedTrees > 4){
+                        if (plantedTrees > 10){
                             plant = false;
                             plantedTrees = 0;
                             break;
@@ -115,6 +115,8 @@ public class LumberJackSystem extends System {
                 case PLANTING:
                     if (pf.getTargetCell() == null) {
                         TreeManager.getInstance().createTree(pf.getCurrent());
+                        Building b = lj.getHut().get(Building.class);
+                        pf.setTargetCell(b.getEntryCell());
                         lj.setState(LumberJackState.WALKING_HUT);
                         java.lang.System.out.println("Voy a la cabaña");
 

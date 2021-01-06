@@ -17,7 +17,11 @@ import java.util.Map;
  */
 public class Warehouse extends Component{
     
-    Map<ResourceType, Integer> content;
+     Map<ResourceType, Integer> content;
+     Map<ResourceType, Integer> capacity;
+
+    private int amount= 0;
+
     
     public Warehouse(Map<ResourceType, Integer> content){
         this.content = content;
@@ -39,6 +43,7 @@ public class Warehouse extends Component{
         if(canHave(type)){
             content.put(type, content.get(type) + amount);
             ResourcesManager.getInstance().addResource(0, type, amount);
+            amount++;
         }
     }
     
@@ -46,6 +51,7 @@ public class Warehouse extends Component{
         if(hasResource(type) && content.get(type) >= amount){
             content.put(type, content.get(type) - amount);
              ResourcesManager.getInstance().subResource(0, type, amount);
+             amount--;
         }
     }
     
@@ -54,5 +60,8 @@ public class Warehouse extends Component{
             return content.get(type);
         return 0;
     }
+
+
+
             
 }
