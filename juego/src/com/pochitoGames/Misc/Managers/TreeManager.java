@@ -27,6 +27,8 @@ public class TreeManager {
 
     List<Tree> trees = new LinkedList<>();
 
+
+
     private TreeManager() {
 
     }
@@ -99,5 +101,8 @@ public class TreeManager {
         return candidate;
     }
 
+    public List<Tree> getTrees() {
+        return trees;
+    }
 
 }

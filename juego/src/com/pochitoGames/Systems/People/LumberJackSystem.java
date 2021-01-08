@@ -16,12 +16,14 @@ import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.LumberJackState;
 
+import java.util.List;
+
 public class LumberJackSystem extends System {
 
     private int choppedTrees;
-    private int plantedTrees = 0;
+    private int plantedTrees;
     private boolean plant = false;
-
+    private List<Tree> TreesList = TreeManager.getInstance().getTrees();
 
     public LumberJackSystem() {
         include(Position.class, PathFinding.class, Human.class, LumberJack.class);
@@ -43,21 +45,33 @@ public class LumberJackSystem extends System {
                         java.lang.System.out.println("Cambio estado a Buscar Arbol");
                     }
 
-                    java.lang.System.out.println("He cortado tanto arboles :"+choppedTrees);
-                    if (choppedTrees >= 4){
+                    for (Tree tree :TreesList){
+                        if (Vector2i.distanceBeetwen(pf.getCurrent(),tree.getCell()) new Vector2i(30,30)){
+
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+                    if (choppedTrees >= 4) {
                         plant = true;
                         choppedTrees = 0;
                     }
                     if (plant) {
                         plantedTrees++;
-                        if (plantedTrees > 10){
+                        if (plantedTrees > 7) {
                             plant = false;
                             plantedTrees = 0;
                             break;
-                        }
-                        else {
+                        } else {
                             lj.setState(LumberJackState.WALKING_PLANTING);
-                            java.lang.System.out.println("He plantado tanto arboles :"+plantedTrees);
+                            java.lang.System.out.println("He plantado tanto arboles :" + plantedTrees);
                             java.lang.System.out.println("Cambio de estado a plantar");
                         }
                     }
@@ -75,10 +89,11 @@ public class LumberJackSystem extends System {
 
                 case WALKING_TREE:
                     if (pf.getTargetCell() == null) {
-                            lj.setLastTime(java.lang.System.currentTimeMillis());
-                            lj.setState(LumberJackState.CHOPPING);
-                            java.lang.System.out.println("Voy a talar un arbol");
-                            choppedTrees += 1;
+                        lj.setLastTime(java.lang.System.currentTimeMillis());
+                        lj.setState(LumberJackState.CHOPPING);
+                        java.lang.System.out.println("Voy a talar un arbol");
+                        choppedTrees += 1;
+                        java.lang.System.out.println("He cortado tanto arboles :" + choppedTrees);
                     }
 
                     break;
