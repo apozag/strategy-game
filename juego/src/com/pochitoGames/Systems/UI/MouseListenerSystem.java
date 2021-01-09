@@ -85,10 +85,10 @@ public class MouseListenerSystem extends System{
     }
 */
         boolean pointBlock = false;
+        Vector2D mousePos = EventManager.getInstance().getMousePos();
         for(Entity e : getEntities()){
             MouseListener ml = e.get(MouseListener.class);
             Sprite s = e.get(Sprite.class);
-            Vector2D mousePos = EventManager.getInstance().getMousePos();
             if(SpriteSystem.isInsideSprite(s, mousePos)){
                 // Click Izq
                 if(!pointBlock && EventManager.getInstance().isMouseLeftPressed()){

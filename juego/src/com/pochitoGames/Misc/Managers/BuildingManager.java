@@ -48,15 +48,15 @@ public class BuildingManager {
     private List<Building> buildings;
 
     private BuildingManager() {
-        //              tipo                                   id      pos entrada         ancho y largo    altura     imagen
-        blueprints.put(TypeBuilding.SAWMILL,        new BuildingInfo(100, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   // Ayuntamiento
-        blueprints.put(TypeBuilding.QUARRY,         new BuildingInfo(101, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   // Almacén
-        blueprints.put(TypeBuilding.CANTEEN,        new BuildingInfo(102, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.SCHOOL,         new BuildingInfo(103, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.CASTLE,         new BuildingInfo(104, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.REFINERY,       new BuildingInfo(105, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.LUMBERJACK_HUT, new BuildingInfo(106, new Vector2i(-1, 0),new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   // Lo que sea
-        blueprints.put(TypeBuilding.FLOOR,          new BuildingInfo(6,   new Vector2i(0, 0), new Vector2i(1, 1), 0, "src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"));                                                                // Suelo
+        //              tipo                                         id      pos entrada         ancho y largo    altura     imagen
+        blueprints.put(TypeBuilding.SAWMILL,        new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png")); 
+        blueprints.put(TypeBuilding.QUARRY,         new BuildingInfo(101, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png")); 
+        blueprints.put(TypeBuilding.CANTEEN,        new BuildingInfo(102, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png")); 
+        blueprints.put(TypeBuilding.SCHOOL,         new BuildingInfo(103, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png")); 
+        blueprints.put(TypeBuilding.CASTLE,         new BuildingInfo(104, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));  
+        blueprints.put(TypeBuilding.REFINERY,       new BuildingInfo(105, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   
+        blueprints.put(TypeBuilding.LUMBERJACK_HUT, new BuildingInfo(106, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   
+        blueprints.put(TypeBuilding.FLOOR,          new BuildingInfo(6,   new Vector2i(0, 0),  new Vector2i(1, 1), 0, "src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"));                                                                // Suelo
 
         resourcesNeeded.put(TypeBuilding.SAWMILL, new HashMap<ResourceType, Integer>() {
             {
