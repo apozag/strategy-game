@@ -25,7 +25,7 @@ import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 public class QuarrySystem extends System {
 
     public QuarrySystem() {
-        include(Quarry.class, Building.class);
+        include(Quarry.class, Building.class, Warehouse.class);
         exclude();
     }
 
@@ -49,25 +49,26 @@ public class QuarrySystem extends System {
                     }
                 }
                 else {
-                    if(quarry.getLastStoneAmount() < wh.getContent(ResourceType.RAW_STONE)){
-                        quarry.setHasWorker(false);
-                        quarry.setLastStoneAmount(wh.getContent(ResourceType.RAW_STONE));
-                    }
-                    if (wh.getContent(ResourceType.RAW_STONE) > 3 && !quarry.isHasWorker()) {
-                        Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
-                        if(worker != null){
-                            PathFinding pf = worker.getEntity().get(PathFinding.class);
-                            pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), building.getEntryCell(), worker.getEntity().getId(), false));
-                            if(pf.getSteps() != null){
-                                pf.setTargetCell(building.getEntryCell());
-                                worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
-                                worker.setTargetBuilding(building);
-                                worker.setResourceNeeded(ResourceType.RAW_STONE);
-                                quarry.setHasWorker(true);
-                            }
+                    /*
+                    for(ResourceType type : wh.getResourceTypes()){
+                        if (wh.getContent(type) > 0 && !wh.hasWorker) {
+                            Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
+                            if(worker != null){
+                                PathFinding pf = worker.getEntity().get(PathFinding.class);
+                                pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), building.getEntryCell(), worker.getEntity().getId(), false));
+                                if(pf.getSteps() != null){
+                                    wh.hasWorker = true;
+                                    pf.setTargetCell(building.getEntryCell());
+                                    worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
+                                    worker.setTargetBuilding(building);
+                                    worker.setResourceNeeded(type);
+                                    worker.setSrcWarehouse(wh);
+                                }
 
+                            }
                         }
                     }
+                    */
                 }
             }
             

@@ -21,6 +21,7 @@ public class PathFinding extends Component{
     Vector2D nextPos;
     private Vector2i targetCell;
     private boolean walking;
+    private boolean busy;
     private float speed = 100.0f;
     
     public PathFinding(Vector2i cell){
@@ -80,6 +81,14 @@ public class PathFinding extends Component{
     public List<Vector2i> getSteps(){return steps;}
     
     public float getSpeed(){return speed;}
+
+    public boolean isBusy() {
+        return busy;
+    }
+
+    public void setBusy(boolean busy) {
+        this.busy = busy;
+    }
 
 }
 

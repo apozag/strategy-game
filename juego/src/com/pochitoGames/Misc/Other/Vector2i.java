@@ -17,8 +17,14 @@ public class Vector2i {
         this.col = col;
         this.row = row;
     }
+    
+    public Vector2i(Vector2i v){
+        this.col = v.col;
+        this.row = v.row;
+    }
 
     public boolean equals(Vector2i v) {
+
         return this.col == v.col && this.row == v.row;
     }
 
@@ -43,7 +49,8 @@ public class Vector2i {
     }
 
     public static boolean isBigger (Vector2i v1, Vector2i v2){
-        if (Math.sqrt())
+        //if (Math.sqrt()) 
+        return true;
     }
 
 

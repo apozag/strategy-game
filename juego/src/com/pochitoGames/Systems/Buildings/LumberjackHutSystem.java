@@ -13,6 +13,8 @@ import com.pochitoGames.Components.People.LumberJack;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
+import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
+import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.LumberJackState;
@@ -50,30 +52,29 @@ public class LumberjackHutSystem extends System{
                     }
                 }
                 else{
+                    /*
                     Warehouse wh = e.get(Warehouse.class);
                     Building building = e.get(Building.class);
-                    if(ljh.getLastWood() < wh.getContent(ResourceType.RAW_WOOD)){
-                        ljh.setHasWorker(false);
-                        ljh.setLastWood(wh.getContent(ResourceType.RAW_WOOD));
-                    }
-                    if(wh.getContent(ResourceType.RAW_WOOD) >= 1 && !ljh.isHasWorker()){
+                    
+                    if(wh.getContent(ResourceType.RAW_WOOD) >= 1 && !wh.hasWorker){
                         Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
                         if(worker != null){
                             PathFinding pf = worker.getEntity().get(PathFinding.class);
                             pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), building.getEntryCell(), worker.getEntity().getId(), false));
                             if(pf.getSteps() != null){
+                                wh.hasWorker = true;
                                 pf.setTargetCell(building.getEntryCell());
                                 worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
                                 worker.setTargetBuilding(building);
                                 worker.setResourceNeeded(ResourceType.RAW_WOOD);
-                                ljh.setHasWorker(true);
+                                worker.setSrcWarehouse(wh);
                             }
                     }
+                    */
                 }
             }
         }
     }
     
-    }
 }
 

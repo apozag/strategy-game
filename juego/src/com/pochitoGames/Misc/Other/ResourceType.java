@@ -14,5 +14,6 @@ public enum ResourceType {
     STONE,
     GOLD,
     RAW_WOOD,
-    RAW_STONE
+    RAW_STONE,
+    RAW_GOLD
 }

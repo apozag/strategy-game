@@ -9,5 +9,6 @@ public enum TypeBuilding {
     CANTEEN,
     CASTLE,
     REFINERY,
+    GOLD_FOUNDRY,
     LUMBERJACK_HUT
 }

@@ -5,15 +5,18 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Other.ResourceType;
+import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.LumberJackState;
 
 public class LumberJack extends Component {
 
+    public static Vector2i lastPlantableCell =  null;
+    
     private Vector2D target;
     private Tree tree;
     private Entity hut;
     private LumberJackState lumberJackState = LumberJackState.WAITING;
-    private ResourceType resourceType = null;
+    private ResourceType resourceType = null;        
     
     private double waitTime = 1000.0;// milliseconds
     private double lastTime = 999999999;// milliseconds

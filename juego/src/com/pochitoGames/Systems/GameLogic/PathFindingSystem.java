@@ -83,6 +83,9 @@ public class PathFindingSystem extends System {
                 if (aproximateEquals(p.getWorldPos(), pf.getNextPos(), 5)) {
                     pf.setCurrent(pf.pollNextStep());
                     //Si este es el cell final, quitamos el target
+                    if(pf.getTargetCell() == null){
+                        java.lang.System.out.println("hey");
+                    }
                     if(pf.getCurrent().equals(pf.getTargetCell()))
                         pf.setTargetCell(null);
                     pf.setWalking(false);
@@ -111,7 +114,7 @@ public class PathFindingSystem extends System {
         int[][] map = MapInfo.getInstance().getMap();
         List<Vector2i> steps = new LinkedList<>();
         
-        if(MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
+        if(start != null && end != null && MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
 
             //En open estan los candidatos a visitar
             List<Node> open = new LinkedList<>();
@@ -187,7 +190,7 @@ public class PathFindingSystem extends System {
         int[][] map = MapInfo.getInstance().getMap();
         List<Vector2i> steps = new LinkedList<>();
         
-        if(MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
+        if(start != null && end != null && MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length){     
 
             //En open estan los candidatos a visitar
             List<Node> open = new LinkedList<>();

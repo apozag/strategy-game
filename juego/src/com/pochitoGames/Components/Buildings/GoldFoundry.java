@@ -11,15 +11,15 @@ import com.pochitoGames.Engine.Component;
  *
  * @author PochitoMan
  */
-public class Refinery extends Component{
+public class GoldFoundry extends Component{
     //La ultima vez en milisegundos que genero piedra
     private double lastTime = 0;
-    // Frecuyencia con la que genera piedra en milisegundos
+    // Frecuyencia con la que genera oro en milisegundos
     private double frequency = 2000;   
         
     private boolean hasWorker = false;
     
-    public Refinery(long frequency){
+    public GoldFoundry(long frequency){
         this.frequency = frequency;
     }
 

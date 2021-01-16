@@ -4,6 +4,8 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.Other.Vector2i;
 
 public class Tree extends Component {
+    
+    public static double ADULT_AGE = 100;
 
     private double age = 0;
     private int life = 100;
@@ -44,6 +46,10 @@ public class Tree extends Component {
 
     public void setAge(double age) {
         this.age = age;
+    }
+    
+    public void addAge(double age){
+        this.age += age;
     }
 
     public void setTaken(boolean taken) {

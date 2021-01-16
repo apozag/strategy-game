@@ -23,7 +23,7 @@ public class LumberJackSystem extends System {
     private int choppedTrees;
     private int plantedTrees;
     private boolean plant = false;
-    private List<Tree> TreesList = TreeManager.getInstance().getTrees();
+    private List<Tree> treesList = TreeManager.getInstance().getTrees();
 
     public LumberJackSystem() {
         include(Position.class, PathFinding.class, Human.class, LumberJack.class);
@@ -40,39 +40,34 @@ public class LumberJackSystem extends System {
             switch (lumberJackState) {
                 case WAITING:
                     // Cada x segundos vamos a por un arbol
-                    if (lj.getHut() != null && java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()) {
-                        lj.setState(LumberJackState.SEARCHING_TREE);
-                        java.lang.System.out.println("Cambio estado a Buscar Arbol");
-                    }
-
-                    for (Tree tree :TreesList){
-                        if (Vector2i.distanceBeetwen(pf.getCurrent(),tree.getCell()) new Vector2i(30,30)){
-
+                    if(lj.getHut() != null ){
+                        if (java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()) {
+                            lj.setState(LumberJackState.SEARCHING_TREE);
+                            java.lang.System.out.println("Cambio estado a Buscar Arbol");
                         }
-                    }
+    /*
+                        for (Tree tree :treesList){
+                            if (Vector2i.distanceBeetwen(pf.getCurrent(),tree.getCell()) new Vector2i(30,30)){
 
+                            }
+                        }
+    */
 
-
-
-
-
-
-
-
-                    if (choppedTrees >= 4) {
-                        plant = true;
-                        choppedTrees = 0;
-                    }
-                    if (plant) {
-                        plantedTrees++;
-                        if (plantedTrees > 7) {
-                            plant = false;
-                            plantedTrees = 0;
-                            break;
-                        } else {
-                            lj.setState(LumberJackState.WALKING_PLANTING);
-                            java.lang.System.out.println("He plantado tanto arboles :" + plantedTrees);
-                            java.lang.System.out.println("Cambio de estado a plantar");
+                        if (choppedTrees >= 4) {
+                            plant = true;
+                            choppedTrees = 0;
+                        }
+                        if (plant) {
+                            plantedTrees++;
+                            if (plantedTrees > 7) {
+                                plant = false;
+                                plantedTrees = 0;
+                                break;
+                            } else {
+                                lj.setState(LumberJackState.WALKING_PLANTING);
+                                java.lang.System.out.println("He plantado tanto arboles :" + plantedTrees);
+                                java.lang.System.out.println("Cambio de estado a plantar");
+                            }
                         }
                     }
 
@@ -119,7 +114,7 @@ public class LumberJackSystem extends System {
                     break;
 
                 case WALKING_PLANTING:
-                    Vector2i pantablePos = TreeManager.getInstance().getPlantableCell(pf.getCurrent());
+                    Vector2i pantablePos = TreeManager.getInstance().getPlantableCell(lj.lastPlantableCell);
                     if (pantablePos != null) {
                         pf.setTargetCell(pantablePos);
                         lj.setState(LumberJackState.PLANTING);
@@ -141,10 +136,13 @@ public class LumberJackSystem extends System {
                 case SEARCHING_TREE:
                     Tree tree = TreeManager.getInstance().getNearestTree(pf.getCurrent());
                     if (tree != null) {
-                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(tree.getCell()));
+                        lj.lastPlantableCell = new Vector2i(tree.getCell());
+
+                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(tree.getCell(), false, false));
                         lj.setState(LumberJackState.WALKING_TREE);
                         java.lang.System.out.println("Voy al arbol");
                         lj.setTree(tree);
+                        tree.setTaken();;
                     } else {
                         lj.setLastTime(java.lang.System.currentTimeMillis());
                         lj.setState(LumberJackState.WAITING);

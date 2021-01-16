@@ -12,6 +12,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.StoneManager;
 import com.pochitoGames.Misc.Managers.TreeManager;
 import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
 /**
  *
@@ -33,7 +34,7 @@ public class StoneGeneratorSystem extends System{
                 do{
                     cell = new Vector2i((int)(Math.random() * MapInfo.getInstance().getHeight()-1), (int)(Math.random() * MapInfo.getInstance().getHeight()-1));
                 }while(MapInfo.getInstance().getTileId(cell) >= 100 || MapInfo.getInstance().getTileId(cell) == 5 || MapInfo.getInstance().getTileId(cell) == 6);                
-                StoneManager.getInstance().createStone(cell);                
+                StoneManager.getInstance().createStone(cell, Math.random() < 0.5? ResourceType.RAW_STONE : ResourceType.RAW_GOLD);                
             }
         }
     }

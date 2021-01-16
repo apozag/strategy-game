@@ -8,10 +8,12 @@ import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
+import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.WorkerState;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
+import java.util.List;
 
 
 /*
@@ -35,8 +37,8 @@ public class BuilderSystem extends System{
     public void update(double dt){
         for(Entity e : getEntities()){
             PathFinding pf = e.get(PathFinding.class);
-            Builder c = e.get(Builder.class);
-            BuilderState state = c.getState();
+            Builder builder = e.get(Builder.class);
+            BuilderState state = builder.getState();
             Human human = e.get(Human.class);
             switch(state){
 
@@ -47,78 +49,56 @@ public class BuilderSystem extends System{
                     //Si he llegado al edificio a construir
                     if(pf.getTargetCell() == null){
                         //Cojo ese edificio
-                        Building b = c.getTargetBuilding();      
+                        Building b = builder.getTargetBuilding();      
                         //Le pregunto qué recurso necesita
                         ResourceType needed = b.getResourceNeeded();
                         //Me lo pongo como recurso que necesito (en verdad eso no sirve para nada)
-                        c.setResourceNeeded(needed);
+                        builder.setResourceNeeded(needed);
                         
                         //Si no necesita ningún recurso, he acabado
                         if(needed == null){
-                            c.setTargetBuilding(null);
-                            c.setState(BuilderState.WAIT);
+                            builder.setTargetBuilding(null);
+                            builder.hasWorker = false;
+                            builder.setState(BuilderState.WAIT);
                         }
                         //Si SÍ necesita...
-                        else{
-                            //Busco a un compañero cercano
-//                            Human h = e.get(Human.class);
-//                            Worker mate = PeopleManager.getInstance().getNearestWorker(h.getTypeHuman(), pf.getCurrent());
-//                            //Si hay alguno disponible
-//                            if(mate != null){
-//                                //Cojo su pathFinding para saber su casilla
-//                                PathFinding mpf = mate.getEntity().get(PathFinding.class);
-//                                //Busco un almacén cercano a mi compañero 
-//                                //Que además tenga el recurso que quiero
-//                                Building building = BuildingManager.getInstance().getNearestWarehouse(mpf.getCurrent(), needed, c.getTargetBuilding());
-//                                
-//                                
-//                                //Si hay alguno disponible
-//                                if(building != null){
-//                                    //Le pongo al compañero toda la info que necesita
-//                                    mate.setResourceNeeded(needed);
-//                                    mate.setTargetBuilding(building);
-//                                    mate.setTargetMate(c);
-//                                    //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
-//                                    mpf.setTargetCell(building.getEntryCell());
-//                                    //Pongo al compa en estado SEARCH_RESOURCE
-//                                    mate.setState(WorkerState.SEARCH_RESOURCE);
-//                                    //Y yo me pongo en ON_HOLD para que nadie me moleste
-//                                    c.setState(BuilderState.ON_HOLD);
-//                                }
-//                            }
-                                // Busco warehouse
-                                Building building = BuildingManager.getInstance().getNearestWarehouseGet(pf.getCurrent(), needed, null, c.getTargetBuilding());
-                                if(building != null){
-                                    // Busco Worker Cerca
-                                    Worker mate = PeopleManager.getInstance().getNearestWorker(human.getTypeHuman(), building.getEntryCell());
-                                    if(mate != null){
-                                        PathFinding mpf = mate.getEntity().get(PathFinding.class);
-                                        mpf.setSteps(PathFindingSystem.aStarFloor(mpf.getCurrent(), building.getEntryCell(), mate.getEntity().getId(), false));
-                                        // Veo si hay camino
-                                        if(mpf.getSteps() != null){
-                                            //Le pongo al compañero toda la info que necesita
-                                            mate.setResourceNeeded(needed);
-                                            mate.setTargetBuilding(building);
-                                            mate.setTargetMate(c);
-                                            //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
-                                            mpf.setTargetCell(building.getEntryCell());
-                                            //Pongo al compa en estado SEARCH_RESOURCE
-                                            mate.setState(WorkerState.SEARCH_RESOURCE);
-                                            //Y yo me pongo en ON_HOLD para que nadie me moleste
-                                            c.setState(BuilderState.ON_HOLD);
-                                        }
+                        else if(!builder.hasWorker){
+                            // Busco warehouse
+                            Building building = BuildingManager.getInstance().getNearestWarehouseGet(pf.getCurrent(), needed, null, builder.getTargetBuilding());
+                            if(building != null){
+                                // Busco Worker cerca
+                                Worker mate = PeopleManager.getInstance().getNearestWorker(human.getTypeHuman(), building.getEntryCell());
+                                if(mate != null){
+                                    PathFinding mpf = mate.getEntity().get(PathFinding.class);
+                                    mpf.setSteps(PathFindingSystem.aStarFloor(mpf.getCurrent(), building.getEntryCell(), mate.getEntity().getId(), false));
+                                    // Veo si hay camino
+                                    if(mpf.getSteps() != null && 
+                                            PathFindingSystem.aStarFloor(building.getEntryCell(), MapInfo.getInstance().getCloseCell(pf.getCurrent(), true, false), mate.getEntity().getId(), false) != null){
+                                        builder.hasWorker = true;
+                                        //Le pongo al compañero toda la info que necesita
+                                        mate.setResourceNeeded(needed);
+                                        mate.setTargetBuilding(building);
+                                        mate.setTargetMate(builder);
+                                        //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
+                                        mpf.setTargetCell(building.getEntryCell());
+                                        //Pongo al compa en estado SEARCH_RESOURCE
+                                        mate.setState(WorkerState.SEARCH_RESOURCE);
+                                        //Y yo me pongo en ON_HOLD para que nadie me moleste
+                                    }   
+                                    else{
+                                        mpf.setSteps(null);
                                     }
                                 }
+                            }
                         }
                     }
                         break;
                 case ON_HOLD:
-                    //NO hago nada hasta que mi compi me cambie de estado
                     break;
                 case REPAIR:
-                    Building b = c.getTargetBuilding();
+                    Building b = builder.getTargetBuilding();
                     b.setLife(b.getLife()+1);
-                    c.setState(BuilderState.WAIT);
+                    builder.setState(BuilderState.WAIT);
                     break;
             }
         }

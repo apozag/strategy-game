@@ -6,6 +6,7 @@
 package com.pochitoGames.Misc.Managers;
 
 import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.Buildings.GoldFoundry;
 import com.pochitoGames.Components.Buildings.LumberjackHut;
 import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Refinery;
@@ -25,11 +26,22 @@ import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.Other.BuildingInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.w3c.dom.Node;
 
 
 /**
@@ -49,13 +61,15 @@ public class BuildingManager {
 
     private BuildingManager() {
         //              tipo                                         id      pos entrada         ancho y largo    altura     imagen
-        blueprints.put(TypeBuilding.SAWMILL,        new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png")); 
+        /*
+        blueprints.put(TypeBuilding.CASTLE,         new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));          
         blueprints.put(TypeBuilding.QUARRY,         new BuildingInfo(101, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png")); 
         blueprints.put(TypeBuilding.CANTEEN,        new BuildingInfo(102, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png")); 
         blueprints.put(TypeBuilding.SCHOOL,         new BuildingInfo(103, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png")); 
-        blueprints.put(TypeBuilding.CASTLE,         new BuildingInfo(104, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));  
+        blueprints.put(TypeBuilding.SAWMILL,        new BuildingInfo(104, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png")); 
         blueprints.put(TypeBuilding.REFINERY,       new BuildingInfo(105, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   
-        blueprints.put(TypeBuilding.LUMBERJACK_HUT, new BuildingInfo(106, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   
+        blueprints.put(TypeBuilding.GOLD_FOUNDRY,   new BuildingInfo(106, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_coin.png"));   
+        blueprints.put(TypeBuilding.LUMBERJACK_HUT, new BuildingInfo(107, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   
         blueprints.put(TypeBuilding.FLOOR,          new BuildingInfo(6,   new Vector2i(0, 0),  new Vector2i(1, 1), 0, "src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"));                                                                // Suelo
 
         resourcesNeeded.put(TypeBuilding.SAWMILL, new HashMap<ResourceType, Integer>() {
@@ -94,6 +108,12 @@ public class BuildingManager {
                 put(ResourceType.STONE, 2);
             }
         });
+        resourcesNeeded.put(TypeBuilding.GOLD_FOUNDRY, new HashMap<ResourceType, Integer>() {
+            {
+                put(ResourceType.WOOD, 2);
+                put(ResourceType.STONE, 2);
+            }
+        });
         resourcesNeeded.put(TypeBuilding.LUMBERJACK_HUT, new HashMap<ResourceType, Integer>() {
             {
                 put(ResourceType.WOOD, 2);
@@ -104,8 +124,10 @@ public class BuildingManager {
                 put(ResourceType.STONE, 1);
             }
         });       
-
+        */
         buildings = new ArrayList<>();
+        
+        loadBuildingInfo();
     }
 
     public static BuildingManager getInstance() {
@@ -149,12 +171,26 @@ public class BuildingManager {
                         new Sawmill(),
                         new MouseListener(0),
                         newBuilding,
-                        new Warehouse(new HashMap<ResourceType, Integer>() {
-                            {
+                        /*
+                        new Warehouse(false,
+                            new HashMap<ResourceType, Integer>() {
+                                {
                                 put(ResourceType.WOOD, 0);
                                 put(ResourceType.RAW_WOOD, 0);
-                            }
-                        }));
+                                } 
+                            },
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.WOOD, 5);
+                                put(ResourceType.RAW_WOOD, 5);
+                                } 
+                            }, 
+                            //Transferables
+                            ResourceType.WOOD
+                        )
+                        */
+                        new Warehouse(blueprints.get(type).warehouse)
+                        );
                 break;
             case QUARRY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -167,11 +203,28 @@ public class BuildingManager {
                         new MouseListener(0),                        
                         newBuilding, 
                         new Quarry(),
-                        new Warehouse(new HashMap<ResourceType, Integer>() {
-                            {
+                        /*
+                        new Warehouse(false,
+                            //Content
+                            new HashMap<ResourceType, Integer>() {
+                                {
                                 put(ResourceType.RAW_STONE, 0);
-                            }
-                        })
+                                put(ResourceType.RAW_GOLD, 0);
+                                }
+                            },
+                            //Capacity
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.RAW_STONE, 5);
+                                put(ResourceType.RAW_GOLD, 5);
+                                } 
+                            },
+                            // transferables
+                            ResourceType.RAW_STONE,
+                            ResourceType.RAW_GOLD
+                        )
+                        */
+                        new Warehouse(blueprints.get(type).warehouse)
                 );
                 break;
             case SCHOOL:
@@ -206,13 +259,26 @@ public class BuildingManager {
                         new SeeThrough(),
                         new MouseListener(0),                        
                         newBuilding,
-                        new Warehouse(new HashMap<ResourceType, Integer>() {
-                            {
+                        /*
+                        new Warehouse(true,
+                            new HashMap<ResourceType, Integer>() {
+                                {
                                 put(ResourceType.WOOD, 200);
                                 put(ResourceType.STONE, 200);
                                 put(ResourceType.GOLD, 200);
+                                }
+                            },
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.WOOD, 500);
+                                put(ResourceType.STONE, 500);
+                                put(ResourceType.GOLD, 500);
+                                }
                             }
-                        }));
+                        )
+                        */
+                        new Warehouse(blueprints.get(type).warehouse)
+                        );
                 break;
             case REFINERY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -225,12 +291,58 @@ public class BuildingManager {
                         new MouseListener(0),                        
                         newBuilding,
                         new Refinery(2000),
-                        new Warehouse(new HashMap<ResourceType, Integer>() {
-                            {
+                        /*
+                        new Warehouse(false,
+                            new HashMap<ResourceType, Integer>() {
+                                {
                                 put(ResourceType.RAW_STONE, 0);
                                 put(ResourceType.STONE, 0);
-                            }
-                        }));
+                                }
+                            },
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.RAW_STONE, 5);
+                                put(ResourceType.STONE, 5);
+                                }
+                            },
+                            // Transferables
+                            ResourceType.STONE
+                        )
+                        */
+                        new Warehouse(blueprints.get(type).warehouse)
+                        );
+                break;
+                case GOLD_FOUNDRY:
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                ECS.getInstance().createEntity(null,
+                        new Position(IsometricTransformations.isoToCartesian(cell)),
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
+                                new Animation(1, 1, 128, 128, 0, 0),
+                                new Animation(1, 1, 128, 128, 128, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),                        
+                        newBuilding,
+                        new GoldFoundry(2000),
+                        /*
+                        new Warehouse(false,
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.RAW_GOLD, 0);
+                                put(ResourceType.GOLD, 0);
+                                }
+                            },
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.RAW_GOLD, 5);
+                                put(ResourceType.GOLD, 5);
+                                }
+                            },
+                            // Transferables
+                            ResourceType.GOLD
+                        )
+                        */
+                        new Warehouse(blueprints.get(type).warehouse)
+                        );
                 break;
             case LUMBERJACK_HUT:
                     newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -243,11 +355,25 @@ public class BuildingManager {
                         new MouseListener(0),                        
                         newBuilding,
                         new LumberjackHut(),
-                        new Warehouse(new HashMap<ResourceType, Integer>() {
-                            {
+                        /*
+                        new Warehouse(false,
+                            new HashMap<ResourceType, Integer>() {
+                                {
                                 put(ResourceType.RAW_WOOD, 0);
-                            }
-                        }));
+                                }
+                            },
+                            new HashMap<ResourceType, Integer>() {
+                                {
+                                put(ResourceType.RAW_WOOD, 5);
+                                }
+                            },
+                                
+                            // Transferables
+                            ResourceType.RAW_WOOD
+                        )
+                        */
+                        new Warehouse(blueprints.get(type).warehouse)
+                        );
                     break;
             case FLOOR:
                 newBuilding = new Building(ownerType, 0, 0, 0, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -300,7 +426,7 @@ public class BuildingManager {
         for (Building b : buildings) {
             if(b.isFinished()){
                 Warehouse wh = b.getEntity().get(Warehouse.class);
-                if (wh != null && b != excludeBuilding && b.getTypeBuilding() != excludeType && wh.hasResource(type)) {
+                if (wh != null && b != excludeBuilding && b.getTypeBuilding() != excludeType && wh.doesAddToGlobal() && wh.hasResource(type)) {
                     if(wh.getContent(type) > greatestAmount){
                         greatestAmount = wh.getContent(type);
                         candidate = b;
@@ -341,6 +467,119 @@ public class BuildingManager {
         }
         return candidate;
     }
+    
+    private void loadBuildingInfo(){
+        String filename = "src\\com\\pochitoGames\\Resources\\GameInfo\\buildings.xml";
+        try{    
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
+            DocumentBuilder db = dbf.newDocumentBuilder();  
+            Document doc = db.parse(filename);  
+            NodeList nodeList = doc.getElementsByTagName("building"); 
+            
+            
+            for(int i = 0; i < nodeList.getLength(); i++){
+                Element element = (Element) nodeList.item(i);
+                TypeBuilding type = TypeBuilding.valueOf(element.getAttributeNode("type").getValue());
+                
+                String life = element.getElementsByTagName("life").item(0).getTextContent();
+                String defense = element.getElementsByTagName("defense").item(0).getTextContent();
+                String attack = element.getElementsByTagName("attack").item(0).getTextContent();
+                
+                int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
+                
+                Element entry = (Element) element.getElementsByTagName("entry").item(0);                
+                String x = entry.getElementsByTagName("x").item(0).getTextContent();
+                String y = entry.getElementsByTagName("y").item(0).getTextContent();
+                Vector2i entryCell = new Vector2i(Integer.parseInt(x), Integer.parseInt(y));
+                
+                Element size = (Element) element.getElementsByTagName("size").item(0);                
+                x = entry.getElementsByTagName("x").item(0).getTextContent();
+                y = entry.getElementsByTagName("y").item(0).getTextContent();                
+                Vector2i sizeVec = new Vector2i(Integer.parseInt(x), Integer.parseInt(y));
+                
+                int height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
+                
+                String imgSrc = element.getElementsByTagName("img").item(0).getTextContent();
+                                
+                Map<ResourceType, Integer> resMap = new HashMap<>();
+                Element resNeeded = (Element) element.getElementsByTagName("resourcesneeded").item(0);   
+                NodeList resList = resNeeded.getElementsByTagName("resource");
+                for(int j = 0; j < resList.getLength(); j++){
+                    Node elemNode = resList.item(j);
+                    Element resElem = (Element) elemNode;
+                    ResourceType resType = ResourceType.valueOf(resElem.getAttribute("type"));
+                    /*
+                    if(typeSrc.equals("WOOD"))
+                        resType = ResourceType.WOOD;
+                    else if(typeSrc.equals("RAW_WOOD"))
+                        resType = ResourceType.RAW_WOOD;
+                    else if(typeSrc.equals("STONE"))
+                        resType = ResourceType.STONE;
+                    else if(typeSrc.equals("RAW_STONE"))
+                        resType = ResourceType.RAW_STONE;
+                    else if(typeSrc.equals("GOLD"))
+                        resType = ResourceType.GOLD;
+                    else if(typeSrc.equals("RAW_GOLD"))
+                        resType = ResourceType.RAW_GOLD;
+                    */
+                    int amount = Integer.parseInt(elemNode.getTextContent());
+                    
+                    resMap.put(resType, amount);
+                }
+                
+                resourcesNeeded.put(type, resMap);
+                
+                Element whElem = (Element) element.getElementsByTagName("warehouse").item(0);
+                Map<ResourceType, Integer> content = new HashMap<>();
+                Map<ResourceType, Integer> capacity = new HashMap<>();
+                HashSet<ResourceType> transferable = new HashSet<>();
+                resList = resNeeded.getElementsByTagName("resource");
+                for(int j = 0; j < resList.getLength(); j++){
+                    Node elemNode = resList.item(j);
+                    Element resElem = (Element) elemNode;
+                    ResourceType resType = ResourceType.valueOf(resElem.getAttribute("type"));
+                    ////////// NO LO PILLA ///////////
+                    String isTransferable = resElem.getAttribute("transferable");
+                    /////////////////////////////////
+                    int amount = Integer.parseInt(resElem.getElementsByTagName("amount").item(0).getTextContent());
+                    int cap = Integer.parseInt(resElem.getElementsByTagName("capacity").item(0).getTextContent());
+                    
+                    content.put(resType, amount);
+                    capacity.put(resType, cap);
+                    if(isTransferable.equals("YES")){
+                        transferable.add(resType);
+                    }
+                }
+                boolean addsToGlobal = false;
+                if(whElem.getAttribute("addsToGlobal").equals("YES")){
+                    addsToGlobal = true;
+                }
+                Warehouse wh = null;
+                if(whElem != null){
+                    wh = new Warehouse(
+                                addsToGlobal,
+                                content, 
+                                capacity,
+                                transferable
+                        );
+                }
+                blueprints.put(type, new BuildingInfo(
+                        id, 
+                        entryCell,
+                        sizeVec,
+                        height,
+                        imgSrc,
+                        resMap,
+                        wh
+                ));
+                
+            }
+        }
+        catch(IOException | ParserConfigurationException | DOMException | SAXException e){
+            e.printStackTrace();  
+        }
+    }
+    
 /*
     // No se usa de momento
     public Building getUnfinishedBuilding() {

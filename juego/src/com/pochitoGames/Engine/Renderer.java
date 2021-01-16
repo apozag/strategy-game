@@ -3,7 +3,6 @@ package com.pochitoGames.Engine;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.Visual.Text;
-import com.pochitoGames.Misc.Other.Time;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -124,7 +123,7 @@ public class Renderer extends JPanel{
             }
             
             //FPS counter
-            long currentTick = Time.getTicks();
+            long currentTick = java.lang.System.currentTimeMillis();
             int fps = (int)(1000/(currentTick - lastTick));
             lastTick = currentTick;
             lastFPS[tickIndex] = fps;

@@ -61,7 +61,7 @@ public class MinerSystem extends System {
                         s.taken = true;
                         miner.setMine(s);
                         miner.setState(MinerState.WALKING_MINE);
-                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(s.cell));
+                        pf.setTargetCell(MapInfo.getInstance().getCloseCell(s.cell, false, false));
                     }
                     break;
                 case WALKING_MINE:                          
@@ -82,7 +82,7 @@ public class MinerSystem extends System {
                 case WALKING_QUARRY:
                     if(pf.getTargetCell() == null){
                         Warehouse wh = miner.getQuarry().getEntity().get(Warehouse.class);
-                        wh.putContent(ResourceType.RAW_STONE, 1);
+                        wh.putContent(miner.getMine().type, 1);
                         miner.setLastTime(java.lang.System.currentTimeMillis());
                         miner.setState(MinerState.WAIT);
                     }

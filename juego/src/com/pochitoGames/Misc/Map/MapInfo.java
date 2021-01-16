@@ -99,16 +99,18 @@ public class MapInfo{
         peopleLayer[cell.col][cell.row] = id;
     }
     
-   public Vector2i getCloseCell(Vector2i cell){
+   public Vector2i getCloseCell(Vector2i cell, boolean floorOnly, boolean avoidPeople){
         //if(getPeopleLayerCell(cell) == -1 && getTileWalkCost(cell) < 0){
             Vector2i neighbors[] = {new Vector2i(1, 0), new Vector2i(-1, 0), 
                                     new Vector2i(0, 1), new Vector2i(0,-1),
-                                    new Vector2i(1, -1), new Vector2i(-1, 1), 
-                                    new Vector2i(1, 1)};           
+                                    new Vector2i(1, -1),new Vector2i(-1, 1), 
+                                    new Vector2i(1, 1), new Vector2i(-1, -1)};           
             
             for(int i = 0; i < 4; i++){
                 Vector2i n = Vector2i.add(cell, neighbors[i]);
-                if(!(n.col < 0 || n.col >= getWidth() || n.row < 0 || n.row >= getHeight()) && getPeopleLayerCell(n) == -1 && getTileWalkCost(n) >= 0){
+                if(!(n.col < 0 || n.col >= getWidth() || n.row < 0 || n.row >= getHeight()) && getTileWalkCost(n) >= 0 
+                        && !(avoidPeople && getPeopleLayerCell(n) != -1) 
+                        && !(floorOnly && getTileId(n) != 5)){
                     return n;
                 }
             }

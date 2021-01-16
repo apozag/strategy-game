@@ -26,7 +26,7 @@ public class Builder extends Component {
     ResourceType carrying;
     private ResourceType needed;
 
-    Builder targetMate = null;
+    public boolean hasWorker = false;
 
     public Builder() {
     }
@@ -45,14 +45,6 @@ public class Builder extends Component {
 
     public void setTarget(Vector2D target) {
         this.target = target;
-    }
-
-    public void setTargetMate(Builder b) {
-        targetMate = b;
-    }
-
-    public Builder getTargetMate() {
-        return targetMate;
     }
 
     public float getSpeed() {

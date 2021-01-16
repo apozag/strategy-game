@@ -14,6 +14,7 @@ import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.Vector2i;
 
 import java.util.LinkedList;
@@ -44,7 +45,11 @@ public class TreeManager {
         Tree tree = new Tree(cell);
         ECS.getInstance().createEntity(null,
                 new Position(IsometricTransformations.isoToCartesian(cell)),
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\TREE.png", new Vector2D(0.25f, 0.75f + 0.125f), true, 1.0f),
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\tree_lifetime.png", new Vector2D(0.25f, 0.75f + 0.125f), true, 1.0f, 
+                    new Animation(1, 100, 128, 256, 0, 0), 
+                    new Animation(1, 100, 128, 256, 128, 0),
+                    new Animation(1, 100, 128, 256, 256, 0)
+                    ),
                 new SeeThrough(),
                 new MouseListener(0),
                 tree
@@ -68,7 +73,7 @@ public class TreeManager {
         Tree nearest = null;
         int nearestDist = Integer.MAX_VALUE;
         for (Tree tree : trees) {
-            if (!tree.isTaken()) {
+            if (tree.getAge() >= Tree.ADULT_AGE && !tree.isTaken()) {
                 int dist = tree.getCell().distance(cell);
                 if (dist < nearestDist) {
                     nearestDist = dist;
@@ -80,22 +85,17 @@ public class TreeManager {
     }
 
     public Vector2i getPlantableCell(Vector2i cell) {
-        int diameter = 4;
+        int radius = 5;
         int iter = 0;
         int maxIter = 20;
-        Vector2i candidate = new Vector2i(cell.col + (int) (Math.random() * diameter), cell.row + (int) (Math.random() * diameter));
+        Vector2i candidate = new Vector2i(cell.col + (int) (Math.random() * radius), cell.row + (int) (Math.random() * radius));
         while (MapInfo.getInstance().getTileId(candidate) != 4) {
-            candidate = new Vector2i(cell.col + (int) (Math.random() * diameter), cell.row + (int) (Math.random() * diameter));
+            candidate = new Vector2i(cell.col + (int) (Math.random() * 2*radius) - radius, cell.row + (int) (Math.random() * 2*radius) - radius);
+            //if(candidate.col < 0 || candidate.col > MapInfo.getInstance().getWidth())
             iter++;
             if (iter >= maxIter) {
                 iter = 0;
-                diameter += 4;
-                if (cell.col + diameter + 4 >= MapInfo.getInstance().getWidth() || cell.row + diameter + 4 >= MapInfo.getInstance().getHeight()) {
-                    candidate.col = MapInfo.getInstance().getWidth() - 1;
-                    candidate.row = MapInfo.getInstance().getHeight() - 1;
-                } else if (cell.col + diameter + 4 == MapInfo.getInstance().getWidth() || cell.row + diameter + 4 == MapInfo.getInstance().getHeight()) {
-                    return null;
-                }
+                radius += 5;                
             }
         }
         return candidate;

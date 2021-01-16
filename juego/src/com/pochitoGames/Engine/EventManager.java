@@ -29,6 +29,8 @@ public class EventManager implements MouseListener, MouseWheelListener, KeyListe
     private static EventManager instance;
     private int mouseWheelRotation;
     
+    private Vector2D mousePos = new Vector2D(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);;
+    
     private boolean mouseLeftDown = false;
     private boolean mouseFirstTickLeft = false;
 
@@ -70,10 +72,12 @@ public class EventManager implements MouseListener, MouseWheelListener, KeyListe
     }
     public Vector2D getMousePos(){
          //Point pos = MouseInfo.getPointerInfo().getLocation();
+         /*
          Point pos = Renderer.getInstance().getMousePosition();
          if(pos == null)
              return new Vector2D(MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
-         return new Vector2D(pos.x, pos.y);
+*/
+         return new Vector2D(mousePos.x, mousePos.y);
     }
 
     public boolean isKeyDown(char c){
@@ -89,6 +93,11 @@ public class EventManager implements MouseListener, MouseWheelListener, KeyListe
         mouseWheelRotation = 0;
         mouseFirstTickLeft = false;
         mouseFirstTickRight = false;
+        Point pos = Renderer.getInstance().getMousePosition();
+        if(pos != null){
+            mousePos.x = pos.x;
+            mousePos.y = pos.y;
+        }
     }
     
     public void handleEvents(){

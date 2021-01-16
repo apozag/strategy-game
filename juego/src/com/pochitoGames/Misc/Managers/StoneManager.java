@@ -14,6 +14,7 @@ import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.Other.Vector2i;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,14 +36,23 @@ public class StoneManager {
         return instance;
     }
     
-    public void createStone(Vector2i cell) {
-        Stone s = new Stone(cell);
-         ECS.getInstance().createEntity(null, 
-                new Position(IsometricTransformations.isoToCartesian(cell)),
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\stone.png", new Vector2D(0.0f, 0.5f), true, 1.0f),
-                new SeeThrough(),
-                new MouseListener(0),
-                s
+    public void createStone(Vector2i cell, ResourceType type) {
+        Stone s = new Stone(cell, type);
+        String path = "src\\com\\pochitoGames\\Resources\\Sprites\\";
+        switch(type){
+            case RAW_STONE:
+                path += "stone.png";
+                break;
+            case RAW_GOLD:
+                path += "gold.png";
+                break;
+        }
+        ECS.getInstance().createEntity(null, 
+            new Position(IsometricTransformations.isoToCartesian(cell)),
+            new Sprite(path, new Vector2D(0.0f, 0.5f), true, 1.0f),
+            new SeeThrough(),
+            new MouseListener(0),
+            s
         );
          MapInfo.getInstance().setTileId(cell.col, cell.row, 201);
          stone.add(s);

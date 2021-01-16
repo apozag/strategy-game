@@ -5,7 +5,6 @@
  */
 package com.pochitoGames.Systems.Visual;
 
-import com.pochitoGames.Misc.Other.Time;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Engine.Camera;
@@ -37,7 +36,7 @@ public class SpriteSystem extends System{
                     Vector2D srcSize = anim.getSize();
                     Vector2D srcPos = new Vector2D();
                     srcPos.y = anim.getYoffset();
-                    srcPos.x = anim.getXoffset() + srcSize.x * (int)(Time.getTicks() / anim.getSpeed() % anim.getFrames());
+                    srcPos.x = anim.getXoffset() + srcSize.x * (int)(java.lang.System.currentTimeMillis() / anim.getSpeed() % anim.getFrames());
                     s.setSrcSize(srcSize);
                     s.setSrcPos(srcPos);
                 }
