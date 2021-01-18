@@ -21,11 +21,9 @@
 
         <height>1</height>
 
-        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png</img>
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png</img>
 
         <resourcesneeded>
-            <resource type = "WOOD">2</resource>
-            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
         <warehouse addsToGlobal = "YES">
@@ -71,11 +69,11 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
-        <warehouse>
+        <warehouse addsToGlobal = "NO">
             <resource type = "RAW_GOLD" transferable = "YES"> 
                 <amount>0</amount>
                 <capacity>5</capacity>
@@ -113,8 +111,8 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
     </building>
@@ -142,8 +140,8 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
     </building>
@@ -171,11 +169,11 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
-        <warehouse>
+        <warehouse addsToGlobal = "NO">
             <resource type = "RAW_WOOD" transferable = "NO"> 
                 <amount>0</amount>
                 <capacity>5</capacity>
@@ -213,11 +211,11 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
-        <warehouse>
+        <warehouse addsToGlobal = "NO">
             <resource type = "RAW_STONE" transferable = "NO"> 
                 <amount>0</amount>
                 <capacity>5</capacity>
@@ -255,11 +253,11 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_coin.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
-        <warehouse>
+        <warehouse addsToGlobal = "NO">
             <resource type = "RAW_GOLD" transferable = "NO"> 
                 <amount>0</amount>
                 <capacity>5</capacity>
@@ -297,11 +295,11 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_GOLD">2</resource>
-            <resource type = "RAW_STONE">2</resource>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
         </resourcesneeded>
 
-        <warehouse>
+        <warehouse addsToGlobal = "NO">
             <resource type = "RAW_WOOD" transferable = "YES"> 
                 <amount>0</amount>
                 <capacity>5</capacity>
@@ -334,7 +332,7 @@
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png</img>
 
         <resourcesneeded>
-            <resource type = "RAW_STONE">1</resource>
+            <resource type = "STONE">1</resource>
         </resourcesneeded>
 
     </building>

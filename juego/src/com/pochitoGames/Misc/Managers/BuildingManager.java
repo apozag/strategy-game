@@ -43,7 +43,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
 
-
 /**
  * @author PochitoMan
  */
@@ -52,7 +51,7 @@ public class BuildingManager {
     private static BuildingManager instance;
     // Blueprints contiene la info común de cada tipo de edificio. Mirar clase BuildingInfo.
     public static Map<TypeBuilding, BuildingInfo> blueprints = new HashMap<TypeBuilding, BuildingInfo>();
-    
+
     // resourcesNeeded contiene los recursos que necesita cada tipo de edificio para construirse
     private static Map<TypeBuilding, Map<ResourceType, Integer>> resourcesNeeded = new HashMap<>();
 
@@ -124,9 +123,9 @@ public class BuildingManager {
                 put(ResourceType.STONE, 1);
             }
         });       
-        */
+         */
         buildings = new ArrayList<>();
-        
+
         loadBuildingInfo();
     }
 
@@ -136,21 +135,24 @@ public class BuildingManager {
         }
         return instance;
     }
+
     /*
     // Esta funcion es mala idea
     public void addBuilding(Building b) {
         buildings.add(b);
     }
-    */
+     */
     public void build(TypeHuman ownerType, TypeBuilding type, Vector2i cell) {
 
-        if (cell.col < 0 || cell.col >= MapInfo.getInstance().getWidth() || cell.row < 0 || cell.row >= MapInfo.getInstance().getHeight())
+        if (cell.col < 0 || cell.col >= MapInfo.getInstance().getWidth() || cell.row < 0 || cell.row >= MapInfo.getInstance().getHeight()) {
             return;
+        }
 
         final BuildingInfo b = blueprints.get(type);
 
-        if(!canBuild(type, cell))
+        if (!canBuild(type, cell)) {
             return;
+        }
 
         for (int i = 0; i < b.size.col; i++) {
             for (int j = 0; j < b.size.row; j++) {
@@ -171,82 +173,43 @@ public class BuildingManager {
                         new Sawmill(),
                         new MouseListener(0),
                         newBuilding,
-                        /*
-                        new Warehouse(false,
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.WOOD, 0);
-                                put(ResourceType.RAW_WOOD, 0);
-                                } 
-                            },
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.WOOD, 5);
-                                put(ResourceType.RAW_WOOD, 5);
-                                } 
-                            }, 
-                            //Transferables
-                            ResourceType.WOOD
-                        )
-                        */
-                        new Warehouse(blueprints.get(type).warehouse)
-                        );
+                        new Warehouse(b.warehouse)
+                );
                 break;
             case QUARRY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f, 
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 127, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
-                        newBuilding, 
+                        new MouseListener(0),
+                        newBuilding,
                         new Quarry(),
-                        /*
-                        new Warehouse(false,
-                            //Content
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_STONE, 0);
-                                put(ResourceType.RAW_GOLD, 0);
-                                }
-                            },
-                            //Capacity
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_STONE, 5);
-                                put(ResourceType.RAW_GOLD, 5);
-                                } 
-                            },
-                            // transferables
-                            ResourceType.RAW_STONE,
-                            ResourceType.RAW_GOLD
-                        )
-                        */
-                        new Warehouse(blueprints.get(type).warehouse)
+                        new Warehouse(b.warehouse)
                 );
                 break;
             case SCHOOL:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f, 
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
+                        new MouseListener(0),
                         newBuilding);
                 break;
             case CANTEEN:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
-                        new Sprite(b.image, new Vector2D(0, yAnchor), true,1.0f,
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
+                        new MouseListener(0),
                         newBuilding);
                 break;
             case CASTLE:
@@ -257,28 +220,10 @@ public class BuildingManager {
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
+                        new MouseListener(0),
                         newBuilding,
-                        /*
-                        new Warehouse(true,
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.WOOD, 200);
-                                put(ResourceType.STONE, 200);
-                                put(ResourceType.GOLD, 200);
-                                }
-                            },
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.WOOD, 500);
-                                put(ResourceType.STONE, 500);
-                                put(ResourceType.GOLD, 500);
-                                }
-                            }
-                        )
-                        */
-                        new Warehouse(blueprints.get(type).warehouse)
-                        );
+                        new Warehouse(b.warehouse)
+                );
                 break;
             case REFINERY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -288,31 +233,13 @@ public class BuildingManager {
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
+                        new MouseListener(0),
                         newBuilding,
                         new Refinery(2000),
-                        /*
-                        new Warehouse(false,
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_STONE, 0);
-                                put(ResourceType.STONE, 0);
-                                }
-                            },
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_STONE, 5);
-                                put(ResourceType.STONE, 5);
-                                }
-                            },
-                            // Transferables
-                            ResourceType.STONE
-                        )
-                        */
-                        new Warehouse(blueprints.get(type).warehouse)
-                        );
+                        new Warehouse(b.warehouse)
+                );
                 break;
-                case GOLD_FOUNDRY:
+            case GOLD_FOUNDRY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
@@ -320,61 +247,26 @@ public class BuildingManager {
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
+                        new MouseListener(0),
                         newBuilding,
                         new GoldFoundry(2000),
-                        /*
-                        new Warehouse(false,
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_GOLD, 0);
-                                put(ResourceType.GOLD, 0);
-                                }
-                            },
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_GOLD, 5);
-                                put(ResourceType.GOLD, 5);
-                                }
-                            },
-                            // Transferables
-                            ResourceType.GOLD
-                        )
-                        */
-                        new Warehouse(blueprints.get(type).warehouse)
-                        );
+                        new Warehouse(b.warehouse)
+                );
                 break;
             case LUMBERJACK_HUT:
-                    newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
-                        new MouseListener(0),                        
+                        new MouseListener(0),
                         newBuilding,
                         new LumberjackHut(),
-                        /*
-                        new Warehouse(false,
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_WOOD, 0);
-                                }
-                            },
-                            new HashMap<ResourceType, Integer>() {
-                                {
-                                put(ResourceType.RAW_WOOD, 5);
-                                }
-                            },
-                                
-                            // Transferables
-                            ResourceType.RAW_WOOD
-                        )
-                        */
-                        new Warehouse(blueprints.get(type).warehouse)
-                        );
-                    break;
+                        new Warehouse(b .warehouse)
+                );
+                break;
             case FLOOR:
                 newBuilding = new Building(ownerType, 0, 0, 0, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
@@ -385,19 +277,21 @@ public class BuildingManager {
 
         buildings.add(newBuilding);
     }
-    
+
     // Devuelve true si se puede construir un edificio del tipo type en la casilla cell
-    public boolean canBuild(TypeBuilding type, Vector2i cell){
+    public boolean canBuild(TypeBuilding type, Vector2i cell) {
         BuildingInfo b = blueprints.get(type);
-        
+
         int entryCellId = MapInfo.getInstance().getTileId(Vector2i.add(cell, b.entry));
-        if (entryCellId >= 100 || entryCellId < 0)
-                    return false;
+        if (entryCellId >= 100 || entryCellId < 0) {
+            return false;
+        }
         for (int i = 0; i < b.size.col; i++) {
             for (int j = 0; j < b.size.row; j++) {
-                int cellId = MapInfo.getInstance().getTileId(new Vector2i(cell.col+i, cell.row-j));
-                if (cellId >= 100 || cellId < 0 || cellId == 5 || cellId == 6)
+                int cellId = MapInfo.getInstance().getTileId(new Vector2i(cell.col + i, cell.row - j));
+                if (cellId >= 100 || cellId < 0 || cellId == 5 || cellId == 6) {
                     return false;
+                }
             }
         }
         return true;
@@ -414,8 +308,9 @@ public class BuildingManager {
                 nearestDist = dist;
             }
         }
-        if (nearest == null || nearest.getCell().col >= 999 || nearest.getCell().row >= 999)
+        if (nearest == null || nearest.getCell().col >= 999 || nearest.getCell().row >= 999) {
             return null;
+        }
         return nearest;
     }
 
@@ -424,14 +319,13 @@ public class BuildingManager {
         int nearestDist = 9999;
         int greatestAmount = 0;
         for (Building b : buildings) {
-            if(b.isFinished()){
+            if (b.isFinished()) {
                 Warehouse wh = b.getEntity().get(Warehouse.class);
                 if (wh != null && b != excludeBuilding && b.getTypeBuilding() != excludeType && wh.doesAddToGlobal() && wh.hasResource(type)) {
-                    if(wh.getContent(type) > greatestAmount){
+                    if (wh.getContent(type) > greatestAmount) {
                         greatestAmount = wh.getContent(type);
                         candidate = b;
-                    }
-                    else if(wh.getContent(type) == greatestAmount){
+                    } else if (wh.getContent(type) == greatestAmount) {
                         int dist = cell.distance(Vector2i.add(b.getCell(), blueprints.get(b.getTypeBuilding()).entry));
                         if (dist < nearestDist) {
                             nearestDist = dist;
@@ -443,19 +337,19 @@ public class BuildingManager {
         }
         return candidate;
     }
+
     public Building getNearestWarehousePut(Vector2i cell, ResourceType type, TypeBuilding excludeType, Building excludeBuilding) {
         Building candidate = null;
         int nearestDist = 9999;
         int lowestAmount = 9999;
         for (Building b : buildings) {
-            if(b.isFinished()){
+            if (b.isFinished()) {
                 Warehouse wh = b.getEntity().get(Warehouse.class);
                 if (wh != null && b != excludeBuilding && b.getTypeBuilding() != excludeType && wh.canHave(type)) {
-                    if(wh.getContent(type) < lowestAmount){
+                    if (wh.getContent(type) < lowestAmount) {
                         lowestAmount = wh.getContent(type);
                         candidate = b;
-                    }
-                    else if(wh.getContent(type) == lowestAmount){
+                    } else if (wh.getContent(type) == lowestAmount) {
                         int dist = cell.distance(Vector2i.add(b.getCell(), blueprints.get(b.getTypeBuilding()).entry));
                         if (dist < nearestDist) {
                             nearestDist = dist;
@@ -467,104 +361,88 @@ public class BuildingManager {
         }
         return candidate;
     }
-    
-    private void loadBuildingInfo(){
+
+    private void loadBuildingInfo() {
         String filename = "src\\com\\pochitoGames\\Resources\\GameInfo\\buildings.xml";
-        try{    
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
-            DocumentBuilder db = dbf.newDocumentBuilder();  
-            Document doc = db.parse(filename);  
-            NodeList nodeList = doc.getElementsByTagName("building"); 
-            
-            
-            for(int i = 0; i < nodeList.getLength(); i++){
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(filename);
+            NodeList nodeList = doc.getElementsByTagName("building");
+
+            for (int i = 0; i < nodeList.getLength(); i++) {
                 Element element = (Element) nodeList.item(i);
                 TypeBuilding type = TypeBuilding.valueOf(element.getAttributeNode("type").getValue());
-                
+
                 String life = element.getElementsByTagName("life").item(0).getTextContent();
                 String defense = element.getElementsByTagName("defense").item(0).getTextContent();
                 String attack = element.getElementsByTagName("attack").item(0).getTextContent();
-                
+
                 int id = Integer.parseInt(element.getElementsByTagName("id").item(0).getTextContent());
-                
-                Element entry = (Element) element.getElementsByTagName("entry").item(0);                
+
+                Element entry = (Element) element.getElementsByTagName("entry").item(0);
                 String x = entry.getElementsByTagName("x").item(0).getTextContent();
                 String y = entry.getElementsByTagName("y").item(0).getTextContent();
                 Vector2i entryCell = new Vector2i(Integer.parseInt(x), Integer.parseInt(y));
-                
-                Element size = (Element) element.getElementsByTagName("size").item(0);                
-                x = entry.getElementsByTagName("x").item(0).getTextContent();
-                y = entry.getElementsByTagName("y").item(0).getTextContent();                
+
+                Element size = (Element) element.getElementsByTagName("size").item(0);
+                x = size.getElementsByTagName("x").item(0).getTextContent();
+                y = size.getElementsByTagName("y").item(0).getTextContent();
                 Vector2i sizeVec = new Vector2i(Integer.parseInt(x), Integer.parseInt(y));
-                
+
                 int height = Integer.parseInt(element.getElementsByTagName("height").item(0).getTextContent());
-                
+
                 String imgSrc = element.getElementsByTagName("img").item(0).getTextContent();
-                                
+
                 Map<ResourceType, Integer> resMap = new HashMap<>();
-                Element resNeeded = (Element) element.getElementsByTagName("resourcesneeded").item(0);   
+                Element resNeeded = (Element) element.getElementsByTagName("resourcesneeded").item(0);
                 NodeList resList = resNeeded.getElementsByTagName("resource");
-                for(int j = 0; j < resList.getLength(); j++){
+                for (int j = 0; j < resList.getLength(); j++) {
                     Node elemNode = resList.item(j);
                     Element resElem = (Element) elemNode;
                     ResourceType resType = ResourceType.valueOf(resElem.getAttribute("type"));
-                    /*
-                    if(typeSrc.equals("WOOD"))
-                        resType = ResourceType.WOOD;
-                    else if(typeSrc.equals("RAW_WOOD"))
-                        resType = ResourceType.RAW_WOOD;
-                    else if(typeSrc.equals("STONE"))
-                        resType = ResourceType.STONE;
-                    else if(typeSrc.equals("RAW_STONE"))
-                        resType = ResourceType.RAW_STONE;
-                    else if(typeSrc.equals("GOLD"))
-                        resType = ResourceType.GOLD;
-                    else if(typeSrc.equals("RAW_GOLD"))
-                        resType = ResourceType.RAW_GOLD;
-                    */
                     int amount = Integer.parseInt(elemNode.getTextContent());
-                    
+
                     resMap.put(resType, amount);
                 }
-                
+
                 resourcesNeeded.put(type, resMap);
-                
+
                 Element whElem = (Element) element.getElementsByTagName("warehouse").item(0);
-                Map<ResourceType, Integer> content = new HashMap<>();
-                Map<ResourceType, Integer> capacity = new HashMap<>();
-                HashSet<ResourceType> transferable = new HashSet<>();
-                resList = resNeeded.getElementsByTagName("resource");
-                for(int j = 0; j < resList.getLength(); j++){
-                    Node elemNode = resList.item(j);
-                    Element resElem = (Element) elemNode;
-                    ResourceType resType = ResourceType.valueOf(resElem.getAttribute("type"));
-                    ////////// NO LO PILLA ///////////
-                    String isTransferable = resElem.getAttribute("transferable");
-                    /////////////////////////////////
-                    int amount = Integer.parseInt(resElem.getElementsByTagName("amount").item(0).getTextContent());
-                    int cap = Integer.parseInt(resElem.getElementsByTagName("capacity").item(0).getTextContent());
-                    
-                    content.put(resType, amount);
-                    capacity.put(resType, cap);
-                    if(isTransferable.equals("YES")){
-                        transferable.add(resType);
-                    }
-                }
-                boolean addsToGlobal = false;
-                if(whElem.getAttribute("addsToGlobal").equals("YES")){
-                    addsToGlobal = true;
-                }
                 Warehouse wh = null;
-                if(whElem != null){
+                if (whElem != null) {
+                    boolean addsToGlobal = false;
+                    if (whElem.getAttribute("addsToGlobal").equals("YES")) {
+                        addsToGlobal = true;
+                    }
+                    Map<ResourceType, Integer> content = new HashMap<>();
+                    Map<ResourceType, Integer> capacity = new HashMap<>();
+                    HashSet<ResourceType> transferable = new HashSet<>();
+                    resList = whElem.getElementsByTagName("resource");
+                    for (int j = 0; j < resList.getLength(); j++) {
+                        Node elemNode = resList.item(j);
+                        Element resElem = (Element) elemNode;
+                        ResourceType resType = ResourceType.valueOf(resElem.getAttribute("type"));
+                        String isTransferable = resElem.getAttribute("transferable");
+                        int amount = Integer.parseInt(resElem.getElementsByTagName("amount").item(0).getTextContent());
+                        int cap = Integer.parseInt(resElem.getElementsByTagName("capacity").item(0).getTextContent());
+
+                        content.put(resType, amount);
+                        capacity.put(resType, cap);
+                        if (isTransferable.equals("YES")) {
+                            transferable.add(resType);
+                        }
+                    }
+
                     wh = new Warehouse(
-                                addsToGlobal,
-                                content, 
-                                capacity,
-                                transferable
-                        );
+                            addsToGlobal,
+                            content,
+                            capacity,
+                            transferable
+                    );
                 }
                 blueprints.put(type, new BuildingInfo(
-                        id, 
+                        id,
                         entryCell,
                         sizeVec,
                         height,
@@ -572,15 +450,14 @@ public class BuildingManager {
                         resMap,
                         wh
                 ));
-                
+
             }
-        }
-        catch(IOException | ParserConfigurationException | DOMException | SAXException e){
-            e.printStackTrace();  
+        } catch (IOException | ParserConfigurationException | DOMException | SAXException e) {
+            e.printStackTrace();
         }
     }
-    
-/*
+
+    /*
     // No se usa de momento
     public Building getUnfinishedBuilding() {
         for (Building b : buildings) {
@@ -589,5 +466,5 @@ public class BuildingManager {
         }
         return null;
     }
-*/
+     */
 }
