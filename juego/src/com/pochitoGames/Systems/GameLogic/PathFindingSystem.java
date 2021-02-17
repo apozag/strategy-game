@@ -7,6 +7,7 @@ package com.pochitoGames.Systems.GameLogic;
 
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.People.LumberJack;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
@@ -28,6 +29,8 @@ public class PathFindingSystem extends System {
         include(PathFinding.class, Position.class);
         exclude();
     }
+    
+    int count = 0;
 
     @Override
     public void update(double dt) {
@@ -73,6 +76,7 @@ public class PathFindingSystem extends System {
                 //Si no tiene paso siguiente, hemos llegado
                 //Si tiene un nuevo target, calculamos el camino
                 else if (pf.getTargetCell() != null) {
+                    java.lang.System.out.println("pf call: " + count++);
                     pf.setSteps(aStar(pf.getCurrent(), pf.getTargetCell(), e.id, false));
                 }
             }
@@ -83,9 +87,6 @@ public class PathFindingSystem extends System {
                 if (aproximateEquals(p.getWorldPos(), pf.getNextPos(), 5)) {
                     pf.setCurrent(pf.pollNextStep());
                     //Si este es el cell final, quitamos el target
-                    if(pf.getTargetCell() == null){
-                        java.lang.System.out.println("hey");
-                    }
                     if(pf.getCurrent().equals(pf.getTargetCell()))
                         pf.setTargetCell(null);
                     pf.setWalking(false);

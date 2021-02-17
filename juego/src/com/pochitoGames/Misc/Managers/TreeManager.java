@@ -57,8 +57,6 @@ public class TreeManager {
 
         MapInfo.getInstance().setTileId(cell.col, cell.row, 200);
 
-        java.lang.System.out.println(cell.col + ", " + cell.row);
-
         trees.add(tree);
     }
 
@@ -91,7 +89,6 @@ public class TreeManager {
         Vector2i candidate = new Vector2i(cell.col + (int) (Math.random() * radius), cell.row + (int) (Math.random() * radius));
         while (MapInfo.getInstance().getTileId(candidate) != 4) {
             candidate = new Vector2i(cell.col + (int) (Math.random() * 2*radius) - radius, cell.row + (int) (Math.random() * 2*radius) - radius);
-            //if(candidate.col < 0 || candidate.col > MapInfo.getInstance().getWidth())
             iter++;
             if (iter >= maxIter) {
                 iter = 0;

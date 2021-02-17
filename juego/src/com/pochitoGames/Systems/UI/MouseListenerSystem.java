@@ -34,56 +34,6 @@ public class MouseListenerSystem extends System{
             getEntities().sort(new SortByLayer());
             //started = true;
         }
-        /*
-        for(Entity e : getEntities()){
-                MouseListener ml = e.get(MouseListener.class);
-                Sprite s = e.get(Sprite.class);
-                if(EventManager.getInstance().isMouseLeftPressed()){            
-                    Vector2D mousePos = EventManager.getInstance().getMousePos();
-                    if(SpriteSystem.isInsideSprite(s, mousePos)){
-                        if(ml.downLeft)
-                                ml.firstTickLeft = false;
-                        else{
-                            ml.downLeft = true;
-                            ml.firstTickLeft = true;
-                        }
-                        // Bloquea el click para el resto
-                        break;
-                    }
-                }
-                else{
-                    if(ml.releasedLeft)
-                        ml.releasedLeft = false;
-                    else{
-                        ml.downLeft = false;
-                        ml.releasedLeft = true;
-                    }
-                }
-                
-                if(EventManager.getInstance().isMouseRightPressed()){            
-                    Vector2D mousePos = EventManager.getInstance().getMousePos();
-                    if(SpriteSystem.isInsideSprite(s, mousePos)){
-                        if(ml.downRight)
-                                ml.firstTickRight = false;
-                        else{
-                            ml.downRight = true;
-                            ml.firstTickRight = true;
-                        }
-                        // Bloquea el click para el resto
-                        break;
-                    }
-                }
-                else{
-                    if(ml.releasedRight)
-                        ml.releasedRight = false;
-                    else{
-                        ml.downRight = false;
-                        ml.releasedRight = true;
-                    }
-                }
-            }
-    }
-*/
         boolean pointBlock = false;
         Vector2D mousePos = EventManager.getInstance().getMousePos();
         for(Entity e : getEntities()){
@@ -102,12 +52,12 @@ public class MouseListenerSystem extends System{
                     pointBlock = true;
                 } 
                 else{
-                    if(ml.releasedLeft)
-                        ml.releasedLeft = false;
-                    else{
+                    //if(ml.releasedLeft)
+                        //ml.releasedLeft = false;
+                    //else{
                         ml.downLeft = false;
                         ml.releasedLeft = true;
-                    }
+                    //}
                 }
                 
                 // Click Dch
@@ -122,12 +72,12 @@ public class MouseListenerSystem extends System{
                     pointBlock = true;
                 }
                 else{
-                    if(ml.releasedRight)
+                    //if(ml.releasedRight)
                         ml.releasedRight = false;
-                    else{
+                    //else{
                         ml.downRight = false;
                         ml.releasedRight = true;
-                    }
+                    //}
                 }
                 // MouseEnter
                 ml.mouseOver = true;

@@ -24,7 +24,8 @@ import java.util.List;
 //Contiene info sobre la imagen y las posibles animaciones.
 public class Sprite extends Component {
 
-    private BufferedImage image;
+    private BufferedImage[][] image;
+    public String src;
     //srcPos no se refiere a la posción del sprite, sino a la posicioón del cacho de imagen que se va a renderizar
     //Si no tiene animaciones, será 0, 0
     private Vector2D srcPos;
@@ -45,59 +46,100 @@ public class Sprite extends Component {
     private boolean visible = true;
    
     //Indica el índice de la animacion que se está pintando actualmente. 
-    //Si no tiene animaciones, es -1
-    private int currentAnimation = -1;
+    private int currentAnimation = 0;
+    private int currentFrame= 0;
 
     //Lista con las animaciones
     List<Animation> animations;
 
     public Sprite() {
         depth = 0;
+        this.animations = new LinkedList<>();
         srcPos = new Vector2D(0, 0);
         srcSize = new Vector2D(0, 0);
         anchor = new Vector2D(0, 0);
     }
 
     public Sprite(String path, Vector2D anchor, boolean updateDepth, float transparency, Animation... animations) {
-        image = ImageManager.getImage(path);
+        BufferedImage img = ImageManager.getImage(path);
         this.updateDepth = updateDepth;
         if (updateDepth) {
             depth = 0;
         } else {
             depth = Float.MAX_VALUE;
         }
-        srcPos = new Vector2D(0, 0);
-        if(image != null)
-            srcSize = new Vector2D(image.getWidth(), image.getHeight());
-        else 
-            srcSize = new Vector2D(0, 0);
+        srcPos = new Vector2D(0, 0);        
+        
         this.animations = new LinkedList<>();
-        for (Animation anim : animations) {
-            animated = true;
-            currentAnimation = 0;
-            this.animations.add(anim);//Aquí la metemos en la lista.
+        if(img == null)
+            srcSize = new Vector2D(0, 0);
+        else{
+            if(animations.length == 0){
+                srcPos = new Vector2D(0, 0);
+                srcSize = new Vector2D(img.getWidth(), img.getHeight());
+                this.image = new BufferedImage[1][];
+                this.image[0] = new BufferedImage[1];
+                this.image[0][0] = img;
+                this.animations.add(new Animation(1, 100, (int)srcSize.x, (int)srcSize.y, 0, 0));
+            }
+            else{
+                int idx = 0;
+                this.image = new BufferedImage[animations.length][];
+                for (Animation anim : animations) {
+                    this.animations.add(anim);
+
+                    this.image[idx] = new BufferedImage[anim.getFrames()];
+                    for(int i = 0; i < anim.getFrames(); i++){
+                        this.image[idx][i] = img.getSubimage((int)anim.getXoffset() + (int)anim.getSize().x * i, (int)anim.getYoffset(), (int)anim.getSize().x, (int)anim.getSize().y);            
+                    }
+                    idx++;
+                }
+                srcSize = new Vector2D(this.image[0][0].getWidth(), this.image[0][0].getHeight());
+            }
         }
         this.anchor = anchor;
         this.transparency = transparency;
+        src = path;
         
     }
 
     //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen directamete
     public Sprite(BufferedImage image, Vector2D anchor, boolean updateDepth, float transparency, Animation... animations) {
-        this.image = image;
+        BufferedImage img = image;
         this.updateDepth = updateDepth;
         if (updateDepth) {
             depth = 0;
         } else {
             depth = Float.MAX_VALUE;
-        }
-        srcPos = new Vector2D(0, 0);
-        srcSize = new Vector2D(image.getWidth(), image.getHeight());
+        }        
+        
+        this.animations = new LinkedList<>();
+        
+        if(img == null)
+            srcSize = new Vector2D(0, 0);
+        else{
+            if(animations.length == 0){
+                srcPos = new Vector2D(0, 0);
+                srcSize = new Vector2D(img.getWidth(), img.getHeight());
+                this.image = new BufferedImage[1][];
+                this.image[0] = new BufferedImage[1];
+                this.image[0][0] = img;
+                this.animations.add(new Animation(1, 100, (int)srcSize.x, (int)srcSize.y, 0, 0));
+            }
+            else{
+                int idx = 0;
+                this.image = new BufferedImage[animations.length][];
+                for (Animation anim : animations) {
+                    this.animations.add(anim);
 
-        for (Animation anim : animations) {
-            animated = true;
-            currentAnimation = 0;
-            this.animations.add(anim);
+                    this.image[idx] = new BufferedImage[anim.getFrames()];
+                    for(int i = 0; i < anim.getFrames(); i++){
+                        this.image[idx][i] = img.getSubimage((int)anim.getXoffset() + (int)anim.getSize().x * i, (int)anim.getYoffset(), (int)anim.getSize().x, (int)anim.getSize().y);            
+                    }
+                    idx++;
+                }
+                srcSize = new Vector2D(this.image[0][0].getWidth(), this.image[0][0].getHeight());
+            }
         }
         this.anchor = anchor;
         this.transparency = transparency;
@@ -112,17 +154,38 @@ public class Sprite extends Component {
     }
 
     public void setImage(BufferedImage image) {
-        this.image = image;
-        setSrcSize(new Vector2D(image.getWidth(), image.getHeight()));
+        srcPos = new Vector2D(0, 0);
+        if(animations.isEmpty()){
+            this.image = new BufferedImage[1][];
+            this.image[0] = new BufferedImage[1];
+            this.image[0][0] = image;
+            this.animations.add(new Animation(1, 100, (int)srcSize.x, (int)srcSize.y, 0, 0));
+            srcSize = new Vector2D(image.getWidth(), image.getHeight());
+        }
+        else{
+            int idx = 0;
+            this.image = new BufferedImage[animations.size()][];
+            for (Animation anim : animations) {
+                this.animations.add(anim);
+
+                this.image[idx] = new BufferedImage[anim.getFrames()];
+                for(int i = 0; i < anim.getFrames(); i++){
+                    this.image[idx][i] = image.getSubimage((int)anim.getXoffset() + (int)anim.getSize().x * i, (int)anim.getYoffset(), (int)anim.getSize().x, (int)anim.getSize().y);            
+                }
+                idx++;
+            }
+            srcSize = new Vector2D(this.image[0][0].getWidth(), this.image[0][0].getHeight());
+        }
     }
     
     public void setImage(String path) {
-        image = ImageManager.getImage(path);
-        setSrcSize(new Vector2D(image.getWidth(), image.getHeight()));
+        setImage(ImageManager.getImage(path));
     }
 
     public BufferedImage getImage() {
-        return image;
+        if(image == null)
+            return null;
+        return image[currentAnimation][currentFrame];
     }
 
     public void setDepth(float depth) {
@@ -146,19 +209,28 @@ public class Sprite extends Component {
     }
 
     public void setCurrentAnimationIndex(int index) {
-        if (animated && index < animations.size()) {
+        if (index < animations.size()) {
+            srcSize = new Vector2D(image[index][0].getWidth(), image[index][0].getHeight());
             currentAnimation = index;
         }
+    }
+    
+    public void setCurrentFrame(int frame){
+        this.currentFrame = frame;
     }
 
     public int getCurrentAnimationIndex() {
         return currentAnimation;
     }
+    
+    public int getCurrentFrame(){
+        return currentFrame;
+    }
 
     public Animation getCurrentAnimation() {
-        if (!animated || currentAnimation < 0) {
-            return null;
-        }
+        //if (!animated || currentAnimation < 0) {
+        //    return null;
+        //}
         return animations.get(currentAnimation);
     }
 
@@ -179,17 +251,17 @@ public class Sprite extends Component {
     }
     
     public void dye(Color color) {
-        if(image != null){
-            int w = image.getWidth();
-            int h = image.getHeight();
+        if(image[0][0] != null){
+            int w = image[0][0].getWidth();
+            int h = image[0][0].getHeight();
             BufferedImage dyed = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = dyed.createGraphics();
-            g.drawImage(image, 0, 0, null);
+            g.drawImage(image[0][0], 0, 0, null);
             g.setComposite(AlphaComposite.SrcAtop);
             g.setColor(color);
             g.fillRect(0, 0, w, h);
             g.dispose();
-            image = dyed;
+            image[0][0] = dyed;
         }
   }
 

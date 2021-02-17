@@ -20,19 +20,19 @@ import com.pochitoGames.Misc.Other.Vector2i;
 public class TreeGeneratorSystem extends System {
 
     public TreeGeneratorSystem() {
-        include(TreeGenerator.class, MouseListener.class, UIButton.class);
+        include(TreeGenerator.class, MouseListener.class);
         exclude();
     }
 
     @Override
     public void update(double dt) {
-        for (Entity e : getEntities()) {
+        for(Entity e : getEntities()) {
             MouseListener ml = e.get(MouseListener.class);
-            if (ml.downLeft && ml.firstTickLeft) {
+            if(ml.downLeft && ml.firstTickLeft) {
                 Vector2i cell;
-                do {
+                do{
                     cell = new Vector2i((int) (Math.random() * MapInfo.getInstance().getHeight() - 1), (int) (Math.random() * MapInfo.getInstance().getHeight() - 1));
-                } while (MapInfo.getInstance().getTileId(cell) >= 100 || MapInfo.getInstance().getTileId(cell) == 5 || MapInfo.getInstance().getTileId(cell) == 6);
+                }while(MapInfo.getInstance().getTileId(cell) >= 100 || MapInfo.getInstance().getTileId(cell) == 5 || MapInfo.getInstance().getTileId(cell) == 6);
                 TreeManager.getInstance().createTree(cell);
             }
         }

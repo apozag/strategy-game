@@ -56,8 +56,6 @@ import com.pochitoGames.Systems.UI.UIButtonSystem;
 import com.pochitoGames.Systems.Visual.SeeThroughSystem;
 
 import java.awt.Color;
-import java.time.Duration;
-import java.time.Instant;
 
 /**
  * @author PochitoMan
@@ -140,7 +138,7 @@ public class Engine {
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(10, 10), true),
                 new UIButton(),
-                new BuildingPicker(TypeBuilding.SCHOOL),
+                new BuildingPicker(TypeBuilding.SCHOOL), 
                 new MouseListener(2)
         );
         ECS.getInstance().createEntity(button1, 

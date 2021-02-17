@@ -43,15 +43,7 @@ public class LumberJackSystem extends System {
                     if(lj.getHut() != null ){
                         if (java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()) {
                             lj.setState(LumberJackState.SEARCHING_TREE);
-                            java.lang.System.out.println("Cambio estado a Buscar Arbol");
                         }
-    /*
-                        for (Tree tree :treesList){
-                            if (Vector2i.distanceBeetwen(pf.getCurrent(),tree.getCell()) new Vector2i(30,30)){
-
-                            }
-                        }
-    */
 
                         if (choppedTrees >= 4) {
                             plant = true;
@@ -65,8 +57,6 @@ public class LumberJackSystem extends System {
                                 break;
                             } else {
                                 lj.setState(LumberJackState.WALKING_PLANTING);
-                                java.lang.System.out.println("He plantado tanto arboles :" + plantedTrees);
-                                java.lang.System.out.println("Cambio de estado a plantar");
                             }
                         }
                     }
@@ -77,7 +67,6 @@ public class LumberJackSystem extends System {
                     if (pf.getTargetCell() == null) {
                         lj.setLastTime(java.lang.System.currentTimeMillis());
                         lj.setState(LumberJackState.WAITING);
-                        java.lang.System.out.println("Cambio estado a esperar");
 
                     }
                     break;
@@ -86,9 +75,7 @@ public class LumberJackSystem extends System {
                     if (pf.getTargetCell() == null) {
                         lj.setLastTime(java.lang.System.currentTimeMillis());
                         lj.setState(LumberJackState.CHOPPING);
-                        java.lang.System.out.println("Voy a talar un arbol");
                         choppedTrees += 1;
-                        java.lang.System.out.println("He cortado tanto arboles :" + choppedTrees);
                     }
 
                     break;
@@ -108,7 +95,6 @@ public class LumberJackSystem extends System {
                         Building b = lj.getHut().get(Building.class);
                         pf.setTargetCell(b.getEntryCell());
                         lj.setState(LumberJackState.CARRYING);
-                        java.lang.System.out.println("Vuelvo con el arbol talado");
 
                     }
                     break;
@@ -118,7 +104,6 @@ public class LumberJackSystem extends System {
                     if (pantablePos != null) {
                         pf.setTargetCell(pantablePos);
                         lj.setState(LumberJackState.PLANTING);
-                        java.lang.System.out.println("Estoy plantando");
 
                     }
                     break;
@@ -128,7 +113,6 @@ public class LumberJackSystem extends System {
                         Building b = lj.getHut().get(Building.class);
                         pf.setTargetCell(b.getEntryCell());
                         lj.setState(LumberJackState.WALKING_HUT);
-                        java.lang.System.out.println("Voy a la cabaña");
 
                     }
                     break;
@@ -140,14 +124,11 @@ public class LumberJackSystem extends System {
 
                         pf.setTargetCell(MapInfo.getInstance().getCloseCell(tree.getCell(), false, false));
                         lj.setState(LumberJackState.WALKING_TREE);
-                        java.lang.System.out.println("Voy al arbol");
                         lj.setTree(tree);
                         tree.setTaken();;
                     } else {
                         lj.setLastTime(java.lang.System.currentTimeMillis());
                         lj.setState(LumberJackState.WAITING);
-                        java.lang.System.out.println("Me espero");
-
                     }
             }
         }
