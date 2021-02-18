@@ -1,6 +1,7 @@
 package com.pochitoGames.Systems.People;
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.GameLogic.PathFinding;
+import com.pochitoGames.Components.Other.Thinking;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Components.People.Builder;
@@ -29,7 +30,7 @@ import java.util.List;
 
 public class BuilderSystem extends System{
     public BuilderSystem(){
-        include(Human.class ,Builder.class, PathFinding.class);
+        include(Human.class ,Builder.class, PathFinding.class, Thinking.class);
         exclude();
     }
     
@@ -40,6 +41,8 @@ public class BuilderSystem extends System{
             Builder builder = e.get(Builder.class);
             BuilderState state = builder.getState();
             Human human = e.get(Human.class);
+            Thinking thinking = e.get(Thinking.class);
+            
             switch(state){
 
                 case WAIT:
@@ -53,7 +56,7 @@ public class BuilderSystem extends System{
                         //Le pregunto qué recurso necesita
                         ResourceType needed = b.getResourceNeeded();
                         //Me lo pongo como recurso que necesito (en verdad eso no sirve para nada)
-                        builder.setResourceNeeded(needed);
+                        thinking.setNeeded(needed);
                         
                         //Si no necesita ningún recurso, he acabado
                         if(needed == null){

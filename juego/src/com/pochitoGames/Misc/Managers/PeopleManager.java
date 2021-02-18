@@ -5,8 +5,10 @@
  */
 package com.pochitoGames.Misc.Managers;
 
+import com.pochitoGames.Components.Other.Backpack;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
+import com.pochitoGames.Components.Other.Thinking;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.LumberJack;
@@ -21,6 +23,7 @@ import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
+import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.LumberJackState;
@@ -68,7 +71,8 @@ public class PeopleManager {
                 e = ECS.getInstance().createEntity(null,
                         new Position(IsometricTransformations.isoToCartesian(cell)),
                         new Human(100, "Sol", 10, 10, type),
-                        new PathFinding(cell)
+                        new PathFinding(cell),
+                        new Backpack()
                 );
                 switch (role) {
                     case WORKER:
@@ -79,7 +83,21 @@ public class PeopleManager {
                     case BUILDER:
                         ECS.getInstance().addComponent(e, 
                             new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\character.png", new Vector2D(0.5f, 1.0f), true, 1.0f),
-                            new Builder());
+                            new Builder(),
+                            new Thinking());
+                        
+                        ECS.getInstance().createEntity(e, 
+                                new Position(new Vector2D(-32, -64 - 32)),
+                                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\thinking.png", new Vector2D(0, 0), true, 1.0f, 
+                                    new Animation(1, 100, 32, 32, 0,    0),
+                                    new Animation(1, 100, 32, 32, 32,   0),
+                                    new Animation(1, 100, 32, 32, 32*2, 0),
+                                    new Animation(1, 100, 32, 32, 32*3, 0),
+                                    new Animation(1, 100, 32, 32, 32*4, 0),
+                                    new Animation(1, 100, 32, 32, 32*5, 0),
+                                    new Animation(1, 100, 32, 32, 32*6, 0)
+                                    )
+                        );
                     break;
                     case MINER:
                         ECS.getInstance().addComponent(e, 
@@ -94,6 +112,20 @@ public class PeopleManager {
                 }
                 break;
         }
+        
+        ECS.getInstance().createEntity(e, 
+            new Position(new Vector2D(-32.0f, -64.0f)),
+            new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\resources.png", new Vector2D(0, 0), true, 1.0f, 
+                new Animation(1, 100, 32, 32, 0,    0), 
+                new Animation(1, 100, 32, 32, 32,   0), 
+                new Animation(1, 100, 32, 32, 32*2, 0), 
+                new Animation(1, 100, 32, 32, 32*3, 0), 
+                new Animation(1, 100, 32, 32, 32*4, 0), 
+                new Animation(1, 100, 32, 32, 32*5, 0),
+                new Animation(1, 100, 32, 32, 32*6, 0)
+            )
+        );
+        
         people.get(type).add(e);
         MapInfo.getInstance().setPeopleLayerCell(cell, e.getId());
     }

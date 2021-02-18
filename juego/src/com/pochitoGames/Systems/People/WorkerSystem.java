@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.Other.Backpack;
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Warehouse;
@@ -33,7 +34,7 @@ import java.util.List;
 public class WorkerSystem extends System {
 
     public WorkerSystem() {
-        include(Worker.class, Position.class, PathFinding.class, Human.class);
+        include(Worker.class, Position.class, PathFinding.class, Human.class, Backpack.class);
         exclude(Builder.class);
     }
 
@@ -43,6 +44,8 @@ public class WorkerSystem extends System {
             PathFinding pf = e.get(PathFinding.class);
             Worker worker = e.get(Worker.class);
             WorkerState state = worker.getState();
+            Backpack b = e.get(Backpack.class);
+            
             switch (state) {
                 case WAIT:
                     //Estamos parados hasta que nos requieran (Los edificios nos llamen)
@@ -68,7 +71,7 @@ public class WorkerSystem extends System {
                         //Si hay camino, me pongo en estado CARRY_RESOURCE y voy
                         if (pf.getSteps() != null) {                            
                             wh.takeContent(worker.getResourceNeeded(), 1);
-                            worker.setCarrying(worker.getResourceNeeded());
+                            b.setCarrying(worker.getResourceNeeded());
                             if (pf.getSteps().size() > 0) {
                                 pf.getSteps().remove(pf.getSteps().size() - 1);
                             }
@@ -91,7 +94,8 @@ public class WorkerSystem extends System {
                         Builder mate = worker.getTargetMate();
                         //Cojo el edificio que está construyendo mi compa (getTargetBuilding)
                         //Y le meto (putResources) una unidad del recurso que necesita (getResourcesNeeded)
-                        mate.getTargetBuilding().putResources(worker.getCarrying(), 1);
+                        mate.getTargetBuilding().putResources(b.getCarrying(), 1);
+                        b.setCarrying(null);
                         mate.hasWorker = false;
                         //Me pongo en WAIT
                         worker.setState(WorkerState.WAIT);
@@ -115,7 +119,7 @@ public class WorkerSystem extends System {
                                 pf.getSteps().remove(pf.getSteps().size() - 1);
                                 pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
                                 worker.setTargetBuilding(newTargetBuilding);
-                                worker.setCarrying(worker.getResourceNeeded());
+                                b.setCarrying(worker.getResourceNeeded());
                                 worker.setState(WorkerState.CARRY_RESOURCE_TO_WAREHOUSE);
                             }
                             // Si no hay camino, paso del tema. Se lo indico al srcWh tambien.
@@ -138,7 +142,8 @@ public class WorkerSystem extends System {
                         //Cojo el edificio (El componente Warehouse solo)
                         Warehouse wh = worker.getTargetBuilding().getEntity().get(Warehouse.class);
                         //Le pongo una unidad del recurso
-                        wh.putContent(worker.getCarrying(), 1);
+                        wh.putContent(b.getCarrying(), 1);
+                        b.setCarrying(null);
                         //Ya he terminado por ahora
                         worker.setState(WorkerState.WAIT);
                         if(worker.getSrcWarehouse() != null){

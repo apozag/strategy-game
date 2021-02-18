@@ -7,6 +7,7 @@ package com.pochitoGames.Components.People;
 
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Warehouse;
+import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ObjectTypes.WorkerObject;
@@ -26,7 +27,7 @@ public class Worker extends Component {
     ResourceType carrying;
     private ResourceType needed;
     Builder targetMate = null;
-    
+        
     private Warehouse srcWarehouse = null;
 
     public Builder getTargetMate() {
@@ -43,6 +44,7 @@ public class Worker extends Component {
 
     public void setCarrying(ResourceType carrying) {
         this.carrying = carrying;
+        
     }
 
     public ResourceType getResourceNeeded() {
@@ -107,4 +109,5 @@ public class Worker extends Component {
     public void setSrcWarehouse(Warehouse srcWarehouse) {
         this.srcWarehouse = srcWarehouse;
     }
+    
 }

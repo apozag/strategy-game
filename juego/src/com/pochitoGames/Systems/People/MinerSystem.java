@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.Other.Backpack;
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Warehouse;
@@ -20,7 +21,6 @@ import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.StoneManager;
 import com.pochitoGames.Misc.Map.MapInfo;
-import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.SoldierState;
 
@@ -32,7 +32,7 @@ import java.util.HashSet;
 public class MinerSystem extends System {
 
     public MinerSystem() {
-        include(Miner.class, PathFinding.class);
+        include(Miner.class, PathFinding.class, Backpack.class);
         exclude(Builder.class, Worker.class);
     }
 
@@ -42,6 +42,8 @@ public class MinerSystem extends System {
             Miner miner = e.get(Miner.class);
             PathFinding pf = e.get(PathFinding.class);
             MinerState minerState = miner.getState();
+            Backpack backpack = e.get(Backpack.class);
+            
             switch (minerState) {
                 case WAIT:
                     // Cada 'waitTime' segundos buscamos piedra
@@ -77,6 +79,7 @@ public class MinerSystem extends System {
                         StoneManager.getInstance().removeStone(miner.getMine());
                         pf.setTargetCell(miner.getQuarry().getEntryCell());                        
                         miner.setState(MinerState.WALKING_QUARRY);
+                        backpack.setCarrying(miner.getMine().type);
                     }
                     break;
                 case WALKING_QUARRY:
@@ -85,6 +88,7 @@ public class MinerSystem extends System {
                         wh.putContent(miner.getMine().type, 1);
                         miner.setLastTime(java.lang.System.currentTimeMillis());
                         miner.setState(MinerState.WAIT);
+                        backpack.setCarrying(null);
                     }
                     break;
                 case WALKING:

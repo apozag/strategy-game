@@ -1,6 +1,7 @@
 package com.pochitoGames.Components.People;
 
 import com.pochitoGames.Components.Other.Tree;
+import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.Vector2D;
@@ -20,6 +21,8 @@ public class LumberJack extends Component {
     
     private double waitTime = 1000.0;// milliseconds
     private double lastTime = 999999999;// milliseconds
+    
+    private Sprite resourceSprite;
 
     public ResourceType getResourceType() {
         return resourceType;
@@ -75,5 +78,13 @@ public class LumberJack extends Component {
 
     public void setHut(Entity hut) {
         this.hut = hut;
+    }
+
+    public Sprite getResourceSprite() {
+        return resourceSprite;
+    }
+
+    public void setResourceSprite(Sprite resourceSprite) {
+        this.resourceSprite = resourceSprite;
     }
 }

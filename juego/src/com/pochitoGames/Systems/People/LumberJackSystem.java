@@ -1,5 +1,6 @@
 package com.pochitoGames.Systems.People;
 
+import com.pochitoGames.Components.Other.Backpack;
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
@@ -8,6 +9,7 @@ import com.pochitoGames.Components.Other.Tree;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.LumberJack;
+import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.TreeManager;
@@ -26,7 +28,7 @@ public class LumberJackSystem extends System {
     private List<Tree> treesList = TreeManager.getInstance().getTrees();
 
     public LumberJackSystem() {
-        include(Position.class, PathFinding.class, Human.class, LumberJack.class);
+        include(Position.class, PathFinding.class, Human.class, LumberJack.class, Backpack.class);
         exclude(Builder.class);
     }
 
@@ -37,6 +39,11 @@ public class LumberJackSystem extends System {
             PathFinding pf = e.get(PathFinding.class);
             LumberJack lj = e.get(LumberJack.class);
             LumberJackState lumberJackState = lj.getState();
+            Backpack backpack = e.get(Backpack.class);
+            if(lj.getResourceSprite() == null){
+                lj.setResourceSprite(e.getChildren().get(0).get(Sprite.class));
+            }
+            
             switch (lumberJackState) {
                 case WAITING:
                     // Cada x segundos vamos a por un arbol
@@ -84,6 +91,7 @@ public class LumberJackSystem extends System {
                     if (pf.getTargetCell() == null) {
                         Warehouse wh = lj.getHut().get(Warehouse.class);
                         wh.putContent(ResourceType.RAW_WOOD, 1);
+                        backpack.setCarrying(null);
                         lj.setState(LumberJackState.WAITING);
                     }
                     break;
@@ -95,7 +103,7 @@ public class LumberJackSystem extends System {
                         Building b = lj.getHut().get(Building.class);
                         pf.setTargetCell(b.getEntryCell());
                         lj.setState(LumberJackState.CARRYING);
-
+                        backpack.setCarrying(ResourceType.RAW_WOOD);
                     }
                     break;
 

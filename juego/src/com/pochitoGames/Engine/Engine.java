@@ -44,6 +44,8 @@ import com.pochitoGames.Systems.People.BuilderSystem;
 import com.pochitoGames.Systems.Visual.TextSystem;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 import com.pochitoGames.Systems.GameLogic.TileSelectorSystem;
+import com.pochitoGames.Systems.Other.BackpackSystem;
+import com.pochitoGames.Systems.Other.ThinkingSystem;
 import com.pochitoGames.Systems.Other.TreeSystem;
 import com.pochitoGames.Systems.People.LumberJackSystem;
 import com.pochitoGames.Systems.UI.BuildingPickerSystem;
@@ -95,7 +97,7 @@ public class Engine {
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(), new StoneGeneratorSystem(),
                 new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(), new SawmillSystem(),
-                new MinerSystem(),  new MouseListenerSystem(), new TreeSystem(), new GoldFoundrySystem(), new WarehouseSystem());
+                new MinerSystem(),  new MouseListenerSystem(), new TreeSystem(), new GoldFoundrySystem(), new WarehouseSystem(), new BackpackSystem(), new ThinkingSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         
