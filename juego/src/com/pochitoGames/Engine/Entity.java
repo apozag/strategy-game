@@ -30,11 +30,13 @@ public class Entity {
     Entity parent;
     
     //Igual que tiene una referencia al padre, tiene una referencia a los hijos. 
-    //Una entidad puede tender varios hijos, pèro solo un padre, obviamente.
+    //Una entidad puede tender varios hijos, pero solo un padre, obviamente.
     List<Entity> children;
     
     //Un id único que de momento no sirve para nada
     public final int id;
+    
+    private boolean active = true;
     
                 
     public Entity(Entity parent, int id, Component... c){
@@ -104,6 +106,24 @@ public class Entity {
     
     public List<Component> getComponents(){
         return new ArrayList(components.values());
+    }
+    
+    public void activate(){
+        active = true;
+        for(Entity child : children){
+            child.activate();
+        }
+    }
+    
+    public void deactivate(){
+        active = false;
+        for(Entity child : children){
+            child.deactivate();
+        }
+    }
+    
+    public boolean isActive(){
+        return active;
     }
     
 }

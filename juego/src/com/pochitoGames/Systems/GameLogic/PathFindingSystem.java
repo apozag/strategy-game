@@ -13,7 +13,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 
 import java.util.Comparator;

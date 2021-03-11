@@ -22,7 +22,7 @@ import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.MapInfo;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.WorkerState;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;

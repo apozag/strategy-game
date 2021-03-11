@@ -7,7 +7,7 @@ package com.pochitoGames.Components.GameLogic;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import java.util.LinkedList;
 import java.util.List;
 

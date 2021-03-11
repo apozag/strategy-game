@@ -7,6 +7,7 @@ package com.pochitoGames.Engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 /**
  *
  * @author PochitoMan
@@ -68,7 +69,9 @@ public abstract class System {
     }
 
     public List<Entity> getEntities(){
-        return entities;
+        return entities.stream()
+        .filter(s -> s.isActive())
+        .collect(Collectors.toList());
     }
     
     public void setECS(ECS ecs){

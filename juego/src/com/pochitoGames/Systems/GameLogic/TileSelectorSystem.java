@@ -8,6 +8,7 @@ import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Components.GameLogic.TileSelector;
+import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
@@ -15,7 +16,8 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
+import com.pochitoGames.Misc.Managers.UIManager;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 
 /**
@@ -73,7 +75,8 @@ public class TileSelectorSystem extends System{
                 p.setLocalPos(selectorPos);
                 
                 ts.select(selected);                
-            }   
+            }
+            
                 
         }       
     }           

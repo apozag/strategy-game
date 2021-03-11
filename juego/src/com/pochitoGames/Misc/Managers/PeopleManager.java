@@ -24,7 +24,7 @@ import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Animation;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.LumberJackState;
 import com.pochitoGames.Misc.States.MinerState;

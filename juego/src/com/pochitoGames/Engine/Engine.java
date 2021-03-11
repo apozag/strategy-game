@@ -6,10 +6,11 @@
 package com.pochitoGames.Engine;
 
 import com.pochitoGames.Components.UI.BuildingPicker;
-import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.UI.MouseListener;
+import com.pochitoGames.Components.UI.PanelPicker;
+import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.UI.ResourceText;
 import com.pochitoGames.Components.UI.StoneGenerator;
 import com.pochitoGames.Components.UI.TreeGenerator;
@@ -22,12 +23,12 @@ import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.GameInfoManager;
+import com.pochitoGames.Misc.Managers.UIManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Misc.Other.Vector2i;
 import com.pochitoGames.Systems.Buildings.QuarrySystem;
 import com.pochitoGames.Systems.People.MinerSystem;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
@@ -38,6 +39,7 @@ import com.pochitoGames.Systems.Buildings.GoldFoundrySystem;
 import com.pochitoGames.Systems.Buildings.LumberjackHutSystem;
 import com.pochitoGames.Systems.Buildings.RefinerySystem;
 import com.pochitoGames.Systems.Buildings.SawmillSystem;
+import com.pochitoGames.Systems.Buildings.SchoolSystem;
 import com.pochitoGames.Systems.Buildings.WarehouseSystem;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.BuilderSystem;
@@ -50,6 +52,7 @@ import com.pochitoGames.Systems.Other.TreeSystem;
 import com.pochitoGames.Systems.People.LumberJackSystem;
 import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.MouseListenerSystem;
+import com.pochitoGames.Systems.UI.PanelPickerSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.ResourceTextSystem;
 import com.pochitoGames.Systems.UI.StoneGeneratorSystem;
@@ -94,9 +97,9 @@ public class Engine {
         // Añadir sistemas
         ECS.getInstance().addSystems(new TileMapSystem(), new SpriteSystem(), new SeeThroughSystem(), new WorkerSystem(),
                 new TextSystem(), new TileSelectorSystem(), new BuilderSystem(), new LumberJackSystem(),
-                new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(),
+                new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(), new PanelPickerSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(), new StoneGeneratorSystem(),
-                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(), new SawmillSystem(),
+                new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(), new SawmillSystem(), new SchoolSystem(),
                 new MinerSystem(),  new MouseListenerSystem(), new TreeSystem(), new GoldFoundrySystem(), new WarehouseSystem(), new BackpackSystem(), new ThinkingSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
@@ -105,7 +108,9 @@ public class Engine {
         Entity tilemap = ECS.getInstance().createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png", 30, 30, 64, 32, TilesetMode.ISOMETRIC));
+                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", 
+                        "src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png", 
+                        120, 120, 64, 32, TilesetMode.ISOMETRIC));
         ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true,1.0f),
                 new Position(new Vector2D(0, 0)),
@@ -130,6 +135,13 @@ public class Engine {
                 new Position(new Vector2D(50, window.getHeight()-200), true), 
                 new MouseListener(1)
         );
+        
+        Entity peoplePanel = ECS.getInstance().createEntity(null,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false, 1.0f),
+                new Position(new Vector2D(50, window.getHeight()-200), true), 
+                new MouseListener(1)
+        );
+
 
 //////////////// EDIFICIOS ///////////////////////
 
@@ -254,8 +266,25 @@ public class Engine {
 
 ///////////////// PERSONAJES //////////////////////        
         
+
+
+        // Boton atrás
+        Entity buttonBack = ECS.getInstance().createEntity(peoplePanel,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
+                        new Animation(1, 100, 50, 50, 0, 0),
+                        new Animation(1, 100, 50, 50, 50, 0)),
+                new Position(new Vector2D(10, 40), true),
+                new UIButton(),
+                new PanelPicker("MAIN"),
+                new MouseListener(2)
+        );
+        ECS.getInstance().createEntity(buttonBack, 
+                new Position(new Vector2D(25, 25), true),
+                new Text("←", Color.BLACK, true)
+            );
+
         // Boton crear builder
-        Entity buttonB = ECS.getInstance().createEntity(uiPanel,
+        Entity buttonB = ECS.getInstance().createEntity(peoplePanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -270,7 +299,7 @@ public class Engine {
             );
 
         // Boton crear Worker
-        Entity buttonW = ECS.getInstance().createEntity(uiPanel,
+        Entity buttonW = ECS.getInstance().createEntity(peoplePanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -284,7 +313,7 @@ public class Engine {
                 new Text("W", Color.BLACK, true)
             );
         // Boton crear MINERO  
-        Entity buttonMinero = ECS.getInstance().createEntity(uiPanel,
+        Entity buttonMinero = ECS.getInstance().createEntity(peoplePanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -299,7 +328,7 @@ public class Engine {
             );
         
         // Boton crear MINERO  
-        Entity buttonLeñador = ECS.getInstance().createEntity(uiPanel,
+        Entity buttonLeñador = ECS.getInstance().createEntity(peoplePanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -362,6 +391,11 @@ public class Engine {
                 new ResourceText(ResourceType.WOOD)
         );
 
+        
+        // Añanir a UI manager
+        UIManager.getInstance().addPanel("MAIN", uiPanel);
+        UIManager.getInstance().addPanel("PEOPLE", peoplePanel);
+        UIManager.getInstance().activatePanel("MAIN");
 
     }
 

@@ -11,6 +11,7 @@ import com.pochitoGames.Components.Buildings.LumberjackHut;
 import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Refinery;
 import com.pochitoGames.Components.Buildings.Sawmill;
+import com.pochitoGames.Components.Buildings.School;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.UI.MouseListener;
@@ -23,7 +24,7 @@ import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.Animation;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Misc.Other.BuildingInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
 import java.io.IOException;
@@ -57,73 +58,8 @@ public class BuildingManager {
 
     // buildings contiene la lista de edificios creados
     private List<Building> buildings;
-
+    
     private BuildingManager() {
-        //              tipo                                         id      pos entrada         ancho y largo    altura     imagen
-        /*
-        blueprints.put(TypeBuilding.CASTLE,         new BuildingInfo(100, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png"));          
-        blueprints.put(TypeBuilding.QUARRY,         new BuildingInfo(101, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png")); 
-        blueprints.put(TypeBuilding.CANTEEN,        new BuildingInfo(102, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png")); 
-        blueprints.put(TypeBuilding.SCHOOL,         new BuildingInfo(103, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png")); 
-        blueprints.put(TypeBuilding.SAWMILL,        new BuildingInfo(104, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png")); 
-        blueprints.put(TypeBuilding.REFINERY,       new BuildingInfo(105, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png"));   
-        blueprints.put(TypeBuilding.GOLD_FOUNDRY,   new BuildingInfo(106, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_coin.png"));   
-        blueprints.put(TypeBuilding.LUMBERJACK_HUT, new BuildingInfo(107, new Vector2i(-1, 0), new Vector2i(2, 2), 1, "src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png"));   
-        blueprints.put(TypeBuilding.FLOOR,          new BuildingInfo(6,   new Vector2i(0, 0),  new Vector2i(1, 1), 0, "src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png"));                                                                // Suelo
-
-        resourcesNeeded.put(TypeBuilding.SAWMILL, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-                put(ResourceType.STONE, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.QUARRY, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-                put(ResourceType.STONE, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.CANTEEN, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-                put(ResourceType.STONE, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.SCHOOL, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-                put(ResourceType.STONE, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.CASTLE, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 0);
-                put(ResourceType.STONE, 0);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.REFINERY, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-                put(ResourceType.STONE, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.GOLD_FOUNDRY, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-                put(ResourceType.STONE, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.LUMBERJACK_HUT, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.WOOD, 2);
-            }
-        });
-        resourcesNeeded.put(TypeBuilding.FLOOR, new HashMap<ResourceType, Integer>() {
-            {
-                put(ResourceType.STONE, 1);
-            }
-        });       
-         */
         buildings = new ArrayList<>();
 
         loadBuildingInfo();
@@ -136,22 +72,16 @@ public class BuildingManager {
         return instance;
     }
 
-    /*
-    // Esta funcion es mala idea
-    public void addBuilding(Building b) {
-        buildings.add(b);
-    }
-     */
-    public void build(TypeHuman ownerType, TypeBuilding type, Vector2i cell) {
+    public boolean build(TypeHuman ownerType, TypeBuilding type, Vector2i cell) {
 
         if (cell.col < 0 || cell.col >= MapInfo.getInstance().getWidth() || cell.row < 0 || cell.row >= MapInfo.getInstance().getHeight()) {
-            return;
+            return false;
         }
 
         final BuildingInfo b = blueprints.get(type);
 
         if (!canBuild(type, cell)) {
-            return;
+            return false;
         }
 
         for (int i = 0; i < b.size.col; i++) {
@@ -199,7 +129,9 @@ public class BuildingManager {
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
                         new MouseListener(0),
-                        newBuilding);
+                        newBuilding,
+                        new School()
+                );
                 break;
             case CANTEEN:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
@@ -276,6 +208,8 @@ public class BuildingManager {
         }
 
         buildings.add(newBuilding);
+        
+        return true;
     }
 
     // Devuelve true si se puede construir un edificio del tipo type en la casilla cell

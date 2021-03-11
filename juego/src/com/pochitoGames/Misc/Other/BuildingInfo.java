@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Misc.Other;
 
+import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import java.util.Map;
 

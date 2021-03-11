@@ -10,10 +10,10 @@ import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
-import com.pochitoGames.Engine.MouseEventData;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import java.util.Comparator;
+import java.util.List;
 /**
  *
  * @author PochitoMan
@@ -31,14 +31,18 @@ public class MouseListenerSystem extends System{
     public void update(double dt) {
         
         if(!started){
-            getEntities().sort(new SortByLayer());
+            
             //started = true;
         }
+        List<Entity> entities = getEntities();
+        entities.sort(new SortByLayer());
         boolean pointBlock = false;
         Vector2D mousePos = EventManager.getInstance().getMousePos();
-        for(Entity e : getEntities()){
+        for(Entity e : entities){
             MouseListener ml = e.get(MouseListener.class);
             Sprite s = e.get(Sprite.class);
+            ml.releasedLeft = false;
+            ml.releasedRight = false;
             if(SpriteSystem.isInsideSprite(s, mousePos)){
                 // Click Izq
                 if(!pointBlock && EventManager.getInstance().isMouseLeftPressed()){
@@ -46,18 +50,14 @@ public class MouseListenerSystem extends System{
                         ml.firstTickLeft = false;
                     else{
                         ml.downLeft = true;
-                        ml.firstTickLeft = true;
+                        ml.firstTickLeft = EventManager.getInstance().isMouseLeftClicked();
                     }
                     // Bloquea el click para el resto
                     pointBlock = true;
                 } 
-                else{
-                    //if(ml.releasedLeft)
-                        //ml.releasedLeft = false;
-                    //else{
-                        ml.downLeft = false;
-                        ml.releasedLeft = true;
-                    //}
+                else if(ml.downLeft){
+                    ml.downLeft = false;
+                    ml.releasedLeft = true;
                 }
                 
                 // Click Dch
@@ -66,23 +66,21 @@ public class MouseListenerSystem extends System{
                         ml.firstTickRight = false;
                     else{
                         ml.downRight = true;
-                        ml.firstTickRight = true;
+                        ml.firstTickRight = EventManager.getInstance().isMouseRightClicked();
                     }
                     // Bloquea el click para el resto
                     pointBlock = true;
                 }
-                else{
-                    //if(ml.releasedRight)
-                        ml.releasedRight = false;
-                    //else{
-                        ml.downRight = false;
-                        ml.releasedRight = true;
-                    //}
+                else if(ml.downRight){
+                    ml.downRight = false;
+                    ml.releasedRight = true;
                 }
                 // MouseEnter
                 ml.mouseOver = true;
             }
             else{
+                ml.firstTickLeft = false;                
+                ml.firstTickRight = false;                
                 ml.mouseOver = false;
                 if(ml.releasedLeft)
                         ml.releasedLeft = false;

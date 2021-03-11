@@ -7,7 +7,7 @@ package com.pochitoGames.Components.Other;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 
 /**
  *

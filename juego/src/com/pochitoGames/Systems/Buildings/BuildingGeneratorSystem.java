@@ -17,7 +17,7 @@ import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.GameInfoManager;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import java.awt.Color;
 
 /**
@@ -50,6 +50,7 @@ public class BuildingGeneratorSystem extends System{
             Sprite tempS = tempImage.get(Sprite.class);            
             
             if(buildingId != null){    
+                ml.layer = 0;
                 s.setVisible(false);
                 // Si no se puede construir, se pone en rojo la imagen                
                 if(!BuildingManager.getInstance().canBuild(buildingId, selected)){
@@ -58,12 +59,12 @@ public class BuildingGeneratorSystem extends System{
                 else{
                     tempS.dye(Color.white);
                     if(ml.downLeft && ml.firstTickLeft){                
-                        BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), buildingId, selected);
                         // Quitamos imagen transparente
                         /////////////////////// CUIDADO ///////////////////////////////
                         // ¡Posible bug si cambia el orden de update de los sistemass!
                         //////////////////////////////////////////////////////////////
-                        if(buildingId != TypeBuilding.FLOOR){
+                        if(BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), buildingId, selected) && 
+                                buildingId != TypeBuilding.FLOOR){
                             buildingId = null;
                             tempS.setTransparency(0.0f);
                         }
@@ -78,6 +79,7 @@ public class BuildingGeneratorSystem extends System{
             }
             else{
                 s.setVisible(true);
+                ml.layer = -1;
             }
         }
     }

@@ -12,7 +12,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.StoneManager;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 /**
  *
  * @author PochitoMan

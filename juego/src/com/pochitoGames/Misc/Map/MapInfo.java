@@ -6,7 +6,7 @@
 package com.pochitoGames.Misc.Map;
 
 import com.pochitoGames.Components.Visual.TileMap;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 
 import java.util.Map;
 

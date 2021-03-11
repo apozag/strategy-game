@@ -6,7 +6,7 @@ import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Misc.States.LumberJackState;
 
 public class LumberJack extends Component {

@@ -6,33 +6,30 @@
 package com.pochitoGames.Systems.UI;
 
 import com.pochitoGames.Components.UI.MouseListener;
-import com.pochitoGames.Components.UI.PeopleGenerator;
-import com.pochitoGames.Components.UI.UIButton;
+import com.pochitoGames.Components.UI.PanelPicker;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
-import com.pochitoGames.Misc.Managers.PeopleManager;
-import com.pochitoGames.Engine.Vector2i;
-import com.pochitoGames.Systems.Buildings.SchoolSystem;
+import com.pochitoGames.Misc.Managers.UIManager;
 
 /**
  *
  * @author PochitoMan
  */
+public class PanelPickerSystem extends System{
 
-public class PeopleGeneratorSystem extends System{
-
-    public PeopleGeneratorSystem(){
-        include(UIButton.class, PeopleGenerator.class, MouseListener.class);
+    public PanelPickerSystem(){
+        include(PanelPicker.class, MouseListener.class);
         exclude();
     }
     
     @Override
     public void update(double dt) {
         for(Entity e : getEntities()){
+            PanelPicker pp = e.get(PanelPicker.class);
             MouseListener ml = e.get(MouseListener.class);
-            PeopleGenerator pg = e.get(PeopleGenerator.class);
-            if(ml.downLeft && ml.firstTickLeft){
-                SchoolSystem.addToQueue(pg.getRole());
+            
+            if(ml.firstTickLeft){
+                UIManager.getInstance().activatePanel(pp.getTag());
             }
         }
     }

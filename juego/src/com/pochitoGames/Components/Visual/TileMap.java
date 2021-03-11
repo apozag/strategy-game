@@ -7,7 +7,7 @@ package com.pochitoGames.Components.Visual;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Misc.Map.TilesetMode;
-import com.pochitoGames.Misc.Other.Vector2i;
+import com.pochitoGames.Engine.Vector2i;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
