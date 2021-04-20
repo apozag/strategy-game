@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildings>
+
+    <building type = "CASTLE">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+
+        <id>100</id>
+    
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_castle.png</img>
+
+        <resourcesneeded>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "YES">
+            <resource type = "WOOD" transferable = "NO"> 
+                <amount>200</amount>
+                <capacity>500</capacity>
+            </resource>
+
+            <resource type = "STONE" transferable = "NO">  
+                <amount>200</amount>
+                <capacity>500</capacity>
+            </resource>
+
+            <resource type = "GOLD" transferable = "NO">  
+                <amount>200</amount>
+                <capacity>500</capacity>                
+            </resource>
+
+        </warehouse>
+
+    </building>
+
+    <building type = "QUARRY">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>101</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "NO">
+            <resource type = "RAW_GOLD" transferable = "YES"> 
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+            <resource type = "RAW_STONE" transferable = "YES">  
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+        </warehouse>
+
+    </building>
+
+    <building type = "CANTEEN">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>102</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+    </building>
+
+    <building type = "SCHOOL">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>103</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+    </building>
+
+    <building type = "SAWMILL">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>104</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "NO">
+            <resource type = "RAW_WOOD" transferable = "NO"> 
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+            <resource type = "WOOD" transferable = "YES">  
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+        </warehouse>
+
+    </building>
+
+    <building type = "REFINERY">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>106</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "NO">
+            <resource type = "RAW_STONE" transferable = "NO"> 
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+            <resource type = "STONE" transferable = "YES">  
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+        </warehouse>
+
+    </building>   
+
+        <building type = "GOLD_FOUNDRY">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>107</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_coin.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "NO">
+            <resource type = "RAW_GOLD" transferable = "NO"> 
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+            <resource type = "GOLD" transferable = "YES">  
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+        </warehouse>
+
+    </building> 
+
+    <building type = "LUMBERJACK_HUT">
+
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+    
+        <id>108</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_wood.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">2</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "NO">
+            <resource type = "RAW_WOOD" transferable = "YES"> 
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+
+        </warehouse>
+
+    </building>
+
+    <building type = "FLOOR">
+
+        <life>0</life>
+        <defense>0</defense>
+        <attack>0</attack>
+    
+        <id>6</id>
+
+        <entry>
+            <x>0</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>1</x>
+            <y>1</y>
+        </size>
+
+        <height>0</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png</img>
+
+        <resourcesneeded>
+            <resource type = "STONE">1</resource>
+        </resourcesneeded>
+
+    </building>
+</buildings>
