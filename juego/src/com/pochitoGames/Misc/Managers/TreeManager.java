@@ -26,9 +26,7 @@ import java.util.List;
 public class TreeManager {
     private static TreeManager instance;
 
-    List<Tree> trees = new LinkedList<>();
-
-
+    private List<Tree> trees = new LinkedList<>();
 
     private TreeManager() {
 
