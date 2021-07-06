@@ -25,7 +25,6 @@ public class LumberJackSystem extends System {
     private int choppedTrees;
     private int plantedTrees;
     private boolean plant = false;
-    private List<Tree> treesList = TreeManager.getInstance().getTrees();
 
     public LumberJackSystem() {
         include(Position.class, PathFinding.class, Human.class, LumberJack.class, Backpack.class);
@@ -46,7 +45,6 @@ public class LumberJackSystem extends System {
             
             switch (lumberJackState) {
                 case WAITING:
-                    // Cada x segundos vamos a por un arbol
                     if(lj.getHut() != null ){
                         if (java.lang.System.currentTimeMillis() - lj.getLastTime() > lj.getWaitTime()) {
                             lj.setState(LumberJackState.SEARCHING_TREE);
@@ -133,10 +131,15 @@ public class LumberJackSystem extends System {
                         pf.setTargetCell(MapInfo.getInstance().getCloseCell(tree.getCell(), false, false));
                         lj.setState(LumberJackState.WALKING_TREE);
                         lj.setTree(tree);
-                        tree.setTaken();;
+                        tree.setTaken();
                     } else {
-                        lj.setLastTime(java.lang.System.currentTimeMillis());
-                        lj.setState(LumberJackState.WAITING);
+                        java.util.Random rand = new java.util.Random();         
+                        int min = 10;
+                        int max = 100;
+                        int col = (int)(min + rand.nextFloat() * (max-min+1));
+                        int row = (int)(min + rand.nextFloat() * (max-min+1));
+                        lj.lastPlantableCell = MapInfo.getInstance().clampCellToBounds(Vector2i.add(pf.getCurrent(), new Vector2i(col, row)));
+                        lj.setState(LumberJackState.WALKING_PLANTING);
                     }
             }
         }

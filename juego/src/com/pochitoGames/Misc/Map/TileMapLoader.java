@@ -8,6 +8,7 @@ package com.pochitoGames.Misc.Map;
 import com.pochitoGames.Components.Visual.CompoundTileMap;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Engine.ImageManager;
+import com.pochitoGames.MapGeneratorLogic;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author PochitoMan
  */
 
@@ -85,19 +85,19 @@ public class TileMapLoader {
             String cost = "";
             String line = lines[i];
             int charIdx = 0;
-            while(line.charAt(charIdx) != ','){
+            while (line.charAt(charIdx) != ',') {
                 idx += line.charAt(charIdx);
                 charIdx++;
             }
             charIdx++;
-            while(charIdx < line.length() - 1){
+            while (charIdx < line.length() - 1) {
                 cost += line.charAt(charIdx);
                 charIdx++;
             }
             walkCost.put(Integer.parseInt(idx), Integer.parseInt(cost));
-       }
+        }
 
-       BufferedImage image = ImageManager.getImage(imagePath);
+        BufferedImage image = ImageManager.getImage(imagePath);
 
        CompoundTileMap compoundTileMap = new CompoundTileMap(image, map, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
        
@@ -107,5 +107,5 @@ public class TileMapLoader {
        
        return compoundTileMap;
 
-   }
+    }
 }

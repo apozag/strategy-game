@@ -119,6 +119,8 @@ public class MapInfo{
         return cell;
     }
     
-    
+    public Vector2i clampCellToBounds(Vector2i cell){
+        return new Vector2i(Math.max(0, Math.min(cell.col, map.length)), Math.max(0, Math.min(cell.row, map[0].length)));
+    }
 }
 
