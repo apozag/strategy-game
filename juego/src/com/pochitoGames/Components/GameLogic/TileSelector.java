@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Components.GameLogic;
 
+import com.pochitoGames.Components.Visual.CompoundTileMap;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
@@ -15,17 +16,17 @@ import com.pochitoGames.Engine.Vector2i;
  * @author PochitoMan
  */
 public class TileSelector extends Component{
-    TileMap tileMap;
+    CompoundTileMap tileMap;
     
     Vector2i selected;
     
     private boolean visible = true;
     
-    public TileSelector(TileMap tm){
+    public TileSelector(CompoundTileMap tm){
         this.tileMap = tm;
     }
     
-    public TileMap getMap(){
+    public CompoundTileMap getMap(){
         return tileMap;
     }
     

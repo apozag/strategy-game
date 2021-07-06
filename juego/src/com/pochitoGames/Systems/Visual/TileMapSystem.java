@@ -66,7 +66,7 @@ public class TileMapSystem extends System{
                         int row = tm.getMap()[cell.col][cell.row] / tm.getTilesetW();
                         int column = tm.getMap()[cell.col][cell.row] - row * tm.getTilesetW();
                         tile = tm.getTileset().getSubimage(column * tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
-                        Vector2D pos = IsometricTransformations.isoToCartesian(new Vector2i(cell.col, cell.row));
+                        Vector2D pos = IsometricTransformations.isoToCartesian(new Vector2i(cell.col, cell.row), tm);
                         g2d.drawImage(tile, (int)pos.x, (int)pos.y, null);
                     }
                 }
@@ -77,7 +77,7 @@ public class TileMapSystem extends System{
                         for(int j = 0; j < map[i].length; j++){
                             int row = map[i][j] / tm.getTilesetW();
                             int column = map[i][j] - row * tm.getTilesetW();
-                            Vector2D tilePos = IsometricTransformations.isoToCartesian(new Vector2i(i, j));//indexToCartesian(i, j, tm);
+                            Vector2D tilePos = IsometricTransformations.isoToCartesian(new Vector2i(i, j), tm);//indexToCartesian(i, j, tm);
                             tile = tm.getTileset().getSubimage(column*tm.getTileW(), row * tm.getTileH(), tm.getTileW(), tm.getTileH());
                             g2d.drawImage(tile, (int)tilePos.x, (int)tilePos.y , null);
                         }

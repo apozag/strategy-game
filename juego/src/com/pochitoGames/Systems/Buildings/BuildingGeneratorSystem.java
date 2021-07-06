@@ -45,7 +45,6 @@ public class BuildingGeneratorSystem extends System{
             MouseListener ml = e.get(MouseListener.class);
             TileSelector ts = e.get(TileSelector.class);
             Sprite s = e.get(Sprite.class);
-            TileMap map = ts.getMap();
             Vector2i selected = ts.getSelected();                    
             Sprite tempS = tempImage.get(Sprite.class);            
             

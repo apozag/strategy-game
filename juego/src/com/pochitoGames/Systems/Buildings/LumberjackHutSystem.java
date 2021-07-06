@@ -43,7 +43,7 @@ public class LumberjackHutSystem extends System{
                     if(lj != null && lj.getHut() == null){
                         ljh.setLumberjack(lj);
                         PathFinding pf = lj.getEntity().get(PathFinding.class);
-                        pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), b.getEntryCell(), lj.getEntity().getId(),false));
+                        pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), b.getEntryCell(), lj.getEntity().getId(), false));
                         if(pf.getSteps() != null){
                             lj.setHut(e);
                             pf.setTargetCell(b.getEntryCell());

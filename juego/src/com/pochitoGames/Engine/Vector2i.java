@@ -33,19 +33,19 @@ public class Vector2i {
     }
 
     public int manhattan() {
-        return col + row;
+        return Math.abs(col) + Math.abs(row);
     }
 
     public static Vector2i add(Vector2i v1, Vector2i v2) {
         return new Vector2i(v1.col + v2.col, v1.row + v2.row);
     }
+    
+    public static Vector2i sub(Vector2i v1, Vector2i v2) {
+        return new Vector2i(v1.col - v2.col, v1.row - v2.row);
+    }
 
     public static Vector2i mult(Vector2i v, int i) {
         return new Vector2i(v.col * i, v.row * i);
-    }
-
-    public static Vector2i distanceBeetwen (Vector2i v1, Vector2i v2){
-        return new Vector2i(v2.col - v1.col, v2.row - v1.row);
     }
 
     public static boolean isBigger (Vector2i v1, Vector2i v2){

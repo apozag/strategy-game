@@ -18,6 +18,10 @@ public class Vector2D {
         this.x = v.x;
         this.y = v.y;
     }
+    public Vector2D(Vector2i v){
+        this.x = v.col;
+        this.y = v.row;
+    }
     
     public void set(float x, float y){this.x = x; this.y = y;}
     

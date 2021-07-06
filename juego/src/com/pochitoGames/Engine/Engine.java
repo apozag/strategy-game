@@ -25,6 +25,7 @@ import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.GameInfoManager;
 import com.pochitoGames.Misc.Managers.UIManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
+import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.Animation;
@@ -105,16 +106,25 @@ public class Engine {
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         
         // Crear Mapa y selector de tile
+        /*
         Entity tilemap = ECS.getInstance().createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
                 TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", 
                         "src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png", 
                         120, 120, 64, 32, TilesetMode.ISOMETRIC));
+*/
+        Entity compoundTileMap = ECS.getInstance().createEntity(null,
+                new Sprite(),
+                new Position(new Vector2D(0, 0)),
+                TileMapLoader.LoadCompoundTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", 
+                        "src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png", 
+                        120, 120, 64, 32, TilesetMode.ISOMETRIC));
+        
         ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\selected_tile.png", new Vector2D(0, 0.5f), true,1.0f),
                 new Position(new Vector2D(0, 0)),
-                new TileSelector(tilemap.get(TileMap.class)),
+                new TileSelector(compoundTileMap.get(TileMap.class)),
                 new MouseListener(0)
         );
 
@@ -124,7 +134,9 @@ public class Engine {
         PeopleManager.getInstance().createCharacter(GameInfoManager.getInstance().getPlayerType(), TypeRole.WORKER, new Vector2i(1, 1));
 
         // Edificio inicial (Castillo)
-        BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), TypeBuilding.CASTLE, new Vector2i(4, 4));      
+        BuildingManager.getInstance().build(GameInfoManager.getInstance().getPlayerType(), TypeBuilding.CASTLE, new Vector2i(4, 4));    
+        
+        Camera.getInstance().setPos(IsometricTransformations.isoToCartesian(BuildingManager.getInstance().getNearestBuilding(new Vector2i(0, 0), TypeBuilding.CASTLE).getEntryCell()));
 
         ///////////////////////////////
         ///////    INTERFAZ     ///////

@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Misc.Map;
 
+import com.pochitoGames.Components.Visual.CompoundTileMap;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Engine.Vector2i;
 
@@ -19,7 +20,7 @@ public class MapInfo{
     int[][] map;
     int[][] peopleLayer;
     Map <Integer, Integer> walkCost;
-    TileMap activeTileMap;
+    CompoundTileMap activeTileMap;
     
     private MapInfo(){
         
@@ -42,11 +43,11 @@ public class MapInfo{
         }
     }
     
-    public void setActiveTileMap(TileMap map){
+    public void setActiveTileMap(CompoundTileMap map){
         activeTileMap = map;
     }
     
-    public TileMap getActiveTileMap(){
+    public CompoundTileMap getActiveTileMap(){
         return activeTileMap;
     }
     

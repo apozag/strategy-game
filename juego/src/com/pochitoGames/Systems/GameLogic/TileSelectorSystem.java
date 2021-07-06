@@ -9,6 +9,7 @@ import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.UI.MouseListener;
+import com.pochitoGames.Components.Visual.CompoundTileMap;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.EventManager;
@@ -38,7 +39,6 @@ public class TileSelectorSystem extends System{
         for(Entity e : getEntities()){
             Position p = ((Position)(e.get(Position.class)));
             TileSelector ts = ((TileSelector)(e.get(TileSelector.class)));
-            TileMap tm = ts.getMap();
                         
             Vector2D mousePos = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
             if(mousePos.x > 0 && mousePos.y > 0){

@@ -5,6 +5,7 @@
  */
 package com.pochitoGames.Misc.Map;
 
+import com.pochitoGames.Components.Visual.CompoundTileMap;
 import com.pochitoGames.Components.Visual.TileMap;
 import com.pochitoGames.Engine.ImageManager;
 
@@ -25,7 +26,8 @@ import java.util.logging.Logger;
 //Solo carga un TileMap y lo devuelve. 
 //Se llama al método de forma estática.
 public class TileMapLoader {
-    public static TileMap LoadTileMap(String mapFile, String costFile, String imagePath, int height, int width, int tileW, int tileH, TilesetMode mode){
+    
+    public static CompoundTileMap LoadCompoundTileMap(String mapFile, String costFile, String imagePath, int height, int width, int tileW, int tileH, TilesetMode mode){
        String data = ""; 
        try { 
            data = new String(Files.readAllBytes(Paths.get(mapFile)));
@@ -97,13 +99,13 @@ public class TileMapLoader {
 
        BufferedImage image = ImageManager.getImage(imagePath);
 
-       TileMap tileMap = new TileMap(image, map, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
+       CompoundTileMap compoundTileMap = new CompoundTileMap(image, map, tileW, tileH, image.getWidth() / tileW, image.getHeight() / tileH, mode);
        
        MapInfo.getInstance().setMap(mapInfo);
        MapInfo.getInstance().setWalkCost(walkCost);
-       MapInfo.getInstance().setActiveTileMap(tileMap);
+       MapInfo.getInstance().setActiveTileMap(compoundTileMap);
        
-       return tileMap;
+       return compoundTileMap;
 
    }
 }
