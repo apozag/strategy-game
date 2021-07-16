@@ -143,6 +143,48 @@ public class Sprite extends Component {
         }
         this.anchor = anchor;
         this.transparency = transparency;
+    }    
+
+    //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen directamete
+    public Sprite(String path,  Vector2D anchor, boolean updateDepth, float transparency, List<Animation> animations) {
+        BufferedImage img = ImageManager.getImage(path);
+        this.updateDepth = updateDepth;
+        if (updateDepth) {
+            depth = 0;
+        } else {
+            depth = Float.MAX_VALUE;
+        }        
+        
+        
+        if(img == null)
+            srcSize = new Vector2D(0, 0);
+        else{
+            if(animations == null || animations.isEmpty()){
+                srcPos = new Vector2D(0, 0);
+                srcSize = new Vector2D(img.getWidth(), img.getHeight());
+                this.image = new BufferedImage[1][];
+                this.image[0] = new BufferedImage[1];
+                this.image[0][0] = img;
+                this.animations = new LinkedList<>();
+                this.animations.add(new Animation(1, 100, (int)srcSize.x, (int)srcSize.y, 0, 0));
+            }
+            else{
+                int idx = 0;
+                this.image = new BufferedImage[animations.size()][];
+                this.animations = animations;
+                for (Animation anim : animations) {
+
+                    this.image[idx] = new BufferedImage[anim.getFrames()];
+                    for(int i = 0; i < anim.getFrames(); i++){
+                        this.image[idx][i] = img.getSubimage((int)anim.getXoffset() + (int)anim.getSize().x * i, (int)anim.getYoffset(), (int)anim.getSize().x, (int)anim.getSize().y);            
+                    }
+                    idx++;
+                }
+                srcSize = new Vector2D(this.image[0][0].getWidth(), this.image[0][0].getHeight());
+            }
+        }
+        this.anchor = anchor;
+        this.transparency = transparency;
     }
 
     public void setSrcSize(Vector2D size) {
@@ -271,5 +313,9 @@ public class Sprite extends Component {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+    
+    public void addAnimation(Animation animation){
+        animations.add(animation);
     }
 }

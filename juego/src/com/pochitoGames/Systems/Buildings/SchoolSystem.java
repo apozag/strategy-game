@@ -45,7 +45,6 @@ public class SchoolSystem extends System{
                 }
                 
                 if(ml.firstTickLeft){
-                    UIManager.getInstance().activatePanel("PEOPLE");
                     activeSchool = s;
                 }                
             }

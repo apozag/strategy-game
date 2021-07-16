@@ -6,7 +6,7 @@
 package com.pochitoGames.Systems.UI;
 
 import com.pochitoGames.Components.UI.MouseListener;
-import com.pochitoGames.Components.UI.PanelPicker;
+import com.pochitoGames.Components.UI.PanelActivator;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.Managers.UIManager;
@@ -18,14 +18,14 @@ import com.pochitoGames.Misc.Managers.UIManager;
 public class PanelPickerSystem extends System{
 
     public PanelPickerSystem(){
-        include(PanelPicker.class, MouseListener.class);
+        include(PanelActivator.class, MouseListener.class);
         exclude();
     }
     
     @Override
     public void update(double dt) {
         for(Entity e : getEntities()){
-            PanelPicker pp = e.get(PanelPicker.class);
+            PanelActivator pp = e.get(PanelActivator.class);
             MouseListener ml = e.get(MouseListener.class);
             
             if(ml.firstTickLeft){

@@ -3,14 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/BinaryTree.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Map/IsometricTransformations.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Vector2D.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Visual/CompoundTileMap.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/GameLogic/PathFindingSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/UIManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Managers/BuildingManager.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/UI/PanelPickerSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/PanelActivator.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Entity.java</file>
             <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Engine.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/Camera.java</file>
-            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/LumberjackHutSystem.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Engine/ECS.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/GameLogic/Position.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Other/RectAlignment.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/Visual/Sprite.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/MouseListener.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Components/UI/PanelRect.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Misc/Other/AlignmentType.java</file>
+            <file>file:/E:/Escritorio/strategy-game/juego/src/com/pochitoGames/Systems/Buildings/SchoolSystem.java</file>
         </group>
     </open-files>
 </project-private>

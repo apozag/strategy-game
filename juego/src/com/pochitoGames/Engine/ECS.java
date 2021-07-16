@@ -80,9 +80,6 @@ public class ECS {
         //Lo añadimoos a la lista de entidades pendientes por meter en los sistemas
         entitiesToCreate.add(e);
         
-        if(parent != null)
-            parent.addChild(e);
-        
         return e;
     }
     

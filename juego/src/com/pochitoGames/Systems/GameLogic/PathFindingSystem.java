@@ -117,7 +117,8 @@ public class PathFindingSystem extends System {
         if (start != null && end != null && MapInfo.getInstance().getTileWalkCost(end) >= 0 && end.col >= 0 && end.col < map.length && end.row >= 0 && end.row < map[0].length) {
             
             int totalDistance = end.distance(start);
-            Comparator comparator = totalDistance < 40? new SortByCostOptimal() : new SortByCost();
+            int minOptimalDistance = 40;
+            Comparator comparator = totalDistance < minOptimalDistance? new SortByCostOptimal() : new SortByCost();
             
             //En open estan los candidatos a visitar
             PriorityQueue<Node> open = new PriorityQueue<>(100, comparator);

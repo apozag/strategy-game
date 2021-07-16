@@ -5,6 +5,8 @@
  */
 package com.pochitoGames.Engine;;
 
+import org.w3c.dom.Node;
+
 /**
  *
  * @author PochitoMan
@@ -24,4 +26,6 @@ public abstract class Component {
     public Entity getEntity(){
         return e;
     }
+    
+    public void Component(Node xmlNode){}
 }

@@ -33,13 +33,9 @@ public class SpriteSystem extends System{
 
                 if(s.getImage() != null && s.getCurrentAnimationIndex() >= 0){
                     Animation anim = s.getCurrentAnimation();
-                    //Vector2D srcSize = anim.getSize();
-                    //Vector2D srcPos = new Vector2D();
-                    //srcPos.y = anim.getYoffset();
                     s.setCurrentFrame((int)(java.lang.System.currentTimeMillis() / anim.getSpeed() % anim.getFrames()));
-                    //s.setSrcSize(srcSize);
-                    //s.setSrcPos(srcPos);
                 }
+                
                 if(s.isDepthUpdated())
                     s.setDepth(p.getWorldPos().y);
 

@@ -9,7 +9,8 @@ import com.pochitoGames.Components.UI.BuildingPicker;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.GameLogic.TileSelector;
 import com.pochitoGames.Components.UI.MouseListener;
-import com.pochitoGames.Components.UI.PanelPicker;
+import com.pochitoGames.Components.UI.PanelActivator;
+import com.pochitoGames.Components.UI.PanelRect;
 import com.pochitoGames.Components.UI.PeopleGenerator;
 import com.pochitoGames.Components.UI.ResourceText;
 import com.pochitoGames.Components.UI.StoneGenerator;
@@ -28,6 +29,7 @@ import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.TileMapLoader;
 import com.pochitoGames.Misc.Map.TilesetMode;
+import com.pochitoGames.Misc.Other.AlignmentType;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Systems.Buildings.QuarrySystem;
@@ -62,6 +64,7 @@ import com.pochitoGames.Systems.UI.UIButtonSystem;
 import com.pochitoGames.Systems.Visual.SeeThroughSystem;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * @author PochitoMan
@@ -141,14 +144,20 @@ public class Engine {
         ///////////////////////////////
         ///////    INTERFAZ     ///////
         ///////////////////////////////
-
+/*
         Entity uiPanel = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false, 1.0f),
                 new Position(new Vector2D(50, window.getHeight()-200), true), 
                 new MouseListener(1)
         );
         
-        Entity peoplePanel = ECS.getInstance().createEntity(null,
+        Entity schoolPanel = ECS.getInstance().createEntity(null,
+                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false, 1.0f),
+                new Position(new Vector2D(50, window.getHeight()-200), true), 
+                new MouseListener(1)
+        );
+        
+        Entity Panel = ECS.getInstance().createEntity(null,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png", new Vector2D(0, 0), false, 1.0f),
                 new Position(new Vector2D(50, window.getHeight()-200), true), 
                 new MouseListener(1)
@@ -281,13 +290,13 @@ public class Engine {
 
 
         // Boton atrás
-        Entity buttonBack = ECS.getInstance().createEntity(peoplePanel,
+        Entity buttonBack = ECS.getInstance().createEntity(schoolPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
                 new Position(new Vector2D(10, 40), true),
                 new UIButton(),
-                new PanelPicker("MAIN"),
+                new PanelActivator("MAIN"),
                 new MouseListener(2)
         );
         ECS.getInstance().createEntity(buttonBack, 
@@ -296,7 +305,7 @@ public class Engine {
             );
 
         // Boton crear builder
-        Entity buttonB = ECS.getInstance().createEntity(peoplePanel,
+        Entity buttonB = ECS.getInstance().createEntity(schoolPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -311,7 +320,7 @@ public class Engine {
             );
 
         // Boton crear Worker
-        Entity buttonW = ECS.getInstance().createEntity(peoplePanel,
+        Entity buttonW = ECS.getInstance().createEntity(schoolPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -325,7 +334,7 @@ public class Engine {
                 new Text("W", Color.BLACK, true)
             );
         // Boton crear MINERO  
-        Entity buttonMinero = ECS.getInstance().createEntity(peoplePanel,
+        Entity buttonMinero = ECS.getInstance().createEntity(schoolPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -340,7 +349,7 @@ public class Engine {
             );
         
         // Boton crear MINERO  
-        Entity buttonLeñador = ECS.getInstance().createEntity(peoplePanel,
+        Entity buttonLeñador = ECS.getInstance().createEntity(schoolPanel,
                 new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
                         new Animation(1, 100, 50, 50, 0, 0),
                         new Animation(1, 100, 50, 50, 50, 0)),
@@ -384,7 +393,7 @@ public class Engine {
                 new Position(new Vector2D(25, 25), true),
                 new Text("ST", Color.BLACK, true)
             );
-        
+        */
         // Recursos y tal
         ECS.getInstance().createEntity(null,
                 new Text("", Color.white),
@@ -403,12 +412,15 @@ public class Engine {
                 new ResourceText(ResourceType.WOOD)
         );
 
-        
+        /*
         // Añanir a UI manager
         UIManager.getInstance().addPanel("MAIN", uiPanel);
-        UIManager.getInstance().addPanel("PEOPLE", peoplePanel);
+        UIManager.getInstance().addPanel("SCHOOL", schoolPanel);
         UIManager.getInstance().activatePanel("MAIN");
-
+        */
+        
+        UIManager.getInstance().loadUI();
+        UIManager.getInstance().activatePanel("MAIN");
     }
 
     public void mainLoop() throws InterruptedException {

@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 /**
  *
  * @author PochitoMan
@@ -22,12 +23,12 @@ public class Renderer extends JPanel{
     private static Renderer instance;
             
     //En esta lista se van guardando los sprites que quieren ser piuntados
-    private List<Sprite> renderQueue;
+    private PriorityQueue<Sprite> renderQueue;
     
     //Igual con el texto
     private List<Text> textQueue;
     
-    boolean renderLock = false;
+    boolean renderLock = false;      
     
     long lastTick;
     int tickIndex = 0;
@@ -37,7 +38,7 @@ public class Renderer extends JPanel{
         
     //El Constructor es privado para que nadie haga una instancia de Renderer
     private Renderer(){
-        renderQueue = new LinkedList<>();
+        renderQueue = new PriorityQueue<>(new SortByDepth());
         textQueue = new LinkedList<>();
     }
     
@@ -71,20 +72,14 @@ public class Renderer extends JPanel{
             this.setBackground(new Color(0, 0, 0));
             Graphics2D g2D = (Graphics2D) g;
             //AffineTransform transform = Camera.getInstance().getZoom();
-            //g2D.scale(transform.getScaleX(), transform.getScaleY());
-            
-            //Antes de pintar se ordenan los srites por profundidad
-            renderQueue.sort(new SortByDepth());
+            //g2D.scale(transform.getScaleX(), transform.getScaleY());           
            
             while(!renderQueue.isEmpty()){
-                Sprite s = renderQueue.remove(0);
+                Sprite s = renderQueue.poll();
                 if(s != null && s.getImage() != null){
                     Position p = s.getEntity().get(Position.class);
                     
-                    BufferedImage img = s.getImage();
-                    
-                    //if(s.isAnimated() && s.getCurrentAnimationIndex() >= 0)
-                    //    img = img.getSubimage((int)s.getSrcPos().x, (int)s.getSrcPos().y, (int)s.getSrcSize().x, (int)s.getSrcSize().y);
+                    BufferedImage img = s.getImage();                   
                     
                     Vector2D dstPos = p.getWorldPos();
                     

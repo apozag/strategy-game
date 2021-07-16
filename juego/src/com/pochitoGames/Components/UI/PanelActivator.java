@@ -11,10 +11,10 @@ import com.pochitoGames.Engine.Component;
  *
  * @author PochitoMan
  */
-public class PanelPicker extends Component{
+public class PanelActivator extends Component{
     private String tag;
     
-    public PanelPicker(String tag){
+    public PanelActivator(String tag){
         this.tag = tag;
     }
     

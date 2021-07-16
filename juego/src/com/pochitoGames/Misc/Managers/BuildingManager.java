@@ -15,6 +15,7 @@ import com.pochitoGames.Components.Buildings.School;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.UI.MouseListener;
+import com.pochitoGames.Components.UI.PanelActivator;
 import com.pochitoGames.Components.Visual.SeeThrough;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.ECS;
@@ -130,7 +131,8 @@ public class BuildingManager {
                         new SeeThrough(),
                         new MouseListener(0),
                         newBuilding,
-                        new School()
+                        new School(),
+                        new PanelActivator("SCHOOL")
                 );
                 break;
             case CANTEEN:
