@@ -6,7 +6,9 @@
 package com.pochitoGames.Engine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 /**
  *
@@ -27,13 +29,11 @@ public abstract class System {
     
     //Esta es la lsita que contiene referencias a las entidades que forman parte del sistema.
     List<Entity> entities = new ArrayList<>();
-    
+        
     //Hay una refereencia al ECS también porsiaca
-    ECS ecs;
-
+    ECS ecs;    
     
     public System(){
-        
     }
     
     //Se llaman desde la clase hijo (p.e. SpriteSystem) para indicar los componentes que se necesitan y tal
@@ -76,9 +76,10 @@ public abstract class System {
     
     public void setECS(ECS ecs){
         this.ecs = ecs;
-    }
-    
+    }   
+        
     //Este es el método abstracto que implemnentarán las clases hijo. 
     //En él se define cómo se updatearán las entidades que forman parte del sistema.
     public abstract void update(double dt);
+        
 }

@@ -9,6 +9,8 @@ import com.pochitoGames.Engine.Component;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -19,7 +21,14 @@ public class Text extends Component {
     Font font;
     Color color;
     
-    boolean centered = false;
+    boolean centered = true;
+    
+    public Text(Node node){
+        Element element = (Element)node;
+        text = element.getElementsByTagName("text").item(0).getTextContent();
+        this.font = new Font("Times New Roman", Font.PLAIN, 28);
+        this.color = color;        
+    }
     
     public Text(String text, Color color){
         this.text = text;

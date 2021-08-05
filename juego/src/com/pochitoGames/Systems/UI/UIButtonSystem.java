@@ -9,7 +9,7 @@ import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Components.UI.UIButton;
 import com.pochitoGames.Engine.Entity;
-import com.pochitoGames.Engine.EventManager;
+import com.pochitoGames.Engine.InputManager;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
 /**

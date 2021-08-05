@@ -97,10 +97,6 @@ public class ECS {
     }
        
     public void update(double dt){
-        //updateamos los sistemas
-        for(System s: systems)
-                s.update(dt);
-
         //elimina los componentes que estén pendientes (no se usa de momento)
         for(ECContainer ec: componentsToDelete){
                 ec.entity.remove(ec.components);
@@ -117,6 +113,7 @@ public class ECS {
                 eSystemValidate.add(ec.entity);
         }
         componentsToCreate.clear();
+        
 
         //Aquí es donde se meten las entidades creadas en los sistemas correspondientes
         for(System s: systems){
@@ -134,10 +131,19 @@ public class ECS {
                         s.remove(e);
         }
         
+        for(Entity e: entitiesToDelete){
+            if(e.parent != null)
+                e.parent.children.remove(e);
+        }
         //Limpiamos todas estas listas porque ya las hemos procesado.
         entitiesToCreate.clear();
         eSystemValidate.clear();
         componentsToDelete.clear();
+        
+        //updateamos los sistemas
+        for(System s: systems)
+                s.update(dt);
+        
      }
 
 }

@@ -9,7 +9,7 @@ import com.pochitoGames.Engine.System;
 import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Entity;
-import com.pochitoGames.Engine.EventManager;
+import com.pochitoGames.Engine.InputManager;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import java.util.Comparator;
@@ -37,7 +37,7 @@ public class MouseListenerSystem extends System{
         List<Entity> entities = getEntities();
         entities.sort(new SortByLayer());
         boolean pointBlock = false;
-        Vector2D mousePos = EventManager.getInstance().getMousePos();
+        Vector2D mousePos = InputManager.getInstance().getMousePos();
         for(Entity e : entities){
             MouseListener ml = e.get(MouseListener.class);
             Sprite s = e.get(Sprite.class);
@@ -45,12 +45,12 @@ public class MouseListenerSystem extends System{
             ml.releasedRight = false;
             if(SpriteSystem.isInsideSprite(s, mousePos)){
                 // Click Izq
-                if(!pointBlock && EventManager.getInstance().isMouseLeftPressed()){
+                if(!pointBlock && InputManager.getInstance().isMouseLeftPressed()){
                     if( ml.downLeft)
                         ml.firstTickLeft = false;
                     else{
                         ml.downLeft = true;
-                        ml.firstTickLeft = EventManager.getInstance().isMouseLeftClicked();
+                        ml.firstTickLeft = InputManager.getInstance().isMouseLeftClicked();
                     }
                     // Bloquea el click para el resto
                     pointBlock = true;
@@ -61,12 +61,12 @@ public class MouseListenerSystem extends System{
                 }
                 
                 // Click Dch
-                if(!pointBlock && EventManager.getInstance().isMouseRightPressed()){            
+                if(!pointBlock && InputManager.getInstance().isMouseRightPressed()){            
                     if(ml.downRight)
                         ml.firstTickRight = false;
                     else{
                         ml.downRight = true;
-                        ml.firstTickRight = EventManager.getInstance().isMouseRightClicked();
+                        ml.firstTickRight = InputManager.getInstance().isMouseRightClicked();
                     }
                     // Bloquea el click para el resto
                     pointBlock = true;

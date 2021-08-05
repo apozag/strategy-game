@@ -8,6 +8,9 @@ package com.pochitoGames.Components.GameLogic;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.Vector2D;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 /**
  *
  * @author PochitoMan
@@ -19,6 +22,19 @@ public class Position extends Component{
     boolean lock = false;
     
     boolean dirty = true;
+    
+    public Position(Node node){
+        Element element = (Element) node;
+        
+        String x = element.getElementsByTagName("x").item(0).getTextContent();
+        String y = element.getElementsByTagName("y").item(0).getTextContent();
+        localPos = new Vector2D(Float.parseFloat(x), Float.parseFloat(y));
+        worldPos = new Vector2D(localPos);
+        
+        NodeList nodelist = element.getElementsByTagName("fixed");
+        if(nodelist.getLength() > 0)
+            lock = nodelist.item(0).getTextContent().equals("TRUE");
+    }
     
     public Position(Vector2D pos){
         this.localPos = new Vector2D(pos);

@@ -13,7 +13,7 @@ import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.Managers.PeopleManager;
-import com.pochitoGames.Misc.Managers.UIManager;
+import com.pochitoGames.Engine.UIManager;
 
 /**
  *

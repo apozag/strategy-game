@@ -109,12 +109,14 @@ public class Renderer extends JPanel{
                 g2D.setColor(text.getColor());
                 String str = text.getText();
                 int rWidth = 0;
+                int rHeight = 0;
                 if(text.isCentered()){
                     Rectangle2D rect = text.getFont().getStringBounds(str, new FontRenderContext(null, true, true));
                     rWidth = (int) Math.round(rect.getWidth());
+                    rHeight = (int) Math.round(rect.getHeight());
                 }
                 //int rHeight = (int) Math.round(rect.getHeight());
-                g2D.drawString(str, pos.x - rWidth/2, pos.y);
+                g2D.drawString(str, pos.x - rWidth/2, pos.y + rHeight);
             }
             
             //FPS counter

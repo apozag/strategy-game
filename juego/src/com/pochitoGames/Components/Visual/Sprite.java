@@ -6,15 +6,21 @@
 package com.pochitoGames.Components.Visual;
 
 import com.pochitoGames.Engine.Component;
+import com.pochitoGames.Engine.Engine;
 import com.pochitoGames.Engine.ImageManager;
 import com.pochitoGames.Engine.Vector2D;
+import com.pochitoGames.Engine.Window;
 import com.pochitoGames.Misc.Other.Animation;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -51,6 +57,69 @@ public class Sprite extends Component {
 
     //Lista con las animaciones
     List<Animation> animations;
+    
+    public Sprite(Node node){
+        Element element = (Element) node;
+        String path = element.getElementsByTagName("src").item(0).getTextContent();
+        animations = new ArrayList<>();
+        NodeList animationList = element.getElementsByTagName("animation");
+        for(int i = 0; i < animationList.getLength(); i++){                        
+            Element anim = (Element) animationList.item(i);
+            int frames = Integer.parseInt(anim.getElementsByTagName("frames").item(0).getTextContent());
+            int speed = Integer.parseInt(anim.getElementsByTagName("speed").item(0).getTextContent());
+            Element sizeElem = (Element) anim.getElementsByTagName("size").item(0);
+            int w = Integer.parseInt(sizeElem.getElementsByTagName("x").item(0).getTextContent());
+            int h = Integer.parseInt(sizeElem.getElementsByTagName("y").item(0).getTextContent());
+            Element offsetElem = (Element) anim.getElementsByTagName("offset").item(0);
+            int xOffset = Integer.parseInt(offsetElem.getElementsByTagName("x").item(0).getTextContent());
+            int yOffset = Integer.parseInt(offsetElem.getElementsByTagName("y").item(0).getTextContent());
+            animations.add(new Animation(frames, speed, w, h, xOffset, yOffset));
+        }
+        
+        BufferedImage img = ImageManager.getImage(path);
+        
+        NodeList listdepth = element.getElementsByTagName("updatedepth");
+        if(listdepth.getLength()>0)
+            this.updateDepth = Boolean.parseBoolean(listdepth.item(0).getTextContent());
+        else
+            this.updateDepth = true;
+        
+        if (updateDepth) {
+            depth = 0;
+        } else {
+            depth = Integer.parseInt(element.getElementsByTagName("depth").item(0).getTextContent()) + Engine.getInstance().getWindow().getSize().height;
+        }                
+        
+        if(img == null)
+            srcSize = new Vector2D(0, 0);
+        else{
+            if(animations == null || animations.isEmpty()){
+                srcPos = new Vector2D(0, 0);
+                srcSize = new Vector2D(img.getWidth(), img.getHeight());
+                this.image = new BufferedImage[1][];
+                this.image[0] = new BufferedImage[1];
+                this.image[0][0] = img;
+                this.animations = new LinkedList<>();
+                this.animations.add(new Animation(1, 100, (int)srcSize.x, (int)srcSize.y, 0, 0));
+            }
+            else{
+                int idx = 0;
+                this.image = new BufferedImage[animations.size()][];
+                this.animations = animations;
+                for (Animation anim : animations) {
+
+                    this.image[idx] = new BufferedImage[anim.getFrames()];
+                    for(int i = 0; i < anim.getFrames(); i++){
+                        this.image[idx][i] = img.getSubimage((int)anim.getXoffset() + (int)anim.getSize().x * i, (int)anim.getYoffset(), (int)anim.getSize().x, (int)anim.getSize().y);            
+                    }
+                    idx++;
+                }
+                srcSize = new Vector2D(this.image[0][0].getWidth(), this.image[0][0].getHeight());
+            }
+        }
+        this.anchor = new Vector2D(0,0);
+        this.transparency = transparency;
+    }
 
     public Sprite() {
         depth = 0;
@@ -98,7 +167,7 @@ public class Sprite extends Component {
             }
         }
         this.anchor = anchor;
-        this.transparency = transparency;
+        this.transparency = 1.0f;
         src = path;
         
     }

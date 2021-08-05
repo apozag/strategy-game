@@ -22,7 +22,7 @@ public class Camera {
     
     AffineTransform at;   
     
-    EventManager manager;
+    InputManager manager;
     
     //Solo hay una instancia de Camera en tosdo el programa. Así nos quitamos de tener una referencia a la cámara en todos lados.
     static Camera instance;
@@ -31,7 +31,7 @@ public class Camera {
     private Camera(Vector2D pos){
         this.pos = pos;
         this.vel = new Vector2D(0, 0);
-        manager = EventManager.getInstance();
+        manager = InputManager.getInstance();
         at = new AffineTransform();
     }
     

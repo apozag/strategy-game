@@ -7,6 +7,9 @@ package com.pochitoGames.Components.UI;
 
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -25,6 +28,11 @@ public class MouseListener extends Component {
     public boolean releasedRight = false; 
     
     public boolean mouseOver = false;
+    
+    public MouseListener(Node node){
+        Element element = (Element) node;
+        this.layer = Integer.parseInt(element.getElementsByTagName("layer").item(0).getTextContent());
+    }
     
     public MouseListener(int layer){
         this.layer = layer;

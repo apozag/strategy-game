@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.pochitoGames.Misc.Managers;
+package com.pochitoGames.Engine;
 
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.UI.MouseListener;

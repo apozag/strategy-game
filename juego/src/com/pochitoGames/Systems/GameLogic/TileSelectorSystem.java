@@ -12,13 +12,13 @@ import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.Visual.CompoundTileMap;
 import com.pochitoGames.Engine.Camera;
 import com.pochitoGames.Engine.Entity;
-import com.pochitoGames.Engine.EventManager;
+import com.pochitoGames.Engine.InputManager;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Engine.Vector2i;
-import com.pochitoGames.Misc.Managers.UIManager;
+import com.pochitoGames.Engine.UIManager;
 import com.pochitoGames.Systems.Visual.TileMapSystem;
 
 /**
@@ -40,7 +40,7 @@ public class TileSelectorSystem extends System{
             Position p = ((Position)(e.get(Position.class)));
             TileSelector ts = ((TileSelector)(e.get(TileSelector.class)));
                         
-            Vector2D mousePos = Camera.getInstance().toWorldCoords(EventManager.getInstance().getMousePos());
+            Vector2D mousePos = Camera.getInstance().toWorldCoords(InputManager.getInstance().getMousePos());
             if(mousePos.x > 0 && mousePos.y > 0){
                 
                 Vector2i selected = IsometricTransformations.cartesianToIso(mousePos);

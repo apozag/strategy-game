@@ -9,7 +9,7 @@ import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.UI.PanelActivator;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
-import com.pochitoGames.Misc.Managers.UIManager;
+import com.pochitoGames.Engine.UIManager;
 
 /**
  *

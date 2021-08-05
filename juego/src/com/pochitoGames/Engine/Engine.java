@@ -24,7 +24,6 @@ import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
 import com.pochitoGames.Misc.ComponentTypes.TypeRole;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.GameInfoManager;
-import com.pochitoGames.Misc.Managers.UIManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.IsometricTransformations;
 import com.pochitoGames.Misc.Map.TileMapLoader;
@@ -56,6 +55,7 @@ import com.pochitoGames.Systems.People.LumberJackSystem;
 import com.pochitoGames.Systems.UI.BuildingPickerSystem;
 import com.pochitoGames.Systems.UI.MouseListenerSystem;
 import com.pochitoGames.Systems.UI.PanelPickerSystem;
+import com.pochitoGames.Systems.UI.PanelRectSystem;
 import com.pochitoGames.Systems.UI.PeopleGeneratorSystem;
 import com.pochitoGames.Systems.UI.ResourceTextSystem;
 import com.pochitoGames.Systems.UI.StoneGeneratorSystem;
@@ -85,8 +85,18 @@ public class Engine {
     //dt es el paso del tiempo. Cuanto más grande, más "tiempo" pasará entre frames y más rápido irá el juego.
     double dt = 5.0 / FPS;
 
-    public Engine() {
+    private static Engine instance;
+
+    private Engine() {
     }
+    
+    public static Engine getInstance(){
+        if(instance == null)
+            instance = new Engine();
+        return instance;
+    }
+    
+    public Window getWindow(){return window;}
 
     //Creamos las entidades y les metemos los componentes a través de createEntity() de ECS
     public void init() {
@@ -104,7 +114,8 @@ public class Engine {
                 new BuildingGeneratorSystem(), new PathFindingSystem(), new UIButtonSystem(), new PanelPickerSystem(),
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(), new StoneGeneratorSystem(),
                 new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(), new SawmillSystem(), new SchoolSystem(),
-                new MinerSystem(),  new MouseListenerSystem(), new TreeSystem(), new GoldFoundrySystem(), new WarehouseSystem(), new BackpackSystem(), new ThinkingSystem());
+                new MinerSystem(),  new MouseListenerSystem(), new TreeSystem(), new GoldFoundrySystem(), new WarehouseSystem(), new BackpackSystem(), new ThinkingSystem(),
+                new PanelRectSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         
@@ -412,14 +423,15 @@ public class Engine {
                 new ResourceText(ResourceType.WOOD)
         );
 
-        /*
-        // Añanir a UI manager
-        UIManager.getInstance().addPanel("MAIN", uiPanel);
-        UIManager.getInstance().addPanel("SCHOOL", schoolPanel);
-        UIManager.getInstance().activatePanel("MAIN");
-        */
-        
-        UIManager.getInstance().loadUI();
+        EntityParser.registerComponent("panelrect", PanelRect.class);
+        EntityParser.registerComponent("position", Position.class);
+        EntityParser.registerComponent("sprite", Sprite.class);
+        EntityParser.registerComponent("text", Text.class);
+        EntityParser.registerComponent("mouselistener", MouseListener.class);
+        EntityParser.registerComponent("uibutton", UIButton.class);
+        EntityParser.registerComponent("buildingpicker", BuildingPicker.class);
+        EntityParser.parseFile("src\\com\\pochitoGames\\Resources\\GameInfo\\uiPanels.xml");
+        ECS.getInstance().update(dt);
         UIManager.getInstance().activatePanel("MAIN");
     }
 
@@ -438,7 +450,7 @@ public class Engine {
             Renderer.getInstance().repaint();
 
             //Al acabar la iteración, se limpian los eventos de ratón, teclado, etc, porque sólo valen para una vez.
-            EventManager.getInstance().clearEvents();
+            InputManager.getInstance().clearEvents();
 
             //Tenemos que esperar un rato (1000/30 == 30FPS) para que no se quede pillado en un bucle infinito.
             elapsed = java.lang.System.currentTimeMillis() - lastTime;

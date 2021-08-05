@@ -6,6 +6,7 @@
 package com.pochitoGames.Components.UI;
 
 import com.pochitoGames.Engine.Component;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -13,5 +14,7 @@ import com.pochitoGames.Engine.Component;
  */
 public class UIButton extends Component {
     public boolean down = false;
-    public boolean firstTick = false;       
+    public boolean firstTick = false;  
+
+    public UIButton(Node node){}
 }

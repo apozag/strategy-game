@@ -36,8 +36,7 @@ public class Entity {
     //Un id único que de momento no sirve para nada
     public final int id;
     
-    private boolean active = true;
-    
+    private boolean active = true;       
                 
     public Entity(Entity parent, int id, Component... c){
         this.id = id;
@@ -65,7 +64,7 @@ public class Entity {
 	
     void add(Component... components){
         for(Component c: components)
-            this.components.put(c.getClass(), c);
+            this.components.put(c.getClass(), c);        
     }
     
     public void addChild(Entity child){
@@ -73,7 +72,7 @@ public class Entity {
     }
     
     //A la hora de meter las entidades en los sistemas, se usa este metodo para ver si contiene alguno de los componentes que se le pasa
-    //Estos componentes que se le pasa son los excluyentes, es decir que no debería tenerlos, por lo que devolvería false en caso afirmativo.
+    //Estos componentes que se le pasa son los excluyentes, es decir, que no debería tenerlos, por lo que devolvería false en caso afirmativo.
     boolean containsAny(Class<? extends Component>... componentClasses){
         Set<Class<? extends Component>> s = components.keySet();
         for (Class<? extends Component> c : componentClasses) {

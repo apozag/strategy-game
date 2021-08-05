@@ -6,6 +6,8 @@
 package com.pochitoGames.Engine;;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.Node;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -17,8 +19,10 @@ import org.w3c.dom.Node;
 public abstract class Component {
     
     //Tienen una referencia a la entidad a a que pertenecen
-    Entity e;
-
+    Entity e;        
+    
+    public void Component(Node xmlNode){}
+    
     public void setEntity(Entity e){
         this.e = e;
     }
@@ -27,5 +31,6 @@ public abstract class Component {
         return e;
     }
     
-    public void Component(Node xmlNode){}
+    public void triggerEvent(String tag){}
+    
 }
