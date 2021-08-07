@@ -19,25 +19,25 @@ import org.w3c.dom.Node;
 public class Text extends Component {
     String text;
     Font font;
-    Color color;
+    Color color = Color.black;
     
     boolean centered = true;
     
     public Text(Node node){
         Element element = (Element)node;
         text = element.getElementsByTagName("text").item(0).getTextContent();
-        this.font = new Font("Times New Roman", Font.PLAIN, 28);
+        this.font = new Font("Times New Roman", Font.PLAIN, 25);
         this.color = color;        
     }
     
     public Text(String text, Color color){
         this.text = text;
-        this.font = new Font("Times New Roman", Font.PLAIN, 28);
+        this.font = new Font("Times New Roman", Font.PLAIN, 25);
         this.color = color;
     }
     public Text(String text, Color color, boolean centered){
         this.text = text;
-        this.font = new Font("Times New Roman", Font.PLAIN, 28);
+        this.font = new Font("Times New Roman", Font.PLAIN, 25);
         this.color = color;
         this.centered = centered;
     }
