@@ -28,6 +28,7 @@ public class ResourcesManager {
                 put(ResourceType.RAW_WOOD, 0);
                 put(ResourceType.RAW_STONE, 0);
                 put(ResourceType.RAW_GOLD, 0);
+                put(ResourceType.MEAT, 0);
             }
         });
     }

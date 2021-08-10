@@ -7,6 +7,7 @@ package com.pochitoGames.Systems.People;
 
 import com.pochitoGames.Components.Other.Backpack;
 import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.Buildings.Canteen;
 import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
@@ -45,10 +46,24 @@ public class WorkerSystem extends System {
             Worker worker = e.get(Worker.class);
             WorkerState state = worker.getState();
             Backpack b = e.get(Backpack.class);
-            
             switch (state) {
                 case WAIT:
-                    //Estamos parados hasta que nos requieran (Los edificios nos llamen)
+                {
+                    Human human = e.get(Human.class);
+                    // SI tenemos hambre, buscamos cantina
+                    if(human.getHunger() <= 10){
+                        java.lang.System.out.println("go canteen");
+                        Building canteen = BuildingManager.getInstance().getNearestBuilding(pf.getCurrent(), TypeBuilding.CANTEEN);
+                        if(canteen == null)
+                            break;
+                        pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), canteen.getEntryCell(), e.getId(), false));
+                        if(pf.getSteps() != null){
+                            pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
+                            worker.setTargetBuilding(canteen);
+                            worker.setState(WorkerState.GOING_CANTEEN);
+                        }
+                    }
+                }
                     break;
                 case SEARCH_RESOURCE:
                     //Si hemos llegado hasta el edificio
@@ -151,6 +166,26 @@ public class WorkerSystem extends System {
                             worker.setSrcWarehouse(null);
                         }
                     }
+                    break;
+                case GOING_CANTEEN:
+                    if(pf.getTargetCell() == null){
+                        Human human = e.get(Human.class);
+                        Canteen canteen = worker.getTargetBuilding().getEntity().get(Canteen.class);
+                        canteen.addHuman(human);
+                        worker.setState(WorkerState.EATING);
+                        Sprite sprite = e.get(Sprite.class);
+                        sprite.setVisible(false);
+                        worker.setState(WorkerState.EATING);
+                    }
+                    break;
+                case EATING:
+                    Human human = e.get(Human.class);
+                    if(human.isHungerFull()){
+                        worker.setState(WorkerState.WAIT);
+                        Sprite sprite = e.get(Sprite.class);
+                        sprite.setVisible(true);
+                    }
+                    break;
             }
         }
     }

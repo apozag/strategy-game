@@ -15,5 +15,6 @@ public enum ResourceType {
     GOLD,
     RAW_WOOD,
     RAW_STONE,
-    RAW_GOLD
+    RAW_GOLD,
+    MEAT
 }

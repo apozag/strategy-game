@@ -6,15 +6,28 @@ import com.pochitoGames.Misc.ObjectTypes.WorkerObject;
 
 public class Human extends Component {
 
-    private int life;
-    private int hungry = 50;
+    private float life;
+    private float hunger;
+    private float maxHunger = 50;
     private boolean alive = true;
     private String name;
     private int attack;
     private int defense;
     private float velocity = 5;
-    private TypeHuman typeHuman;
+    private TypeHuman typeHuman;    
+    private double lastHungerTime;
 
+    
+    public Human(int life, String name, int attack, int defense, TypeHuman typeHuman) {
+        setHunger(maxHunger);
+        setLife(life);
+        setName(name);
+        setAttack(attack);
+        setDefense(defense);
+        setTypeHuman(typeHuman);
+        setLastHungerTime(java.lang.System.currentTimeMillis());
+    }
+    
     public TypeHuman getTypeHuman() {
         return typeHuman;
     }
@@ -23,7 +36,7 @@ public class Human extends Component {
         this.typeHuman = typeHuman;
     }
 
-    public boolean getAlive() {
+    public boolean isAlive() {
         return alive;
     }
 
@@ -39,16 +52,6 @@ public class Human extends Component {
         this.velocity = velocity;
     }
 
-    public Human(int life, String name, int attack, int defense, TypeHuman typeHuman) {
-        setHungry(0);
-        setLife(life);
-        setName(name);
-        setAttack(attack);
-        setDefense(defense);
-        setTypeHuman(typeHuman);
-    }
-
-
     public void setDefense(int defense) {
         this.defense = defense;
     }
@@ -57,7 +60,7 @@ public class Human extends Component {
         this.attack = attack;
     }
 
-    public void setLife(int life) {
+    public void setLife(float life) {
         if (life < 0) {
             alive = false;
             this.life = 0;
@@ -65,22 +68,16 @@ public class Human extends Component {
         } else this.life = life;
     }
 
-    public void setHungry(int hungry) {
-        if (hungry <= 100) {
-            this.hungry = 100;
-        } else if (hungry < 0) {
-            this.hungry = 0;
-            alive = false;
-        } else {
-            this.hungry = ++hungry;
-        }
-
+    public void setHunger(float hunger) {
+        this.hunger = hunger;
+    }
+    
+    public void subtractHunger(float amount){
+        setHunger(this.hunger - amount);
     }
 
-    public int reciveDamage(int damage) {
-        if (damage - defense > 0) {
-            setLife(life - (damage - defense));
-        }
+    public float reciveDamage(float damage) {
+        setLife(life - (damage - defense));
         return this.life;
     }
 
@@ -89,12 +86,12 @@ public class Human extends Component {
         this.name = name;
     }
 
-    public int getLife() {
+    public float getLife() {
         return life;
     }
 
-    public int getHungry() {
-        return hungry;
+    public float getHunger() {
+        return hunger;
     }
 
     public int getAttack() {
@@ -108,15 +105,21 @@ public class Human extends Component {
     public int getDefense() {
         return defense;
     }
+    
+    public void restoreHunger(){
+        this.hunger = this.maxHunger;
+    }
 
+    public double getLastHungerTime() {
+        return lastHungerTime;
+    }
 
-    public boolean getFood(WorkerObject object) {
-        if (object != null) {
-            setHungry(0);
-            return true;
-        }
-        return false;
-
+    public void setLastHungerTime(double lastAteTime) {
+        this.lastHungerTime = lastAteTime;
+    }
+    
+    public boolean isHungerFull(){
+        return Math.abs(this.hunger-maxHunger) <= 5;
     }
 
 }

@@ -6,6 +6,7 @@
 package com.pochitoGames.Misc.Managers;
 
 import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.Buildings.Canteen;
 import com.pochitoGames.Components.Buildings.GoldFoundry;
 import com.pochitoGames.Components.Buildings.LumberjackHut;
 import com.pochitoGames.Components.Buildings.Quarry;
@@ -138,12 +139,14 @@ public class BuildingManager {
             case CANTEEN:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
+                        new Canteen(),
                         new Position(IsometricTransformations.isoToCartesian(cell)),
                         new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
                                 new Animation(1, 1, 128, 128, 0, 0),
                                 new Animation(1, 1, 128, 128, 128, 0)),
                         new SeeThrough(),
                         new MouseListener(0),
+                        new Warehouse(b.warehouse),
                         newBuilding);
                 break;
             case CASTLE:
@@ -239,7 +242,7 @@ public class BuildingManager {
         for (Building b : buildings) {
             BuildingInfo bi = blueprints.get(b.getTypeBuilding());
             double dist = cell.distance(Vector2i.add(bi.entry, b.getCell()));
-            if (b.getTypeBuilding() == type && dist < nearestDist) {
+            if (b.isFinished() && b.getTypeBuilding() == type && dist < nearestDist) {
                 nearest = b;
                 nearestDist = dist;
             }

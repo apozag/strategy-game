@@ -20,9 +20,9 @@ public class ECS {
     
     //Aquí hay muchas listas. Las importantes son entitiesToDelete, entitiesToCreate y systems. 
     
-    //Al mandar destruir una entidad, pasa a esta lista para ver en qué sistemas se pueden meter
+    //Al mandar destruir una entidad, pasa a esta lista para ver de qué sistemas se tienen que "dar de baja"
     ArrayList<Entity> entitiesToDelete;
-    //Al crear una entidad, se meten en esta lista para ver de qué sistemas se tienen que "dar de baja"
+    //Al crear una entidad, se meten en esta lista para ver en qué sistemas se pueden meter
     ArrayList<Entity> entitiesToCreate;
     //También podemos borrar y crear nuevos componentes durante el juego, pero no nos va a hacer falta de moemento
     ArrayList<ECContainer> componentsToDelete;
