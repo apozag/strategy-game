@@ -1,3 +1,4 @@
 /juego/dist/
 /juego/build/
 /juego/nbproject/private/
+*.class
