@@ -59,28 +59,8 @@ public class PanelRect extends Component {
                 {
                     String h = childElement.getElementsByTagName("horizontal").item(0).getTextContent();
                     String v = childElement.getElementsByTagName("vertical").item(0).getTextContent();
-                    switch (h) {
-                        case "BEGIN":
-                            h_alignment = AlignmentType.BEGIN;
-                            break;
-                        case "MIDDLE":
-                            h_alignment = AlignmentType.MIDDLE;
-                            break;
-                        case "END":
-                            h_alignment = AlignmentType.END;
-                            break;
-                    }
-                    switch (v) {
-                        case "BEGIN":
-                            v_alignment = AlignmentType.BEGIN;
-                            break;
-                        case "MIDDLE":
-                            v_alignment = AlignmentType.MIDDLE;
-                            break;
-                        case "END":
-                            v_alignment = AlignmentType.END;
-                            break;
-                    }
+                    h_alignment = AlignmentType.valueOf(h);
+                    v_alignment = AlignmentType.valueOf(v);                    
                 }
                     break;
                 case "size":  
