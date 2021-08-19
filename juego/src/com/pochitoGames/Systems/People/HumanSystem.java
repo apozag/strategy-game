@@ -15,7 +15,7 @@ import com.pochitoGames.Engine.Entity;
  */
 public class HumanSystem extends System{
 
-    private double hungerTime = 1000;
+    private double hungerTime = 100;
     private float hungerAmount = 1;
     private float hurtAmount = 1;
     

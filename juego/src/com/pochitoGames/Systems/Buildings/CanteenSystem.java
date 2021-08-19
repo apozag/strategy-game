@@ -33,7 +33,7 @@ public class CanteenSystem extends System{
                 Map.Entry<Human, Long> entry = iter.next();
                 Human human = entry.getKey();
                 long time = entry.getValue();
-                if(time >= canteen.getWaitTimeMillis()){
+                if(java.lang.System.currentTimeMillis()-time >= canteen.getWaitTimeMillis()){
                     java.lang.System.out.println("restored!");
                     human.restoreHunger();
                     canteen.getPeople().remove(human);
