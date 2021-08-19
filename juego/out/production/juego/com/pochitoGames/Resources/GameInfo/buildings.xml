@@ -46,6 +46,8 @@
 
     </building>
 
+
+
     <building type = "QUARRY">
 
         <life>100</life>
@@ -88,8 +90,43 @@
 
     </building>
 
-    <building type = "CANTEEN">
+    <building type = "PIGFARM">
 
+        <life>100</life>
+        <defense>50</defense>
+        <attack>10</attack>
+
+        <id>109</id>
+
+        <entry>
+            <x>-1</x>
+            <y>0</y>
+        </entry>
+
+        <size>
+            <x>2</x>
+            <y>2</y>
+        </size>
+
+        <height>1</height>
+
+        <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_stone.png</img>
+
+        <resourcesneeded>
+            <resource type = "WOOD">3</resource>
+            <resource type = "STONE">2</resource>
+        </resourcesneeded>
+
+        <warehouse addsToGlobal = "NO">
+            <resource type = "MEAT" transferable = "YES">
+                <amount>0</amount>
+                <capacity>5</capacity>
+            </resource>
+        </warehouse>
+
+    </building>
+
+    <building type = "CANTEEN">
         <life>100</life>
         <defense>50</defense>
         <attack>10</attack>
@@ -109,6 +146,13 @@
         <height>1</height>
 
         <img>src\\com\\pochitoGames\\Resources\\Sprites\\building_1.png</img>
+        
+         <warehouse addsToGlobal = "NO">
+            <resource type = "MEAT" transferable = "NO"> 
+                <amount>0</amount>
+                <capacity>10</capacity>
+            </resource>
+        </warehouse>
 
         <resourcesneeded>
             <resource type = "WOOD">2</resource>

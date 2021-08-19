@@ -494,6 +494,95 @@
                 </component>
             </entity>
         </entity>
+        <entity>
+            <component type="panelrect">
+                <alignment>
+                    <horizontal>MIDDLE</horizontal>
+                    <vertical>MIDDLE</vertical>
+                </alignment>
+                <size>
+                    <x>50</x>
+                    <y>50</y>
+                </size>
+                <cellsize>
+                    <x>50</x>
+                    <y>50</y>
+                </cellsize>
+                <padding>
+                    <x>10</x>
+                    <y>10</y>
+                </padding>
+            </component>
+            <component type="sprite">
+                <src>src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png</src>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>0</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>50</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <updatedepth>FALSE</updatedepth>
+                <depth>1</depth>
+            </component>
+            <component type="position">
+                <x>0</x>
+                <y>0</y>
+                <fixed>TRUE</fixed>
+            </component>
+            <component type="mouselistener">
+                <layer>1</layer>
+            </component>
+            <component type="uibutton"></component>
+            <component type="buildingpicker">
+                <building>PIGFARM</building>
+            </component>
+            <entity>
+                <component type="panelrect">
+                    <alignment>
+                        <horizontal>MIDDLE</horizontal>
+                        <vertical>MIDDLE</vertical>
+                    </alignment>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <cellsize>
+                        <x>50</x>
+                        <y>50</y>
+                    </cellsize>
+                    <padding>
+                        <x>10</x>
+                        <y>10</y>
+                    </padding>
+                </component>
+                <component type="text">
+                    <text>C</text>
+                </component>
+                <component type="position">
+                    <x>0</x>
+                    <y>0</y>
+                    <fixed>TRUE</fixed>
+                </component>
+            </entity>
+        </entity>
     </entity>
     <!-- Comienzo Menu colegio -->
     <entity>

@@ -31,19 +31,10 @@ import com.pochitoGames.Misc.Map.TilesetMode;
 import com.pochitoGames.Misc.Other.AlignmentType;
 import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Misc.Other.ResourceType;
-import com.pochitoGames.Systems.Buildings.QuarrySystem;
+import com.pochitoGames.Systems.Buildings.*;
 import com.pochitoGames.Systems.People.MinerSystem;
 import com.pochitoGames.Systems.Visual.SpriteSystem;
 import com.pochitoGames.Systems.People.WorkerSystem;
-import com.pochitoGames.Systems.Buildings.BuildingGeneratorSystem;
-import com.pochitoGames.Systems.Buildings.BuildingSystem;
-import com.pochitoGames.Systems.Buildings.CanteenSystem;
-import com.pochitoGames.Systems.Buildings.GoldFoundrySystem;
-import com.pochitoGames.Systems.Buildings.LumberjackHutSystem;
-import com.pochitoGames.Systems.Buildings.RefinerySystem;
-import com.pochitoGames.Systems.Buildings.SawmillSystem;
-import com.pochitoGames.Systems.Buildings.SchoolSystem;
-import com.pochitoGames.Systems.Buildings.WarehouseSystem;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import com.pochitoGames.Systems.People.BuilderSystem;
 import com.pochitoGames.Systems.Visual.TextSystem;
@@ -117,7 +108,7 @@ public class Engine {
                 new BuildingPickerSystem(), new PeopleGeneratorSystem(), new TreeGeneratorSystem(), new StoneGeneratorSystem(),
                 new BuildingSystem(), new ResourceTextSystem(), new QuarrySystem(), new RefinerySystem(), new LumberjackHutSystem(), new SawmillSystem(), new SchoolSystem(),
                 new MinerSystem(),  new MouseListenerSystem(), new TreeSystem(), new GoldFoundrySystem(), new WarehouseSystem(), new BackpackSystem(), new ThinkingSystem(),
-                new PanelRectSystem(), new HumanSystem(), new CanteenSystem());
+                new PanelRectSystem(), new HumanSystem(), new CanteenSystem(), new PigFarmSystem());
 
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         

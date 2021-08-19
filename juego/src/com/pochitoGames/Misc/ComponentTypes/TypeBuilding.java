@@ -10,5 +10,6 @@ public enum TypeBuilding {
     CASTLE,
     REFINERY,
     GOLD_FOUNDRY,
-    LUMBERJACK_HUT
+    LUMBERJACK_HUT,
+    PIGFARM
 }

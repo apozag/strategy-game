@@ -5,15 +5,7 @@
  */
 package com.pochitoGames.Misc.Managers;
 
-import com.pochitoGames.Components.Buildings.Building;
-import com.pochitoGames.Components.Buildings.Canteen;
-import com.pochitoGames.Components.Buildings.GoldFoundry;
-import com.pochitoGames.Components.Buildings.LumberjackHut;
-import com.pochitoGames.Components.Buildings.Quarry;
-import com.pochitoGames.Components.Buildings.Refinery;
-import com.pochitoGames.Components.Buildings.Sawmill;
-import com.pochitoGames.Components.Buildings.School;
-import com.pochitoGames.Components.Buildings.Warehouse;
+import com.pochitoGames.Components.Buildings.*;
 import com.pochitoGames.Components.GameLogic.Position;
 import com.pochitoGames.Components.UI.MouseListener;
 import com.pochitoGames.Components.UI.PanelActivator;
@@ -108,6 +100,21 @@ public class BuildingManager {
                         new Warehouse(b.warehouse)
                 );
                 break;
+            case PIGFARM:
+                newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
+                ECS.getInstance().createEntity(null,
+                        new Position(IsometricTransformations.isoToCartesian(cell)),
+                        new Sprite(b.image, new Vector2D(0, yAnchor), true, 1.0f,
+                                new Animation(1, 1, 128, 128, 0, 0),
+                                new Animation(1, 1, 128, 128, 127, 0)),
+                        new SeeThrough(),
+                        new MouseListener(0),
+                        newBuilding,
+                        new PigFarm(),
+                        new Warehouse(b.warehouse)
+                );
+                break;
+
             case QUARRY:
                 newBuilding = new Building(ownerType, 50, 30, 10, cell, type, new HashMap<>(resourcesNeeded.get(type)));
                 ECS.getInstance().createEntity(null,
