@@ -46,8 +46,6 @@
 
     </building>
 
-
-
     <building type = "QUARRY">
 
         <life>100</life>
@@ -149,7 +147,7 @@
         
          <warehouse addsToGlobal = "NO">
             <resource type = "MEAT" transferable = "NO"> 
-                <amount>0</amount>
+                <amount>10</amount>
                 <capacity>10</capacity>
             </resource>
         </warehouse>
@@ -274,7 +272,7 @@
 
     </building>   
 
-        <building type = "GOLD_FOUNDRY">
+    <building type = "GOLD_FOUNDRY">
 
         <life>100</life>
         <defense>50</defense>

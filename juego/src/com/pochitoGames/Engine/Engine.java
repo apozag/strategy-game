@@ -113,15 +113,7 @@ public class Engine {
         GameInfoManager.getInstance().setPlayerType(TypeHuman.BARBARIAN);
         
         // Crear Mapa y selector de tile
-        /*
-        Entity tilemap = ECS.getInstance().createEntity(null,
-                new Sprite(),
-                new Position(new Vector2D(0, 0)),
-                TileMapLoader.LoadTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", 
-                        "src\\com\\pochitoGames\\Resources\\TileMaps\\cost.csv", "src\\com\\pochitoGames\\Resources\\TileMaps\\tileSet.png", 
-                        120, 120, 64, 32, TilesetMode.ISOMETRIC));
-*/
-        Entity compoundTileMap = ECS.getInstance().createEntity(null,
+     Entity compoundTileMap = ECS.getInstance().createEntity(null,
                 new Sprite(),
                 new Position(new Vector2D(0, 0)),
                 TileMapLoader.LoadCompoundTileMap("src\\com\\pochitoGames\\Resources\\TileMaps\\iso_2.csv", 
@@ -166,206 +158,6 @@ public class Engine {
                 new Position(new Vector2D(50, window.getHeight()-200), true), 
                 new MouseListener(1)
         );
-
-
-//////////////// EDIFICIOS ///////////////////////
-
-        //Boton crear ESCUELA
-        Entity button1 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(10, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.SCHOOL), 
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(button1, 
-                new Position(new Vector2D(20, 25), true),
-                new Text("SCh", Color.BLACK, true)
-            );
-
-        // Boton crear CANTINA
-        Entity button2 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(60, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.CANTEEN),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(button2, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("F", Color.BLACK, true)
-            );
-
-        //Boton crear ASERRADERO
-        Entity button3 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(110, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.SAWMILL),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(button3, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("S", Color.BLACK, true)
-            );
-
-        // Botón crear CANTERA 
-        Entity buttonQuarry = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(160, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.QUARRY),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonQuarry, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("Q", Color.BLACK, true)
-            );
-        
-        // Botón crear Refinería 
-        Entity buttonRef = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(210, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.REFINERY),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonRef, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("R", Color.BLACK, true)
-            );
-
-        //Botón crear SUELO
-        Entity button4 = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(260, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.FLOOR),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(button4, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("F", Color.BLACK, true)
-            );
-         //Botón crear CABAÑA LEÑADOR
-        Entity buttonH = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(310, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.LUMBERJACK_HUT),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonH, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("LH", Color.BLACK, true)
-            );
-        
-        //Botón crear FUNDICIÓN ORO
-        Entity buttonG = ECS.getInstance().createEntity(uiPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(360, 10), true),
-                new UIButton(),
-                new BuildingPicker(TypeBuilding.GOLD_FOUNDRY),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonG, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("G", Color.BLACK, true)
-            );
-
-///////////////// PERSONAJES //////////////////////        
-        
-
-
-        // Boton atrás
-        Entity buttonBack = ECS.getInstance().createEntity(schoolPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(10, 40), true),
-                new UIButton(),
-                new PanelActivator("MAIN"),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonBack, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("←", Color.BLACK, true)
-            );
-
-        // Boton crear builder
-        Entity buttonB = ECS.getInstance().createEntity(schoolPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(10, 100), true),
-                new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.BUILDER),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonB, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("B", Color.BLACK, true)
-            );
-
-        // Boton crear Worker
-        Entity buttonW = ECS.getInstance().createEntity(schoolPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false, 1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(60, 100), true),
-                new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN, TypeRole.WORKER),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonW, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("W", Color.BLACK, true)
-            );
-        // Boton crear MINERO  
-        Entity buttonMinero = ECS.getInstance().createEntity(schoolPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(110, 100), true),
-                new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.MINER),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonMinero, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("M", Color.BLACK, true)
-            );
-        
-        // Boton crear MINERO  
-        Entity buttonLeñador = ECS.getInstance().createEntity(schoolPanel,
-                new Sprite("src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png", new Vector2D(0, 0), false,1.0f,
-                        new Animation(1, 100, 50, 50, 0, 0),
-                        new Animation(1, 100, 50, 50, 50, 0)),
-                new Position(new Vector2D(160, 100), true),
-                new UIButton(),
-                new PeopleGenerator(TypeHuman.BARBARIAN,TypeRole.LUMBERJACK),
-                new MouseListener(2)
-        );
-        ECS.getInstance().createEntity(buttonLeñador, 
-                new Position(new Vector2D(25, 25), true),
-                new Text("L", Color.BLACK, true)
-            );
         
 ////////////////////////// OTROS //////////////////////
         
@@ -423,6 +215,8 @@ public class Engine {
         EntityParser.registerComponent("mouselistener", MouseListener.class);
         EntityParser.registerComponent("uibutton", UIButton.class);
         EntityParser.registerComponent("buildingpicker", BuildingPicker.class);
+        EntityParser.registerComponent("peoplegenerator", PeopleGenerator.class);
+        EntityParser.registerComponent("panelactivator", PanelActivator.class);
         EntityParser.parseFile("src\\com\\pochitoGames\\Resources\\GameInfo\\uiPanels.xml");
         ECS.getInstance().update(dt);
         UIManager.getInstance().activatePanel("MAIN");

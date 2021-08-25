@@ -21,6 +21,8 @@ public class School extends Component{
     private double lastTime = 0;
     private double frequency = 5000;
     
+    private boolean initialized = false;
+    
     public School(){ queue = new PriorityQueue<>();}
     
     public boolean isQueueEmpty(){
@@ -45,5 +47,19 @@ public class School extends Component{
 
     public double getFrequency() {
         return frequency;
+    }
+
+    /**
+     * @return the initialized
+     */
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * @param initialized the initialized to set
+     */
+    public void setInitialized() {
+        this.initialized = true;
     }
 }

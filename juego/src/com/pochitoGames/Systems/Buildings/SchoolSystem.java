@@ -9,6 +9,8 @@ package com.pochitoGames.Systems.Buildings;
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.School;
 import com.pochitoGames.Components.UI.MouseListener;
+import com.pochitoGames.Components.UI.PanelActivator;
+import com.pochitoGames.Engine.ECS;
 import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.ComponentTypes.TypeRole;
@@ -37,6 +39,12 @@ public class SchoolSystem extends System{
             MouseListener ml = e.get(MouseListener.class);
             
             if(b.isFinished()){
+                
+                if(!s.isInitialized()){
+                    ECS.getInstance().addComponent(e, new PanelActivator("SCHOOL"));
+                    s.setInitialized();
+                }
+                
                 if(!s.isQueueEmpty()){
                     if(java.lang.System.currentTimeMillis() - s.getLastTime() > s.getFrequency()){
                         s.setLastTime(java.lang.System.currentTimeMillis());

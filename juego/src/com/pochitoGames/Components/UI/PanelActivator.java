@@ -6,6 +6,10 @@
 package com.pochitoGames.Components.UI;
 
 import com.pochitoGames.Engine.Component;
+import com.pochitoGames.Misc.ComponentTypes.TypeHuman;
+import com.pochitoGames.Misc.ComponentTypes.TypeRole;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -13,6 +17,11 @@ import com.pochitoGames.Engine.Component;
  */
 public class PanelActivator extends Component{
     private String tag;
+    
+    public PanelActivator(Node node){
+        Element e = (Element) node;
+        this.tag = e.getElementsByTagName("tag").item(0).getTextContent();
+    }
     
     public PanelActivator(String tag){
         this.tag = tag;

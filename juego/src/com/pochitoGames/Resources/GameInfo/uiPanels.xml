@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <scene>
+    <!-- MENU PRINCIPAL-->
     <entity>
         <component type="panelrect" name="MAIN">
             <alignment>
@@ -584,7 +585,7 @@
             </entity>
         </entity>
     </entity>
-    <!-- Comienzo Menu colegio -->
+    <!-- Menu colegio -->
     <entity>
         <component type="panelrect" name="SCHOOL">
             <alignment>
@@ -629,6 +630,7 @@
         <component type="mouselistener">
             <layer>0</layer>
         </component>
+        <!-- Boton volver-->
         <entity>
             <component type="panelrect">
                 <alignment>
@@ -686,8 +688,8 @@
                 <layer>1</layer>
             </component>
             <component type="uibutton"></component>
-            <component type="buildingpicker">
-                <building>SCHOOL</building>
+            <component type="panelactivator">
+                <tag>MAIN</tag>
             </component>
             <entity>
                 <component type="panelrect">
@@ -709,7 +711,7 @@
                     </padding>
                 </component>
                 <component type="text">
-                    <text>A</text>
+                    <text>←</text>
                 </component>
                 <component type="position">
                     <x>0</x>
@@ -718,6 +720,7 @@
                 </component>
             </entity>
         </entity>
+        <!-- Crear builder-->
         <entity>
             <component type="panelrect">
                 <alignment>
@@ -775,8 +778,8 @@
                 <layer>1</layer>
             </component>
             <component type="uibutton"></component>
-            <component type="buildingpicker">
-                <building>FLOOR</building>
+            <component type="peoplegenerator">
+                <role>BUILDER</role>
             </component>
             <entity>
                 <component type="panelrect">
@@ -798,7 +801,7 @@
                     </padding>
                 </component>
                 <component type="text">
-                    <text>Floor</text>
+                    <text>Builder</text>
                 </component>
                 <component type="position">
                     <x>0</x>
@@ -807,6 +810,7 @@
                 </component>
             </entity>
         </entity>
+        <!-- Crear worker-->
         <entity>
             <component type="panelrect">
                 <alignment>
@@ -864,8 +868,8 @@
                 <layer>1</layer>
             </component>
             <component type="uibutton"></component>
-            <component type="buildingpicker">
-                <building>LUMBERJACK_HUT</building>
+            <component type="peoplegenerator">
+                <role>WORKER</role>
             </component>
             <entity>
                 <component type="panelrect">
@@ -887,7 +891,277 @@
                     </padding>
                 </component>
                 <component type="text">
-                    <text>LJH</text>
+                    <text>Worker</text>
+                </component>
+                <component type="position">
+                    <x>0</x>
+                    <y>0</y>
+                    <fixed>TRUE</fixed>
+                </component>
+            </entity>
+        </entity>
+        <!-- Crear MINER-->
+        <entity>
+            <component type="panelrect">
+                <alignment>
+                    <horizontal>MIDDLE</horizontal>
+                    <vertical>MIDDLE</vertical>
+                </alignment>
+                <size>
+                    <x>50</x>
+                    <y>50</y>
+                </size>
+                <cellsize>
+                    <x>50</x>
+                    <y>50</y>
+                </cellsize>
+                <padding>
+                    <x>10</x>
+                    <y>10</y>
+                </padding>
+            </component>
+            <component type="sprite">
+                <src>src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png</src>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>0</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>50</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <updatedepth>FALSE</updatedepth>
+                <depth>1</depth>
+            </component>
+            <component type="position">
+                <x>0</x>
+                <y>0</y>
+                <fixed>TRUE</fixed>
+            </component>
+            <component type="mouselistener">
+                <layer>1</layer>
+            </component>
+            <component type="uibutton"></component>
+            <component type="peoplegenerator">
+                <role>MINER</role>
+            </component>
+            <entity>
+                <component type="panelrect">
+                    <alignment>
+                        <horizontal>MIDDLE</horizontal>
+                        <vertical>MIDDLE</vertical>
+                    </alignment>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <cellsize>
+                        <x>50</x>
+                        <y>50</y>
+                    </cellsize>
+                    <padding>
+                        <x>10</x>
+                        <y>10</y>
+                    </padding>
+                </component>
+                <component type="text">
+                    <text>Miner</text>
+                </component>
+                <component type="position">
+                    <x>0</x>
+                    <y>0</y>
+                    <fixed>TRUE</fixed>
+                </component>
+            </entity>
+        </entity>
+        <!-- Crear Lumberjack-->
+        <entity>
+            <component type="panelrect">
+                <alignment>
+                    <horizontal>MIDDLE</horizontal>
+                    <vertical>MIDDLE</vertical>
+                </alignment>
+                <size>
+                    <x>50</x>
+                    <y>50</y>
+                </size>
+                <cellsize>
+                    <x>50</x>
+                    <y>50</y>
+                </cellsize>
+                <padding>
+                    <x>10</x>
+                    <y>10</y>
+                </padding>
+            </component>
+            <component type="sprite">
+                <src>src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png</src>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>0</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>50</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <updatedepth>FALSE</updatedepth>
+                <depth>1</depth>
+            </component>
+            <component type="position">
+                <x>0</x>
+                <y>0</y>
+                <fixed>TRUE</fixed>
+            </component>
+            <component type="mouselistener">
+                <layer>1</layer>
+            </component>
+            <component type="uibutton"></component>
+            <component type="peoplegenerator">
+                <role>LUMBERJACK</role>
+            </component>
+            <entity>
+                <component type="panelrect">
+                    <alignment>
+                        <horizontal>MIDDLE</horizontal>
+                        <vertical>MIDDLE</vertical>
+                    </alignment>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <cellsize>
+                        <x>50</x>
+                        <y>50</y>
+                    </cellsize>
+                    <padding>
+                        <x>10</x>
+                        <y>10</y>
+                    </padding>
+                </component>
+                <component type="text">
+                    <text>LJ</text>
+                </component>
+                <component type="position">
+                    <x>0</x>
+                    <y>0</y>
+                    <fixed>TRUE</fixed>
+                </component>
+            </entity>
+        </entity>
+        <!-- Crear Lumberjack-->
+        <entity>
+            <component type="panelrect">
+                <alignment>
+                    <horizontal>MIDDLE</horizontal>
+                    <vertical>MIDDLE</vertical>
+                </alignment>
+                <size>
+                    <x>50</x>
+                    <y>50</y>
+                </size>
+                <cellsize>
+                    <x>50</x>
+                    <y>50</y>
+                </cellsize>
+                <padding>
+                    <x>10</x>
+                    <y>10</y>
+                </padding>
+            </component>
+            <component type="sprite">
+                <src>src\\com\\pochitoGames\\Resources\\Sprites\\ui_button.png</src>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>0</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <animation>
+                    <frames>1</frames>
+                    <speed>100</speed>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <offset>
+                        <x>50</x>
+                        <y>0</y>
+                    </offset>
+                </animation>
+                <updatedepth>FALSE</updatedepth>
+                <depth>1</depth>
+            </component>
+            <component type="position">
+                <x>0</x>
+                <y>0</y>
+                <fixed>TRUE</fixed>
+            </component>
+            <component type="mouselistener">
+                <layer>1</layer>
+            </component>
+            <component type="uibutton"></component>
+            <component type="peoplegenerator">
+                <role>LUMBERJACK</role>
+            </component>
+            <entity>
+                <component type="panelrect">
+                    <alignment>
+                        <horizontal>MIDDLE</horizontal>
+                        <vertical>MIDDLE</vertical>
+                    </alignment>
+                    <size>
+                        <x>50</x>
+                        <y>50</y>
+                    </size>
+                    <cellsize>
+                        <x>50</x>
+                        <y>50</y>
+                    </cellsize>
+                    <padding>
+                        <x>10</x>
+                        <y>10</y>
+                    </padding>
+                </component>
+                <component type="text">
+                    <text>LJ</text>
                 </component>
                 <component type="position">
                     <x>0</x>
@@ -897,6 +1171,106 @@
             </entity>
         </entity>
     </entity>
-    <!-- FIN Menu colegio -->
+    <!-- Panel Info Edificios -->
+    <entity>
+        <component type="panelrect" name="INFO">
+            <alignment>
+                <horizontal>MIDDLE</horizontal>
+                <vertical>MIDDLE</vertical>
+            </alignment>
+            <size>
+                <x>500</x>
+                <y>300</y>
+            </size>
+            <cellsize>
+                <x>500</x>
+                <y>50</y>
+            </cellsize>
+            <padding>
+                <x>0</x>
+                <y>0</y>
+            </padding>
+        </component>
+        <component type="sprite">
+            <src>src\\com\\pochitoGames\\Resources\\Sprites\\ui_panel.png</src>
+            <animation>
+                <frames>1</frames>
+                <speed>100</speed>
+                <size>
+                    <x>500</x>
+                    <y>300</y>
+                </size>
+                <offset>
+                    <x>0</x>
+                    <y>0</y>
+                </offset>
+            </animation>
+            <updatedepth>FALSE</updatedepth>
+                <depth>0</depth>
+        </component>
+        <component type="position">
+            <x>0</x>
+            <y>0</y>
+            <fixed>TRUE</fixed>
+        </component>
+        <component type="mouselistener">
+            <layer>0</layer>
+        </component>
 
+        <!-- nombre -->
+        <entity>
+            <component type="panelrect">
+                <alignment>
+                    <horizontal>MIDDLE</horizontal>
+                    <vertical>MIDDLE</vertical>
+                </alignment>
+                <size>
+                    <x>100</x>
+                    <y>100</y>
+                </size>
+                <cellsize>
+                    <x>100</x>
+                    <y>100</y>
+                </cellsize>
+                <padding>
+                    <x>0</x>
+                    <y>0</y>
+                </padding>
+            </component>            
+            <component type="position">
+                <x>0</x>
+                <y>0</y>
+                <fixed>TRUE</fixed>
+            </component>
+            <component type="text">
+                <text>name</text>
+            </component>
+        </entity>
+        <!-- recursos -->
+        <entity>
+            <component type="panelrect">
+                <alignment>
+                    <horizontal>MIDDLE</horizontal>
+                    <vertical>MIDDLE</vertical>
+                </alignment>
+                <size>
+                    <x>500</x>
+                    <y>200</y>
+                </size>
+                <cellsize>
+                    <x>100</x>
+                    <y>100</y>
+                </cellsize>
+                <padding>
+                    <x>0</x>
+                    <y>0</y>
+                </padding>
+            </component>            
+            <component type="position">
+                <x>0</x>
+                <y>0</y>
+                <fixed>TRUE</fixed>
+            </component>
+        </entity>
+    </entity>
 </scene>

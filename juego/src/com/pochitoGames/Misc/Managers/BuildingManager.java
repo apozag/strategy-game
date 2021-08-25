@@ -139,8 +139,7 @@ public class BuildingManager {
                         new SeeThrough(),
                         new MouseListener(0),
                         newBuilding,
-                        new School(),
-                        new PanelActivator("SCHOOL")
+                        new School()
                 );
                 break;
             case CANTEEN:

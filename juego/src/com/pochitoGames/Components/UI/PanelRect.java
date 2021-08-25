@@ -145,7 +145,7 @@ public class PanelRect extends Component {
                     int n_local = maxCols;
                     if(row == maxRows-1)
                         n_local = n - (maxRows-1)*maxCols;
-                    float offset = n_local * cell_size.x / 2;
+                    float offset = (size.x - n_local * cell_size.x) / 2;
                     cpos.setLocalPos(new Vector2D(offset + col * (cell_size.x + h_padding), cpos.getLocalPos().y));
                 }
             }
