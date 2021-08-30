@@ -8,11 +8,9 @@ package com.pochitoGames.Systems.People;
 import com.pochitoGames.Components.Other.Backpack;
 import com.pochitoGames.Components.Buildings.Building;
 import com.pochitoGames.Components.Buildings.Canteen;
-import com.pochitoGames.Components.Buildings.Quarry;
 import com.pochitoGames.Components.Buildings.Warehouse;
 import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Components.GameLogic.Position;
-import com.pochitoGames.Components.GameLogic.Visibility;
 import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Worker;
@@ -21,14 +19,9 @@ import com.pochitoGames.Engine.Entity;
 import com.pochitoGames.Engine.System;
 import com.pochitoGames.Misc.ComponentTypes.TypeBuilding;
 import com.pochitoGames.Misc.Managers.BuildingManager;
-import com.pochitoGames.Misc.Managers.PeopleManager;
 import com.pochitoGames.Misc.Map.MapInfo;
-import com.pochitoGames.Engine.Vector2i;
-import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.WorkerState;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
-
-import java.util.List;
 
 /**
  * @author PochitoMan
@@ -58,8 +51,9 @@ public class WorkerSystem extends System {
                             break;
                         pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), canteen.getEntryCell(), e.getId(), false));
                         if (pf.getSteps() != null) {
-                            if (pf.getSteps().size() == 0) pf.setTargetCell(canteen.getEntryCell());
+                            if (pf.getSteps().isEmpty()) pf.setTargetCell(canteen.getEntryCell());
                             else pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
+                            pf.start();
                             worker.setTargetBuilding(canteen);
                             worker.setState(WorkerState.GOING_CANTEEN);
                         }
@@ -94,6 +88,7 @@ public class WorkerSystem extends System {
                             if (pf.getSteps().size() > 0) {
                                 pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
                             }
+                            pf.start();
                             worker.setState(WorkerState.CARRY_RESOURCE);
                         }
                         // Si no hay camino, paso del tema y le aviso al builder
@@ -134,6 +129,7 @@ public class WorkerSystem extends System {
                                 wh.takeContent(worker.getResourceNeeded(), 1);
                                 pf.getSteps().remove(pf.getSteps().size() - 1);
                                 pf.setTargetCell(pf.getSteps().get(pf.getSteps().size() - 1));
+                                pf.start();
                                 worker.setTargetBuilding(newTargetBuilding);
                                 b.setCarrying(worker.getResourceNeeded());
                                 worker.setState(WorkerState.CARRY_RESOURCE_TO_WAREHOUSE);

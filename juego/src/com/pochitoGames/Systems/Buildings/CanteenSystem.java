@@ -31,17 +31,18 @@ public class CanteenSystem extends System{
             if(canteen.getPeople().isEmpty())
                 continue;
             Warehouse wh = e.get(Warehouse.class);
+            canteen.setCapacity(wh.getContent(ResourceType.MEAT));
             Iterator<Map.Entry<Human,Long>> iter = canteen.getPeople().entrySet().iterator();
             while(iter.hasNext()){
                 Map.Entry<Human, Long> entry = iter.next();
                 Human human = entry.getKey();
                 long time = entry.getValue();
                 if(human == null) iter.remove();
-                else if(java.lang.System.currentTimeMillis()-time >= canteen.getWaitTimeMillis() && 
-                   wh.takeContent(ResourceType.MEAT, 1))
+                else if(java.lang.System.currentTimeMillis()-time >= canteen.getWaitTimeMillis())
                 {
-                    java.lang.System.out.println("restored!");
-                    human.restoreHunger();
+                    if(!wh.takeContent(ResourceType.MEAT, 1)){
+                        java.lang.System.out.println("No hay carne");
+                    }
                     iter.remove();
                 }
             }

@@ -38,22 +38,25 @@ public class WarehouseSystem extends System {
                 for (ResourceType type : wh.getTransferableTypes()) {
                     if (wh.getContent(type) > 0 && !wh.hasWorker) {
                         // Buscamos un worker
-                        Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), building.getCell());
-                        if (worker != null) {
-                            PathFinding pf = worker.getEntity().get(PathFinding.class);
-                            // Buscamos un Warehouse donde guardar el recurso
-                            Building targetBuilding = BuildingManager.getInstance().getNearestWarehousePut(building.getEntryCell(), type, building.getTypeBuilding(), null);
-                            if (targetBuilding != null) {
+                        Building targetBuilding = BuildingManager.getInstance().getNearestWarehousePut(building.getEntryCell(), type, building.getTypeBuilding(), null);
+                        if (targetBuilding != null) {
+                            Worker worker = PeopleManager.getInstance().getNearestWorker(building.getOwnerType(), targetBuilding.getEntryCell(), building.getEntryCell());
+                            if (worker != null) {
+                                PathFinding pf = worker.getEntity().get(PathFinding.class);                                                        
                                 // Si lo encontramos nos traemos al worker
                                 pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), building.getEntryCell(), worker.getEntity().getId(), false));
                                 if (pf.getSteps() != null
                                         && PathFindingSystem.aStarFloor(building.getEntryCell(), targetBuilding.getEntryCell(), worker.getEntity().getId(), false) != null) {
                                     wh.hasWorker = true;
                                     pf.setTargetCell(building.getEntryCell());
+                                    pf.start();
                                     worker.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
                                     worker.setTargetBuilding(building);
                                     worker.setResourceNeeded(type);
                                     worker.setSrcWarehouse(wh);
+                                    if(type == ResourceType.MEAT){
+                                        java.lang.System.out.println("pasamos carne");
+                                    }
                                 }
                             }
                         }

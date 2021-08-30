@@ -57,6 +57,9 @@ public abstract class System {
             if(!this.matches(e))
                 this.remove(e);
         }
+        else{
+            consider(e);
+        }
     }
     
     //Devuelve true si se cumplen los requisitos. Se usa en consider()

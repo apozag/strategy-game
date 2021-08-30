@@ -17,7 +17,7 @@ public class HumanSystem extends System{
 
     private double hungerTime = 100;
     private float hungerAmount = 1;
-    private float hurtAmount = 1;
+    private float hurtAmount = 0.1f;
     
     public HumanSystem(){
         include(Human.class);

@@ -15,20 +15,27 @@ import java.util.Map;
  * @author PochitoMan
  */
 public class Canteen extends Component{
-    private int capacity = 4;
+    private int capacity = 10;
     private long waitTimeMillis = 5000;
     private Map<Human, Long> people;
     
     public Canteen(){people = new HashMap<>();}        
     
     public boolean addHuman(Human human){
-        if(people.size() >= capacity)
+        if(people.size() >= getCapacity())
             return false;        
         people.put(human, java.lang.System.currentTimeMillis());
+        human.restoreHunger();
         return true;
     }
     
     public Map<Human, Long> getPeople(){return people;}
     public void removeHuman(Human human){people.remove(human);}
     public long getWaitTimeMillis(){return waitTimeMillis;}
+    public int getCapacity() {
+        return capacity;
+    }
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 }

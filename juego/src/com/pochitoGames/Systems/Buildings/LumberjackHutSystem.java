@@ -47,6 +47,7 @@ public class LumberjackHutSystem extends System{
                         if(pf.getSteps() != null){
                             lj.setHut(e);
                             pf.setTargetCell(b.getEntryCell());
+                            pf.start();
                             lj.setState(LumberJackState.WALKING_HUT);
                         }
                     }

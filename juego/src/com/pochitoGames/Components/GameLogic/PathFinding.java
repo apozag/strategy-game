@@ -23,6 +23,7 @@ public class PathFinding extends Component{
     private boolean walking;
     private boolean busy;
     private float speed = 100.0f;
+    private boolean start;
     
     public PathFinding(Vector2i cell){
         current = cell;
@@ -43,6 +44,8 @@ public class PathFinding extends Component{
     public void setSteps(List<Vector2i> steps){
         if(steps == null || steps.isEmpty())
             targetCell = null;
+        else
+            targetCell = steps.get(steps.size()-1);
         this.steps = steps;
     }
     
@@ -88,6 +91,20 @@ public class PathFinding extends Component{
 
     public void setBusy(boolean busy) {
         this.busy = busy;
+    }
+    
+    public void start(){
+        start = true;
+    }
+    
+    public boolean started(){
+        return start;
+    }
+    
+    public void reset(){
+        steps = null;
+        targetCell = null;
+        start = false;
     }
 
 }

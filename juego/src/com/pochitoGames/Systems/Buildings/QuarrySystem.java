@@ -45,6 +45,7 @@ public class QuarrySystem extends System {
                         miner.setState(MinerState.WALKING);
                         miner.setQuarry(building);
                         pf.setTargetCell(building.getEntryCell());
+                        pf.start();
                         quarry.setMiner(miner);
                     }
                 }

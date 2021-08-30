@@ -35,6 +35,8 @@ public class PathFindingSystem extends System {
     public void update(double dt) {
         for (Entity e : getEntities()) {
             PathFinding pf = e.get(PathFinding.class);
+            if(!pf.started())
+                continue;
             //Si no está andando
             if (!pf.isWalking()) {
 
@@ -85,6 +87,7 @@ public class PathFindingSystem extends System {
                     //Si este es el cell final, quitamos el target
                     if (pf.getCurrent().equals(pf.getTargetCell())) {
                         pf.setTargetCell(null);
+                        pf.reset();
                     }
                     pf.setWalking(false);
                 } //Si no, seguimos
@@ -107,10 +110,7 @@ public class PathFindingSystem extends System {
     }
 
     public static List<Vector2i> aStar(Vector2i start, Vector2i end, int id, boolean avoidPeople) {
-        
-        
-        double startTime = java.lang.System.currentTimeMillis();
-        
+                        
         int[][] map = MapInfo.getInstance().getMap();
         List<Vector2i> steps = new LinkedList<>();
 
@@ -130,10 +130,8 @@ public class PathFindingSystem extends System {
 
             open.add(first);
 
-            //SortByCost sorter = new SortByCost();
             while (!open.isEmpty()) {
-                // TODO: No hace falta ordenar, se puede buscar solo el mas cerca y ya
-                //open.sort(sorter);
+
                 Node current = open.poll();
 
                 closed.add(current);
@@ -142,8 +140,6 @@ public class PathFindingSystem extends System {
                     //Vamos sacando los padres de current y los metemos en la cola que devolvemos
                     extractParents(current, steps);
                     steps.remove(0);
-                    java.lang.System.out.println("Total: " + (java.lang.System.currentTimeMillis() - startTime));
-                    java.lang.System.out.println("Type: " + (totalDistance < 40? "optimal" : "cheap"));
                     return steps;
                 }
 
@@ -192,7 +188,7 @@ public class PathFindingSystem extends System {
             }
         }
 
-        //No se ha encontrado camino. Se devuelve lista vacía
+        //No se ha encontrado camino. Se devuelve null
         java.lang.System.out.println("No path");
 
         return null;

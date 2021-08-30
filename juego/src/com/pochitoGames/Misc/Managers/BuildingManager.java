@@ -21,9 +21,11 @@ import com.pochitoGames.Misc.Other.Animation;
 import com.pochitoGames.Engine.Vector2i;
 import com.pochitoGames.Misc.Other.BuildingInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
+import com.pochitoGames.Misc.States.BuildingState;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -239,7 +241,22 @@ public class BuildingManager {
                 }
             }
         }
-        return true;
+        
+        // Caso especial para el suelo: Tiene que estar conectado con otro suelo
+        //if(type == TypeBuilding.FLOOR){
+            for(int i = -1; i <= 1; i++){
+                for(int j = -1; j <= 1; j++){
+                    if(j != 0 || i != 0){
+                        int id = MapInfo.getInstance().getTileId(Vector2i.add(cell, new Vector2i(i, j)));
+                        if(id == 6 || id == 5)
+                            return true;
+                        }
+                }
+            }
+            return false;
+        //}
+        
+        //return true;
     }
 
     public Building getNearestBuilding(Vector2i cell, TypeBuilding type) {
@@ -253,16 +270,25 @@ public class BuildingManager {
                 nearestDist = dist;
             }
         }
-        if (nearest == null || nearest.getCell().col >= 999 || nearest.getCell().row >= 999) {
+        if (nearest == null || nearest.getCell().col >= 999 || nearest.getCell().row >= 999)
             return null;
-        }
         return nearest;
     }
-
+    
+    public Building getFirstPlanned() {
+        for (Building b : buildings) {
+            if (b.getState() == BuildingState.PLANNED && 
+                    (b.getTypeBuilding() == TypeBuilding.FLOOR || MapInfo.getInstance().getTileId(b.getEntryCell()) == 5))
+                return b;
+        }
+        return null;
+    }
+        
     public Building getNearestWarehouseGet(Vector2i cell, ResourceType type, TypeBuilding excludeType, Building excludeBuilding) {
         Building candidate = null;
         int nearestDist = 9999;
         int greatestAmount = 0;
+        
         for (Building b : buildings) {
             if (b.isFinished()) {
                 Warehouse wh = b.getEntity().get(Warehouse.class);
@@ -305,6 +331,11 @@ public class BuildingManager {
             }
         }
         return candidate;
+    }
+    
+    
+    public List<Building> getBuildings(){
+        return buildings;
     }
 
     private void loadBuildingInfo() {

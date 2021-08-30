@@ -1,5 +1,6 @@
 package com.pochitoGames.Components.Buildings;
 
+import com.pochitoGames.Components.People.Builder;
 import com.pochitoGames.Components.Visual.Sprite;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
@@ -24,6 +25,8 @@ public class Building extends Component {
     private boolean alive = true;
     final private int id;
     private static int contador = 0;
+    
+    public Builder builder;
 
     private BuildingState state = BuildingState.PLANNED;
 

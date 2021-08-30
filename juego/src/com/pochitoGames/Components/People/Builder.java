@@ -6,10 +6,13 @@
 package com.pochitoGames.Components.People;
 
 import com.pochitoGames.Components.Buildings.Building;
+import com.pochitoGames.Components.GameLogic.PathFinding;
 import com.pochitoGames.Engine.Component;
 import com.pochitoGames.Engine.Vector2D;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.BuilderState;
+import com.pochitoGames.Misc.States.BuildingState;
+import com.pochitoGames.Misc.States.WorkerState;
 
 /**
  *
@@ -25,6 +28,8 @@ public class Builder extends Component {
 
     ResourceType carrying;
     private ResourceType needed;
+    
+    public Worker worker;
 
     public boolean hasWorker = false;
 
@@ -82,4 +87,19 @@ public class Builder extends Component {
     public void setResourceNeeded(ResourceType needed) {
         this.needed = needed;
     }
+    
+    public void quitLastJob(){
+        state = BuilderState.WAIT;
+        if(targetBuilding != null){
+            targetBuilding.setState(BuildingState.PLANNED);
+            targetBuilding = null;
+        }
+        resourceBuilding = null;
+        if(worker!= null){
+            worker.setState(WorkerState.WAIT);
+            PathFinding wpf = worker.getEntity().get(PathFinding.class);
+            wpf.reset();            
+        }
+    }
+    
 }

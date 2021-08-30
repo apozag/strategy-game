@@ -48,6 +48,9 @@ public class Backpack extends Component{
             case GOLD:
                 this.resourceSprite.setCurrentAnimationIndex(6);
                 break;
+            case MEAT:
+                this.resourceSprite.setCurrentAnimationIndex(7);
+                break;
         }
     }
     

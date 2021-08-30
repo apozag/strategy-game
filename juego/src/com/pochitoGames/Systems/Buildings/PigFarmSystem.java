@@ -24,7 +24,6 @@ public class PigFarmSystem extends System {
            if(building.isFinished()){
                if(java.lang.System.currentTimeMillis() - pig.getLastTimeCreated() >= pig.getWaitTimeMillis()){
                    pig.setLastTimeCreated(java.lang.System.currentTimeMillis());
-                   java.lang.System.out.println("CREAMOS UNA CARNEEEEEEEEEEE");
                    wh.putContent(ResourceType.MEAT,1);
                }
            }else{

@@ -100,6 +100,7 @@ public class LumberJackSystem extends System {
                         lj.setTree(null);
                         Building b = lj.getHut().get(Building.class);
                         pf.setTargetCell(b.getEntryCell());
+                        pf.start();
                         lj.setState(LumberJackState.CARRYING);
                         backpack.setCarrying(ResourceType.RAW_WOOD);
                     }
@@ -109,6 +110,7 @@ public class LumberJackSystem extends System {
                     Vector2i pantablePos = TreeManager.getInstance().getPlantableCell(lj.lastPlantableCell);
                     if (pantablePos != null) {
                         pf.setTargetCell(pantablePos);
+                        pf.start();
                         lj.setState(LumberJackState.PLANTING);
 
                     }
@@ -118,6 +120,7 @@ public class LumberJackSystem extends System {
                         TreeManager.getInstance().createTree(pf.getCurrent());
                         Building b = lj.getHut().get(Building.class);
                         pf.setTargetCell(b.getEntryCell());
+                        pf.start();
                         lj.setState(LumberJackState.WALKING_HUT);
 
                     }
@@ -129,6 +132,7 @@ public class LumberJackSystem extends System {
                         lj.lastPlantableCell = new Vector2i(tree.getCell());
 
                         pf.setTargetCell(MapInfo.getInstance().getCloseCell(tree.getCell(), false, false));
+                        pf.start();
                         lj.setState(LumberJackState.WALKING_TREE);
                         lj.setTree(tree);
                         tree.setTaken();

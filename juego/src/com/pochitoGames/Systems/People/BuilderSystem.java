@@ -9,17 +9,11 @@ import com.pochitoGames.Components.People.Human;
 import com.pochitoGames.Components.People.Worker;
 import com.pochitoGames.Misc.Managers.BuildingManager;
 import com.pochitoGames.Misc.Managers.PeopleManager;
-import com.pochitoGames.Misc.Map.MapInfo;
 import com.pochitoGames.Misc.Other.ResourceType;
 import com.pochitoGames.Misc.States.BuilderState;
+import com.pochitoGames.Misc.States.BuildingState;
 import com.pochitoGames.Misc.States.WorkerState;
 import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -44,8 +38,21 @@ public class BuilderSystem extends System{
             switch(state){
 
                 case WAIT:
-                    //Estamos parados hasta que nos requieran (Los edificios nos llamen)
-                    break;                
+                {
+                    Building b = BuildingManager.getInstance().getFirstPlanned();
+                    if(b != null){
+                        pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), b.getEntryCell(), e.getId(), true));
+                        if(pf.getSteps() != null){
+                            b.builder = builder;
+                            builder.setTargetBuilding(b);
+                            pf.setTargetCell(b.getEntryCell());
+                            pf.start();
+                            builder.setState(BuilderState.BUILD);
+                            b.setState(BuildingState.BUILDING);
+                        }
+                    }
+                    break;         
+                }
                 case BUILD:
                     //Si he llegado al edificio a construir
                     if(pf.getTargetCell() == null){
@@ -68,27 +75,20 @@ public class BuilderSystem extends System{
                             Building building = BuildingManager.getInstance().getNearestWarehouseGet(pf.getCurrent(), needed, null, builder.getTargetBuilding());
                             if(building != null){
                                 // Busco Worker cerca
-                                Worker mate = PeopleManager.getInstance().getNearestWorker(human.getTypeHuman(), building.getEntryCell());
-                                if(mate != null){
-                                    PathFinding mpf = mate.getEntity().get(PathFinding.class);
-                                    mpf.setSteps(PathFindingSystem.aStarFloor(mpf.getCurrent(), building.getEntryCell(), mate.getEntity().getId(), false));
-                                    // Veo si hay camino
-                                    if(mpf.getSteps() != null && 
-                                            PathFindingSystem.aStarFloor(building.getEntryCell(), MapInfo.getInstance().getCloseCell(pf.getCurrent(), true, false), mate.getEntity().getId(), false) != null){
+                                Worker mate = PeopleManager.getInstance().getNearestWorker(human.getTypeHuman(), pf.getCurrent(), building.getEntryCell());
+                                if(mate != null){                                   
                                         builder.hasWorker = true;
                                         //Le pongo al compañero toda la info que necesita
                                         mate.setResourceNeeded(needed);
                                         mate.setTargetBuilding(building);
                                         mate.setTargetMate(builder);
                                         //Le pongo target al pathfinding del compa(Para que se ponga en marcha)
+                                        PathFinding mpf = mate.getEntity().get(PathFinding.class);
                                         mpf.setTargetCell(building.getEntryCell());
+                                        mpf.start();
                                         //Pongo al compa en estado SEARCH_RESOURCE
                                         mate.setState(WorkerState.SEARCH_RESOURCE);
-                                        //Y yo me pongo en ON_HOLD para que nadie me moleste
-                                    }   
-                                    else{
-                                        mpf.setSteps(null);
-                                    }
+                                        builder.worker = mate;
                                 }
                             }
                         }

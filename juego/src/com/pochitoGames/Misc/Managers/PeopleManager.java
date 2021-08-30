@@ -29,6 +29,7 @@ import com.pochitoGames.Misc.States.BuilderState;
 import com.pochitoGames.Misc.States.LumberJackState;
 import com.pochitoGames.Misc.States.MinerState;
 import com.pochitoGames.Misc.States.WorkerState;
+import com.pochitoGames.Systems.GameLogic.PathFindingSystem;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -122,7 +123,8 @@ public class PeopleManager {
                 new Animation(1, 100, 32, 32, 32*3, 0), 
                 new Animation(1, 100, 32, 32, 32*4, 0), 
                 new Animation(1, 100, 32, 32, 32*5, 0),
-                new Animation(1, 100, 32, 32, 32*6, 0)
+                new Animation(1, 100, 32, 32, 32*6, 0),
+                new Animation(1, 100, 32, 32, 32*7, 0)
             )
         );
         
@@ -147,12 +149,15 @@ public class PeopleManager {
                 }
             }
         }
+        if(nearest != null)
+            nearest.quitLastJob();
         return nearest;
     }
 
-    public Worker getNearestWorker(TypeHuman type, Vector2i cell) {
+    public Worker getNearestWorker(TypeHuman type, Vector2i cell, Vector2i src) {
         Worker nearest = null;
-        int nearestDist = 9999;
+        PathFinding nearestPf = null;
+        int nearestDist = Integer.MAX_VALUE;
         for (Entity e : people.get(type)) {
             Worker b = e.get(Worker.class);
             if (b != null && b.getState() == WorkerState.WAIT) {
@@ -160,13 +165,26 @@ public class PeopleManager {
                 if (h == null && h.getTypeHuman() != type)
                     continue;
                 PathFinding pf = e.get(PathFinding.class);
-                int dist = cell.distance(pf.getCurrent());
-                if (dist < nearestDist) {
-                    nearestDist = dist;
-                    nearest = b;
+                pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), src, e.getId(), false));
+                if(pf.getSteps() != null && PathFindingSystem.aStarFloor(src, cell, e.getId(), false) != null){
+                    int dist = pf.getSteps().size();
+                    if (dist < nearestDist) {
+                        if(nearestPf != null)
+                            nearestPf.setSteps(null);
+                        nearestPf = pf;
+                        nearestDist = dist;
+                        nearest = b;
+                    }
+                    else
+                        pf.reset();
+                }
+                else{
+                    pf.reset();
                 }
             }
         }
+        if(nearestPf != null)
+            nearestPf.reset();
         return nearest;
     }
 

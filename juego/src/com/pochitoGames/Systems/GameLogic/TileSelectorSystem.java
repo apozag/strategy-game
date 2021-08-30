@@ -45,32 +45,7 @@ public class TileSelectorSystem extends System{
                 
                 Vector2i selected = IsometricTransformations.cartesianToIso(mousePos);
 
-                Vector2D selectorPos = IsometricTransformations.isoToCartesian(selected);//TileMapSystem.indexToCartesian((int)selected.col-1, (int)selected.row-1, tm);
-                /*
-                Color c = new Color(selectorAux.getRGB((int)offset.x,(int)offset.y), true);
-                
-                Vector2D xTransform = new Vector2D(tm.getTileW()/2, tm.getTileH()/2);
-                Vector2D yTransform = new Vector2D(-tm.getTileW()/2, tm.getTileH()/2);
-                
-                if(c.getAlpha() > 0){
-                    if(c.getRed() == 255){
-                        selectorPos.sub(xTransform);
-                        selected.x--;
-                    }
-                    else if(c.getBlue() == 255){
-                        selectorPos.sub(yTransform);
-                        selected.y--;
-                    }
-                    else if(c.getGreen() == 255){
-                        selectorPos.add(yTransform);
-                        selected.y++;
-                    }
-                    else{
-                        selectorPos.add(xTransform);
-                        selected.x++;
-                    }
-                }
-                */
+                Vector2D selectorPos = IsometricTransformations.isoToCartesian(selected);             
                                 
                 p.setLocalPos(selectorPos);
                 

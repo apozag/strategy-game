@@ -20,9 +20,8 @@ import com.pochitoGames.Misc.States.WorkerState;
 public class Worker extends Component {
 
     Vector2D target;
-    private String[] tasks = new String[3];
     private WorkerObject object;
-    private WorkerState workerState = WorkerState.WAIT;
+    private WorkerState state = WorkerState.WAIT;
     Building targetBuilding;
     ResourceType carrying;
     private ResourceType needed;
@@ -64,11 +63,11 @@ public class Worker extends Component {
     }
 
     public WorkerState getState() {
-        return workerState;
+        return state;
     }
 
     public void setState(WorkerState workerState) {
-        this.workerState = workerState;
+        this.state = workerState;
     }
 
     public Worker() {
@@ -90,16 +89,6 @@ public class Worker extends Component {
             this.object = null;
             return true;
         } else return false;
-    }
-
-
-    public String taskViewer(String[] tasks) {
-        if (tasks[0] != null) {
-            for (int i = 0; i < this.tasks.length; i++) {
-                return tasks[i];
-            }
-            return "Empty";
-        } else return "Empty";
     }
 
     public Warehouse getSrcWarehouse() {

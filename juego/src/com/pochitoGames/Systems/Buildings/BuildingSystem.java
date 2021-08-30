@@ -31,24 +31,12 @@ public class BuildingSystem extends System {
             if (b.getLife() <= 10) b.setState(BuildingState.BEING_REPAIRED);
                 switch (state) {
                     case PLANNED:
-                        if (!b.isFinished()) {
-                            //Human h = e.get(Human.class);
-                            Builder c = PeopleManager.getInstance().getNearestBuilder(b.getOwnerType(), b.getEntryCell());
-                            if (c != null) {
-                                PathFinding pf = c.getEntity().get(PathFinding.class);
-                                pf.setSteps(PathFindingSystem.aStar(pf.getCurrent(), b.getEntryCell(), e.getId(), true));
-                                if(pf.getSteps() != null){
-                                    c.setTargetBuilding(b);
-                                    pf.setTargetCell(b.getEntryCell());
-                                    c.setState(BuilderState.BUILD);
-                                    b.setState(BuildingState.BUILDING);
-                                }
-                            }
-                        } else {
+                        if(b.isFinished()){
                             b.setState(BuildingState.BUILDING);
                         }
                         break;
                     case BUILDING:
+                        
                         if (b.isFinished()) {
                             if (s != null)
                                 s.setCurrentAnimationIndex(1);
@@ -57,6 +45,9 @@ public class BuildingSystem extends System {
                                 MapInfo.getInstance().setTileId(b.getCell().col, b.getCell().row, 5);
                             }
                             b.setState(BuildingState.FINISHED);
+                        }
+                        else if(b.builder.getTargetBuilding()!= b){
+                            b.setState(BuildingState.PLANNED);
                         }
                         break;
                     case FINISHED:
@@ -69,6 +60,7 @@ public class BuildingSystem extends System {
                         Builder c = PeopleManager.getInstance().getNearestBuilder(b.getOwnerType(), b.getEntryCell());
                         PathFinding pf = c.getEntity().get(PathFinding.class);
                         pf.setTargetCell(b.getEntryCell());
+                        pf.start();
                         c.setTargetBuilding(b);
                         c.setState(BuilderState.REPAIR);
 

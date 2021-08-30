@@ -167,9 +167,8 @@ public class Sprite extends Component {
             }
         }
         this.anchor = anchor;
-        this.transparency = 1.0f;
+        this.transparency = transparency;
         src = path;
-        
     }
 
     //Hay dos constructores parecidos pero pasándole el path de la imagen o pasándole la imagen directamete

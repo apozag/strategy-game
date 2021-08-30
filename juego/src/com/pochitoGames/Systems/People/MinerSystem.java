@@ -64,6 +64,7 @@ public class MinerSystem extends System {
                         miner.setMine(s);
                         miner.setState(MinerState.WALKING_MINE);
                         pf.setTargetCell(MapInfo.getInstance().getCloseCell(s.cell, false, false));
+                        pf.start();
                     }
                     break;
                 case WALKING_MINE:                          
@@ -77,7 +78,8 @@ public class MinerSystem extends System {
                     // Si terminamos de minar, eliminamos la piedra y vamos al quary
                     if(java.lang.System.currentTimeMillis() - miner.getLastTime() > miner.getWaitTime()){
                         StoneManager.getInstance().removeStone(miner.getMine());
-                        pf.setTargetCell(miner.getQuarry().getEntryCell());                        
+                        pf.setTargetCell(miner.getQuarry().getEntryCell());    
+                        pf.start();
                         miner.setState(MinerState.WALKING_QUARRY);
                         backpack.setCarrying(miner.getMine().type);
                     }

@@ -44,23 +44,6 @@ public class SawmillSystem extends System{
                 else{
                     s.setLastTime(java.lang.System.currentTimeMillis());
                 }
-                /*
-                if(wh.getContent(ResourceType.WOOD) > 3 && !wh.hasWorker){
-                    Worker w = PeopleManager.getInstance().getNearestWorker(b.getOwnerType(), b.getEntryCell());
-                    if(w != null){
-                        PathFinding pf = w.getEntity().get(PathFinding.class);
-                        pf.setSteps(PathFindingSystem.aStarFloor(pf.getCurrent(), b.getEntryCell(), w.getEntity().getId(), false));
-                        if(pf.getSteps() != null){
-                            wh.hasWorker = true;
-                            w.setTargetBuilding(b);
-                            w.setResourceNeeded(ResourceType.WOOD);
-                            w.setState(WorkerState.TAKING_RESOURCE_FROM_BUILDING);
-                            w.setSrcWarehouse(wh);
-                            pf.setTargetCell(b.getEntryCell());
-                        }
-                    }
-                }
-                */
             }
         }
     }
